@@ -1,0 +1,63 @@
+
+TODO
+- display evolution curve
+- use translation (http://doc.qt.nokia.com/4.7-snapshot/linguist-hellotr.html)
+
+
+# first build
+qmake -project
+qmake
+make
+
+build:
+------
+qmake && make
+qmake -spec mingw32-g++ && make 
+
+qtcreator:
+-----------
+~/QtSDK/QtCreator/bin/qtcreator ji3.pro&
+
+
+cross-compilation de QT
+-----------------------
+a: simple case
+---------------
+pour le hello world:
+    - téléchargement des binaires de QT win32
+        Qt libraries 4.8.2 for Windows (minGW 4.4, 318 MB)
+        http://releases.qt-project.org/qt4/source/qt-win-opensource-4.8.2-mingw.exe
+    - installation par wine
+    - les includes et libs sont alors disponibles dans : .wine/drive_c/Qt/4.8.2/
+
+cat mingw32.mk
+CXX = i586-mingw32msvc-g++
+QT_DIR = $(HOME)/.wine/drive_c/Qt/4.8.2
+QT_INCLUDES = $(QT_DIR)/include
+QT_LIBS = $(QT_DIR)/lib
+all:
+	$(CXX) -c -pipe -O2 -Wall -W -D_REENTRANT -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_SHARED -I$(QT_INCLUDES) -I. -o hello.o hello.cpp
+	$(CXX) -Wl,-O1 -o hello.exe     hello.o  $(QT_LIBS)/libQtGui4.a $(QT_LIBS)/libQtCore4.a -mwindows
+
+
+DLL à fournir :
+.wine/drive_c/Qt/4.8.2/bin/libgcc_s_dw2-1.dll
+.wine/drive_c/Qt/4.8.2/bin/mingwm10.dll
+.wine/drive_c/Qt/4.8.2/bin/QtCore4.dll
+.wine/drive_c/Qt/4.8.2/bin/QtGui4.dll
+
+b: general case:
+----------------
+create toolchain item /usr/share/qt4/mkspecs/mingw32-g++
+with appropriate qmake.conf
+
+shell> qmake -spec mingw32-g++
+shell> make
+
+
+
+
+cross-compilation de libSDL
+-----------------------------
+wget http://www.libsdl.org/release/SDL-devel-1.2.15-mingw32.tar.gz
+wget http://www.libsdl.org/projects/SDL_mixer/release/SDL_mixer-devel-1.2.12-VC.zip
