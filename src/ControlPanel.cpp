@@ -5,27 +5,34 @@ using namespace std;
 
 #include "Logger.hpp"
 #include "ControlPanel.hpp"
+#include "User.hpp"
 
 
 ControlPanel::ControlPanel()
 {
+    User::loadUsers("Data");
+
     // player name
     playerLabel = new QLabel("Joueur : ");
     player = new QComboBox;
     player->setEditable(true);
-    player->addItem("Fred");
-    player->addItem("Emmanuelle");
-    player->addItem("Bastien R.");
-    player->addItem("Benedicte X.");
-    player->addItem("Mister Long Good R. Double-U Bush");
+
+    // add found users
+    vector<User> users = User::getUsers();
+    vector<User>::iterator u;
+    for (u = users.begin(); u != users.end(); u++) {
+        const char* userName = u->getName().c_str();
+        player->addItem(userName);
+    }
     player->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
     // theme
     scenarioLabel = new QLabel("Theme : ");
     scenario = new QComboBox;
     scenario->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    scenario->addItem("Animaux/rampants.conf");
+    scenario->addItem("Animaux/rampants.conf"); // TODO
     scenario->addItem("Animaux/volants.conf");
+    scenario->addItem("Couleurs/rouge.conf");
     scenario->addItem("Instruments");
     scenario->addItem("Maison/cuisine");
     scenario->addItem("Test Normal");
@@ -54,12 +61,19 @@ ControlPanel::ControlPanel()
     filesTable->horizontalHeader()->setResizeMode(0, QHeaderView::Stretch);
     filesTable->verticalHeader()->hide();
     filesTable->setShowGrid(true);
-    int row = filesTable->rowCount();
+    int row = 0;
+
     filesTable->insertRow(row);
     QTableWidgetItem *x1 = new QTableWidgetItem("01-01-2012 10:23");
     filesTable->setItem(row, 0, x1);
     QTableWidgetItem *x2 = new QTableWidgetItem("Animaux/volants");
     filesTable->setItem(row, 1, x2);
+
+    // for each
+    for (u = users.begin(); u != users.end(); u++) {
+        const char* userName = u->getName().c_str();
+        player->addItem(userName);
+    }
 
     row++;
     filesTable->insertRow(row);

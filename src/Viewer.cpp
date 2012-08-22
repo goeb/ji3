@@ -8,7 +8,7 @@ using namespace std;
 #include "Viewer.hpp"
 
 // TODO move this elsewhere
-const std::string dingFile = "Animaux/ding.wav";
+const std::string dingFile = "ding.wav";
 
 std::string Viewer::getNextImage()
 {

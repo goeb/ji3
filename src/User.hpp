@@ -6,33 +6,31 @@
 using namespace std;
 
 #include "Logger.hpp"
-#include "TestResult.hpp"
+#include "ScenarioManager.hpp"
 
 class User
 {
-    private:
-        static vector<User> Users;
-        string filename;
-        static const string FILE_EXTENSION;
-        static const string VERSION_MARKER;
-        bool load(const string & filename);
-        static string DataDir;
 
-    public:
-        vector<TestResult> results;
-        static void loadUsers(string dataDirectory); // store found users in table 'Users'
-        static void init(string directory); // load all the users found in the dir
-        static vector<User> & getUsers();
-                
-        static User* getUserbyName(string name);
-        static User* createUser(string name);
+public:
+    static void loadUsers(string dataDirectory); // store found users in table 'Users'
+    static void init(string directory); // load all the users found in the dir
+    static inline vector<User> & getUsers() { return User::Users; }
+    inline std::string getName() { return name; }
+    inline void setName(const std::string _name) { name = _name; }
 
-        string name;
-        TestResult currentTestResult;
-        void store(); // store into the user's file
-        string printResults(); // print a synthesis of th results
-        
-        //void storeNewResult(Scenario scenario, DataSet dataset, TestMode mode, int finalScore, double clickSpeed);
+    static User* getUserbyName(string name);
+
+    void store(); // store into the user's file
+    inline vector<Scenario> getScenarioList() { return scenarioList; }
+
+private:
+    static vector<User> Users;
+    string filename;
+    static const string FILE_EXTENSION;
+    bool load(const string & filename);
+    static string DataDir;
+    vector<Scenario> scenarioList;
+    string name;
 };
 
 #endif

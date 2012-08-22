@@ -35,7 +35,6 @@ class Scenario
         void store(const QString & file);
         static bool load(const QString & filename, vector<Scenario> & scenarioList);
 
-
     private :
         bool parseItems(const std::string & line, std::set<std::string> &items);
         set<string> listOfAllItems; // including exceptions
