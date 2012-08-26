@@ -25,6 +25,7 @@ public:
 
 private slots:
     void start();
+    void loadUser(QString text);
 
 protected:
     void keyReleaseEvent(QKeyEvent *e);

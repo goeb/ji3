@@ -28,6 +28,7 @@ class Scenario
         inline std::string getDir() const { return Util::dirname(path); }
         inline std::vector<std::string> getItemSequence() const { return itemSequence; }
         inline int getPeriodMs() const { return periodMs; }
+        inline int getNumberOfItems() const { return numberOfItems; }
 
         bool evaluateUserClick(const std::string & item, bool hasClicked);
         void addClickTime(qint64 clickTime);

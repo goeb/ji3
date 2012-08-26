@@ -331,8 +331,6 @@ void Scenario::store(const QString & filename)
 
 bool Scenario::load(const QString & filename, vector<Scenario> & scenarioList)
 {
-    vector<Scenario> result;
-
     QFile f(filename);
     int r = f.open(QIODevice::ReadOnly);
     if (!r) {
@@ -358,12 +356,14 @@ bool Scenario::load(const QString & filename, vector<Scenario> & scenarioList)
         s.averageClickSpeed = atoi(tokens[i++].c_str());
         s.correctExceptions = atoi(tokens[i++].c_str());
         s.correctRegularItems = atoi(tokens[i++].c_str());
-        //s.withSound = tokens[i++]; TODO
-        // s.modeInhibition = tokens[i++]; TOOD
+        //s.withSound = tokens[i++]; //TODO
+        i++;
+        //s.modeInhibition = tokens[i++]; //TOOD
+        i++;
         s.numberOfExceptions = atoi(tokens[i++].c_str());
         s.numberOfItems = atoi(tokens[i++].c_str());
         s.periodMs = atoi(tokens[i++].c_str());
-        result.push_back(s);
+        scenarioList.push_back(s);
     }
     return true;
 

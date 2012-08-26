@@ -17,7 +17,8 @@ SOURCES += \
     src/TestResult.cpp \
     src/ScenarioManager.cpp \
     src/Viewer.cpp \
-    src/ControlPanel.cpp
+    src/ControlPanel.cpp \
+    src/Graph.cpp
 
 HEADERS += \
     src/SoundManager.hpp \
@@ -27,7 +28,8 @@ HEADERS += \
     src/TestResult.hpp \
     src/ScenarioManager.hpp \
     src/Viewer.hpp \
-    src/ControlPanel.hpp
+    src/ControlPanel.hpp \
+    src/Graph.hpp
 
 
 linux-g++ {

@@ -7,6 +7,7 @@ using namespace std;
 #include "ControlPanel.hpp"
 #include "User.hpp"
 
+#include "Graph.hpp"
 
 ControlPanel::ControlPanel()
 {
@@ -16,6 +17,9 @@ ControlPanel::ControlPanel()
     playerLabel = new QLabel("Joueur : ");
     player = new QComboBox;
     player->setEditable(true);
+    player->addItem("");
+    connect(player, SIGNAL(currentIndexChanged(QString)), this, SLOT(loadUser(QString)));
+
 
     // add found users
     vector<User> users = User::getUsers();
@@ -69,12 +73,6 @@ ControlPanel::ControlPanel()
     QTableWidgetItem *x2 = new QTableWidgetItem("Animaux/volants");
     filesTable->setItem(row, 1, x2);
 
-    // for each
-    for (u = users.begin(); u != users.end(); u++) {
-        const char* userName = u->getName().c_str();
-        player->addItem(userName);
-    }
-
     row++;
     filesTable->insertRow(row);
     QTableWidgetItem *x3 = new QTableWidgetItem("01-01-2012 10:45");
@@ -88,9 +86,30 @@ ControlPanel::ControlPanel()
 
     grid->addWidget(goButton, 3, 1);
 
+    Graph *x = new Graph();
+    grid->addWidget(x, 4, 1, 2, 3);
     setLayout(grid);
     setWindowTitle("Jeu Inhibition 3");
     //resize(700, 300);
+}
+
+void ControlPanel::loadUser(QString text)
+{
+    // load user inforation, and update widgets
+    LOG_DEBUG("loadUser" << text.toLocal8Bit().constData());
+
+    std::string userName = text.toLocal8Bit().constData();
+    User *u = User::getUserbyName(userName);
+    vector<Scenario> sList = u->getScenarioList();
+
+    if (sList.size() > 0) {
+        // last scenario gives the defaut values
+        Scenario s = sList[sList.size()-1];
+        int n = s.getNumberOfItems();
+        if (n == 150) n150->setChecked(true);
+        else if (n == 100) n100->setChecked(true);
+        else n75->setChecked(true);
+    }
 }
 
 void ControlPanel::start()
