@@ -76,7 +76,7 @@ void Viewer::keyPressEvent(QKeyEvent *e) {
 void Viewer::keyReleaseEvent(QKeyEvent *e) {
     cout << "keyReleaseEvent: " << e->key() <<  "\n";
     const char c = e->key();
-    if ( c == 'q' || c == 'Q') QCoreApplication::exit(0);
+    if ( c == 'q' || c == 'Q') QCoreApplication::exit(1);
     else if (c == ' ') {
         processUserClick();
     } else if (c == 'f' || c == 'F') {

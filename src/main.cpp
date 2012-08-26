@@ -19,7 +19,7 @@ void usage()
                  "OPTIONS:\n"
                  "-p PERIOD       Period in second between 2 items.\n"
                  "-n N            Number of items showed (including exceptions).\n"
-                 "-x X            Number of exceptions showed (X is contained in N).\n"
+                 "-x X            Ratio of exceptions showed (percent of N).\n"
                  "-i              Inhibition mode (player MUST NOT click on exceptions).\n"
                  "-a              Attention mode (player MUST click on exceptions).\n"
                  "                -i and -a are exclusive.\n"
@@ -40,7 +40,7 @@ int main(int argc, char **argv)
     // set default values
     float period = 1; // seconds
     int numberOfItems = 10;
-    int numberOfExceptions = 2;
+    int ratioOfExceptions = 10; // percent
     bool modeInhibition = true;
     bool commandLine = false;
 
@@ -59,7 +59,7 @@ int main(int argc, char **argv)
             numberOfItems = args.at(i).toInt();
         } else if (arg == "-x") {
             i++; if (i >= n) usage();
-            numberOfExceptions = args.at(i).toInt();
+            ratioOfExceptions = args.at(i).toInt();
         } else if (arg == "-a") {
             modeInhibition = false;
         } else if (arg == "-i") {
@@ -80,7 +80,7 @@ int main(int argc, char **argv)
             // start immediately test with values given on the command line.
 
             LOG_DEBUG("scenario=" << scenario.toLocal8Bit().constData() << ", period=" << period <<
-                      ", numberOfItems=" << numberOfItems << ", numberOfExceptions=" << numberOfExceptions <<
+                      ", numberOfItems=" << numberOfItems << ", ratioOfExceptions=" << ratioOfExceptions <<
                       ", modeInhibition=" << modeInhibition);
 
         } else {
@@ -100,17 +100,16 @@ int main(int argc, char **argv)
                 LOG_DEBUG("player=" << c->getPlayer().toLocal8Bit().constData() <<
                           ", scenario=" << c->getScenario().toLocal8Bit().constData() <<
                           ", sound=" <<  c->getSound());
-                int ratio = c->getRatio();
+                ratioOfExceptions = c->getRatio();
                 period = c->getPeriod()/1000;
                 numberOfItems = c->getNumber();
                 modeInhibition = c->getType();
-                numberOfExceptions = numberOfItems*ratio/100;
                 scenario = c->getScenario();
                 player = c->getPlayer();
             }
         }
         //numberOfItems = 10 ; // TODO remove me
-        Scenario s(scenario.toLocal8Bit().constData(), period*1000, numberOfItems, numberOfExceptions, modeInhibition);
+        Scenario s(scenario.toLocal8Bit().constData(), period*1000, numberOfItems, ratioOfExceptions, modeInhibition);
         s.load();
         s.generateItemList();
 
@@ -119,15 +118,18 @@ int main(int argc, char **argv)
         bool r = app.exec();
 
         if (commandLine) exit(0);
-        else if (!player.isEmpty()) {
-            // store to file
-            QString filename = "Data/" + player + ".ji3u";
-            s.store(filename);
 
-            // go to curve diagram
-            // TODO
-        }
-        // else, continue
+        if (r == 0) { // nominal case
+            if (!player.isEmpty()) {
+                // store to file
+                QString filename = "Data/" + player + ".ji3u";
+                s.store(filename);
+
+                // go to curve diagram
+                // TODO
+            }
+        } // else 'q' pressed, do not store result into file
+
     }
 
 }

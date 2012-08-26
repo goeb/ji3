@@ -12,7 +12,6 @@ using namespace std;
 ControlPanel::ControlPanel()
 {
     User::loadUsers("Data");
-
     // player name
     playerLabel = new QLabel("Joueur : ");
     player = new QComboBox;
@@ -93,6 +92,52 @@ ControlPanel::ControlPanel()
     //resize(700, 300);
 }
 
+void ControlPanel::updateDefaultValues(Scenario s)
+{
+    // scenario name
+    std::string sName = s.getPath();
+    int i = scenario->findText(QString(sName.c_str()), Qt::MatchExactly);
+    if (i == -1) {
+        // not found in list. do not update scenario combo box.
+    } else {
+        scenario->setCurrentIndex(i);
+    }
+
+    // sound TODO
+
+    // mode inhibition/attention
+    if (s.getMode() == MODE_INHIBITION) modeInhibition->setChecked(true);
+    else modeAttention->setChecked(true);
+
+    // ratio of exceptions
+    int r = s.getRatioOfExceptions();
+    if (r == 10) ratio10->setChecked(true);
+    else if (r == 20) ratio20->setChecked(true);
+    else if (r == 30) ratio30->setChecked(true);
+    else {
+        LOG_ERROR("Invalid ratio of exception: " << r);
+    }
+
+    // speed
+    int period = s.getPeriodMs();
+    if (period == 1000) speed10->setChecked(true);
+    else if (period == 1000) speed10->setChecked(true);
+    else if (period == 1500) speed15->setChecked(true);
+    else if (period == 2000) speed20->setChecked(true);
+    else if (period == 2500) speed25->setChecked(true);
+    else if (period == 3000) speed30->setChecked(true);
+    else {
+        LOG_ERROR("Invalid speed: " << period);
+    }
+
+    // number of items
+    int n = s.getNumberOfItems();
+    if (n == 150) n150->setChecked(true);
+    else if (n == 100) n100->setChecked(true);
+    else n75->setChecked(true);
+
+}
+
 void ControlPanel::loadUser(QString text)
 {
     // load user inforation, and update widgets
@@ -100,15 +145,20 @@ void ControlPanel::loadUser(QString text)
 
     std::string userName = text.toLocal8Bit().constData();
     User *u = User::getUserbyName(userName);
-    vector<Scenario> sList = u->getScenarioList();
 
-    if (sList.size() > 0) {
-        // last scenario gives the defaut values
-        Scenario s = sList[sList.size()-1];
-        int n = s.getNumberOfItems();
-        if (n == 150) n150->setChecked(true);
-        else if (n == 100) n100->setChecked(true);
-        else n75->setChecked(true);
+    if (u) {
+        vector<Scenario> sList = u->getScenarioList();
+
+        if (sList.size() > 0) {
+            // last scenario gives the defaut values
+            updateDefaultValues(sList[sList.size()-1]);
+        }
+
+        // update table of all record for that user TODO
+
+        // update graph
+
+
     }
 }
 
@@ -200,16 +250,16 @@ QGroupBox *ControlPanel::createTypeGroup()
 {
     QGroupBox *groupBox = new QGroupBox(tr("Type"));
 
-    typeInhibition = new QRadioButton(tr("Inhibition"));
-    typeAttention = new QRadioButton(tr("Attention"));
-    typeDividedAttention = new QRadioButton(tr("Attention divisee"));
+    modeInhibition = new QRadioButton(tr("Inhibition"));
+    modeAttention = new QRadioButton(tr("Attention"));
+    modeDividedAttention = new QRadioButton(tr("Attention divisee"));
 
-    typeInhibition->setChecked(true);
+    modeInhibition->setChecked(true);
 
     QVBoxLayout *vbox = new QVBoxLayout;
-    vbox->addWidget(typeInhibition);
-    vbox->addWidget(typeAttention);
-    vbox->addWidget(typeDividedAttention);
+    vbox->addWidget(modeInhibition);
+    vbox->addWidget(modeAttention);
+    vbox->addWidget(modeDividedAttention);
     vbox->addStretch(1);
     groupBox->setLayout(vbox);
 

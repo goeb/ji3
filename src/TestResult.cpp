@@ -24,11 +24,11 @@ bool TestResult::loadFromString(string line)
     
     if (0 == elements[3].compare("attention"))
     {
-        attentionOrInhibition = ATTENTION;
+        attentionOrInhibition = MODE_ATTENTION;
     }
     else
     {
-        attentionOrInhibition = INHIBITION;
+        attentionOrInhibition = MODE_INHIBITION;
     }
     
     string correctnessStr = elements[4];
@@ -49,7 +49,7 @@ string TestResult::serialize()
     res << datasetFolder << SEP;
     res << datasetCategory << SEP;
     res << scenarioName << SEP;
-    if (attentionOrInhibition == ATTENTION)
+    if (attentionOrInhibition == MODE_ATTENTION)
     {
         res << "attention" << SEP;
     }

@@ -45,13 +45,16 @@ vector<string> ScenarioManager::getAvailableScenarios()
     return result;
 }
 
-Scenario::Scenario(const string &_path, int _periodMs, int _numberOfItems, int _numberOfExceptions, bool _modeInhibition)
+Scenario::Scenario(const string &_path, int _periodMs, int _numberOfItems, int _ratioOfExceptions, bool _modeInhibition)
 {
     path = _path;
     periodMs = _periodMs;
     numberOfItems = _numberOfItems;
-    numberOfExceptions = _numberOfExceptions;
-    modeInhibition = _modeInhibition;
+    ratioOfExceptions = _ratioOfExceptions;
+    numberOfExceptions = ratioOfExceptions*numberOfItems/100;
+
+    if (_modeInhibition) modeInhibition = MODE_INHIBITION;
+    else modeInhibition = MODE_ATTENTION;
 
     errorsOnRegularItems = 0;
     errorsOnExceptions = 0;
@@ -257,7 +260,7 @@ bool Scenario::evaluateUserClick(const std::string & item, bool hasClicked)
 
     if (listOfExceptions.count(item) == 1) {
         // item is an exception
-        if (modeInhibition) {
+        if (MODE_INHIBITION == modeInhibition) {
             result = !hasClicked;
 
         } else {
@@ -268,7 +271,7 @@ bool Scenario::evaluateUserClick(const std::string & item, bool hasClicked)
 
     } else {
         // item is a regular item
-        if (modeInhibition) {
+        if (MODE_INHIBITION == modeInhibition) {
             result = hasClicked;
         } else {
             // mode attention
@@ -321,8 +324,8 @@ void Scenario::store(const QString & filename)
     row << correctExceptions << SEPARATOR;
     row << correctRegularItems << SEPARATOR;
     row << (withSound?"sound-on":"sound-off") << SEPARATOR;
-    row << (modeInhibition?"inhibition":"attention") << SEPARATOR;
-    row << numberOfExceptions << SEPARATOR;
+    row << ((modeInhibition==MODE_INHIBITION)?"inhibition":"attention") << SEPARATOR;
+    row << ratioOfExceptions << SEPARATOR;
     row << numberOfItems << SEPARATOR;
     row << periodMs;
     row << "\n";
@@ -356,11 +359,15 @@ bool Scenario::load(const QString & filename, vector<Scenario> & scenarioList)
         s.averageClickSpeed = atoi(tokens[i++].c_str());
         s.correctExceptions = atoi(tokens[i++].c_str());
         s.correctRegularItems = atoi(tokens[i++].c_str());
-        //s.withSound = tokens[i++]; //TODO
+
+        if (tokens[i] == "sound-on") s.withSound = true;
+        else s.withSound = false;
         i++;
-        //s.modeInhibition = tokens[i++]; //TOOD
+
+        if (tokens[i] == "inhibition") s.modeInhibition = MODE_INHIBITION;
+        else s.modeInhibition = MODE_ATTENTION;
         i++;
-        s.numberOfExceptions = atoi(tokens[i++].c_str());
+        s.ratioOfExceptions = atoi(tokens[i++].c_str());
         s.numberOfItems = atoi(tokens[i++].c_str());
         s.periodMs = atoi(tokens[i++].c_str());
         scenarioList.push_back(s);

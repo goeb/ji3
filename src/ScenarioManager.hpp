@@ -11,8 +11,8 @@ using namespace std;
 #include "Util.hpp"
                  
 typedef enum {
-    INHIBITION, // click all items but on exception items
-    ATTENTION, // click only on exception items
+    MODE_INHIBITION, // click all items but on exception items
+    MODE_ATTENTION, // click only on exception items
     XX_DIVIDED_ATTENTION // sound and image not related
 } TestMode;
 
@@ -29,6 +29,8 @@ class Scenario
         inline std::vector<std::string> getItemSequence() const { return itemSequence; }
         inline int getPeriodMs() const { return periodMs; }
         inline int getNumberOfItems() const { return numberOfItems; }
+        inline TestMode getMode() { return modeInhibition; }
+        inline int getRatioOfExceptions() { return ratioOfExceptions; }
 
         bool evaluateUserClick(const std::string & item, bool hasClicked);
         void addClickTime(qint64 clickTime);
@@ -44,7 +46,8 @@ class Scenario
         int periodMs;
         int numberOfItems;
         int numberOfExceptions;
-        bool modeInhibition;
+        int ratioOfExceptions;
+        TestMode modeInhibition;
         bool withSound;
         std::string description;
         vector<string> createFixedSizeList(vector<string> & inputList, int n);
