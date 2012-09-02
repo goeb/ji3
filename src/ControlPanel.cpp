@@ -11,10 +11,22 @@ using namespace std;
 
 ControlPanel::ControlPanel()
 {
+
+
     User::loadUsers("Data");
     // player name
     playerLabel = new QLabel("Joueur : ");
+    QFont f = playerLabel->font();
+    f.setPointSize(f.pointSize()*2);
+    playerLabel->setFont(f);
+
     player = new QComboBox;
+
+    // increase font size
+    f = player->font();
+    f.setPointSize(f.pointSize()*2);
+    player->setFont(f);
+
     player->setEditable(true);
     player->addItem("");
     connect(player, SIGNAL(currentIndexChanged(QString)), this, SLOT(loadUser(QString)));
