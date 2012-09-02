@@ -27,6 +27,8 @@ public:
 
 private slots:
     void start();
+    void showGraph();
+
     void loadUser(QString text);
 
 protected:
@@ -39,6 +41,7 @@ private:
     QLabel *scenarioLabel;
     QComboBox *scenario;
     QPushButton *goButton;
+    QPushButton *showGraphButton;
     QPushButton *createButton(const QString &text, const char *member);
     QGroupBox *createSoundGroup();
     QGroupBox *createTypeGroup();

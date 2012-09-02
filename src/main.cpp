@@ -10,7 +10,7 @@ using namespace std;
 #include "Viewer.hpp"
 #include "ScenarioManager.hpp"
 #include "ControlPanel.hpp"
-
+#include "Graph.hpp"
 
 void usage()
 {
@@ -74,6 +74,8 @@ int main(int argc, char **argv)
 
     ControlPanel *c = 0;
     QString player = "";
+    bool playGame = false;
+    bool showGraph = false;
     while (1) {
         if (commandLine) {
             // command line mode:
@@ -83,6 +85,7 @@ int main(int argc, char **argv)
                       ", numberOfItems=" << numberOfItems << ", ratioOfExceptions=" << ratioOfExceptions <<
                       ", modeInhibition=" << modeInhibition);
 
+            playGame = true;
         } else {
 
             // show control panel
@@ -93,9 +96,16 @@ int main(int argc, char **argv)
             c->show();
             int r = app.exec();
             LOG_DEBUG("after app.exec(), r=" << r);
-            if (1 == r) { // ctrl-Q, really quit
+            if (0 == r) { // ctrl-Q, really quit
                 exit(0);
+            } else if (2 == r) {
+                // show graph
+                playGame = false;
+                showGraph = true;
+
             } else {
+                playGame = true;
+
                 // retrieve values from object 'c'.
                 LOG_DEBUG("player=" << c->getPlayer().toLocal8Bit().constData() <<
                           ", scenario=" << c->getScenario().toLocal8Bit().constData() <<
@@ -106,30 +116,41 @@ int main(int argc, char **argv)
                 modeInhibition = c->getType();
                 scenario = c->getScenario();
                 player = c->getPlayer();
+
+
             }
         }
-        //numberOfItems = 10 ; // TODO remove me
-        Scenario s(scenario.toLocal8Bit().constData(), period*1000, numberOfItems, ratioOfExceptions, modeInhibition);
-        s.load();
-        s.generateItemList();
 
-        Viewer imageViewer(s);
-        imageViewer.showFullScreen();
-        bool r = app.exec();
+        if (playGame) {
+            if (c) c->hide();
+            //numberOfItems = 10 ; // TODO remove me
+            Scenario s(scenario.toLocal8Bit().constData(), period*1000, numberOfItems, ratioOfExceptions, modeInhibition);
+            s.load();
+            s.generateItemList();
 
-        if (commandLine) exit(0);
+            Viewer imageViewer(s);
+            imageViewer.showFullScreen();
+            bool r = app.exec();
 
-        if (r == 0) { // nominal case
-            if (!player.isEmpty()) {
-                // store to file
-                QString filename = "Data/" + player + ".ji3u";
-                s.store(filename);
+            if (commandLine) exit(0);
 
-                // go to curve diagram
-                // TODO
-            }
-        } // else 'q' pressed, do not store result into file
+            if (r == 0) { // nominal case
+                if (!player.isEmpty()) {
+                    // store to file
+                    QString filename = "Data/" + player + ".ji3u";
+                    s.store(filename);
 
+                    // go to curve diagram
+                    // TODO
+                }
+            } // else 'q' pressed, do not store result into file
+        } else if (showGraph) {
+            if (c) c->hide();
+
+            Graph x;
+            bool r = app.exec();
+
+        }
     }
 
 }

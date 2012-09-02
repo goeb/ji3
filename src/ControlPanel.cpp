@@ -53,6 +53,7 @@ ControlPanel::ControlPanel()
     scenario->addItem("Test Normal");
     goButton = createButton(tr("Commencer"), SLOT(start()));
 
+    showGraphButton = createButton(tr("Courbe"), SLOT(showGraph()));
 
     QGridLayout *grid = new QGridLayout;
     grid->setSizeConstraint(QLayout::SetNoConstraint);
@@ -96,9 +97,10 @@ ControlPanel::ControlPanel()
     grid->addWidget(filesTable, 2, 0, 1, 7);
 
     grid->addWidget(goButton, 3, 1);
+    grid->addWidget(showGraphButton, 3, 2);
 
-    Graph *x = new Graph();
-    grid->addWidget(x, 4, 1, 2, 3);
+    //Graph *x = new Graph();
+    //grid->addWidget(x, 4, 1, 2, 3);
     setLayout(grid);
     setWindowTitle("Jeu Inhibition 3");
     //resize(700, 300);
@@ -177,8 +179,15 @@ void ControlPanel::loadUser(QString text)
 void ControlPanel::start()
 {
     LOG_DEBUG("start");
-    QCoreApplication::exit(0); // back to main, that will actually start the game
+    QCoreApplication::exit(1); // back to main, that will actually start the game
 }
+
+void ControlPanel::showGraph()
+{
+    LOG_DEBUG("showGraph");
+    QCoreApplication::exit(2);
+}
+
 QGroupBox *ControlPanel::createSoundGroup()
 {
     QGroupBox *groupBox = new QGroupBox(tr("Son"));
@@ -289,7 +298,7 @@ void ControlPanel::keyReleaseEvent(QKeyEvent *e) {
     const char c = e->key();
     Qt::KeyboardModifiers mod = e->modifiers();
     if ( c == 'q' || c == 'Q') {
-        if (mod & Qt::ControlModifier) QCoreApplication::exit(1); // ctrl-Q
+        if (mod & Qt::ControlModifier) QCoreApplication::exit(0); // ctrl-Q
     }
 }
 
