@@ -11,39 +11,6 @@
 
 #define SEPARATOR ';';
 
-map<string, Scenario> ScenarioManager::AvailableScenarios;
-
-vector<string> ScenarioManager::getAvailableScenarios()
-{
-    // 1. look in the ScenarioHomeDirectory for directories
-    vector<string> files;
-    bool success = Util::readDirectory(".", files, false);
-    if (!success)
-    {
-        LOG_ERROR("Impossible d'ouvrir le répertoire: .");
-    }
-    
-    vector<string>::iterator file;
-    vector<string> result;
-    // 2. load the scenarios
-    for (file = files.begin(); file != files.end(); file++)
-    {
-        string scenarioName = *file;
-        Scenario s(scenarioName, 0, 0, 0, 0);
-        bool isSuccessful = s.load();
-        if (isSuccessful)
-        {
-            LOG_DEBUG("Valid scenario: " << scenarioName);
-            AvailableScenarios[scenarioName] = s;
-            result.push_back(scenarioName);
-        }
-        else
-        {
-            LOG_DEBUG("Invalid scenario: " << scenarioName);
-        }
-    }
-    return result;
-}
 
 Scenario::Scenario(const string &_path, int _periodMs, int _numberOfItems, int _ratioOfExceptions, bool _modeInhibition)
 {
@@ -374,4 +341,25 @@ bool Scenario::load(const QString & filename, vector<Scenario> & scenarioList)
     }
     return true;
 
+}
+bool Scenario::isSame(const Scenario & other) const
+{
+    if (getPath() != other.getPath()) return false;
+    if (getPeriodMs() != other.getPeriodMs()) return false;
+    if (getNumberOfItems() != other.getNumberOfItems()) return false;
+    if (getMode() != other.getMode()) return false;
+    if (getRatioOfExceptions() != other.getRatioOfExceptions()) return false;
+    return true;
+}
+
+std::vector<Scenario> Scenario::getSameScenario(const std::vector<Scenario> & all) const
+{
+    // here, we filter the list of scenarios in order
+    // to keep only those that match 'this'
+    std::vector<Scenario> result;
+    std::vector<Scenario>::const_iterator s;
+    for (s=all.begin(); s!=all.end(); s++) {
+        if (isSame(*s)) result.push_back(*s);
+    }
+    return result;
 }

@@ -98,13 +98,15 @@ int main(int argc, char **argv)
             LOG_DEBUG("after app.exec(), r=" << r);
             if (0 == r) { // ctrl-Q, really quit
                 exit(0);
-            } else if (2 == r) {
-                // show graph
-                playGame = false;
-                showGraph = true;
-
             } else {
-                playGame = true;
+                if (2 == r) {
+                    // show graph
+                    playGame = false;
+                    showGraph = true;
+
+                } else {
+                    playGame = true;
+                }
 
                 // retrieve values from object 'c'.
                 LOG_DEBUG("player=" << c->getPlayer().toLocal8Bit().constData() <<
@@ -116,15 +118,15 @@ int main(int argc, char **argv)
                 modeInhibition = c->getType();
                 scenario = c->getScenario();
                 player = c->getPlayer();
-
-
             }
         }
 
+        Scenario s(scenario.toLocal8Bit().constData(), period*1000, numberOfItems, ratioOfExceptions, modeInhibition);
+        QString filename = "Data/" + player + ".ji3u";
+
         if (playGame) {
             if (c) c->hide();
-            //numberOfItems = 10 ; // TODO remove me
-            Scenario s(scenario.toLocal8Bit().constData(), period*1000, numberOfItems, ratioOfExceptions, modeInhibition);
+
             s.load();
             s.generateItemList();
 
@@ -137,17 +139,22 @@ int main(int argc, char **argv)
             if (r == 0) { // nominal case
                 if (!player.isEmpty()) {
                     // store to file
-                    QString filename = "Data/" + player + ".ji3u";
                     s.store(filename);
 
                     // go to curve diagram
-                    // TODO
+                    showGraph = true;
                 }
             } // else 'q' pressed, do not store result into file
-        } else if (showGraph) {
+
+        }
+
+        if (showGraph) {
             if (c) c->hide();
 
-            GraphPanel x;
+            // from user name, get list of scenarios
+            // from these scenarii, only keep those matching the last one
+            // (so that the curve compares things comparable)
+            GraphPanel x(filename, s);
             x.show();
             bool r = app.exec();
 

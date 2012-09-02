@@ -23,11 +23,12 @@ public:
     void store(); // store into the user's file
     inline vector<Scenario> getScenarioList() { return scenarioList; }
 
+    bool load(const string & filename);
+
 private:
     static vector<User> Users;
     string filename;
     static const string FILE_EXTENSION;
-    bool load(const string & filename);
     static string DataDir;
     vector<Scenario> scenarioList;
     string name;

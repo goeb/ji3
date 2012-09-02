@@ -13,7 +13,7 @@ class GraphPanel : public QWidget
     Q_OBJECT
 
 public:
-    GraphPanel();
+    GraphPanel(const QString &username, const Scenario &refScenario);
     ~GraphPanel();
 
 private slots:
@@ -28,6 +28,12 @@ private:
     QPushButton *closeButton;
     QPushButton *createButton(const QString &text, const char *member);
     QGridLayout *grid;
+
+    std::vector<int> getClickSpeedCurve(const std::vector<Scenario> & sList);
+    std::vector<int> getGlobalGradeCurve(const std::vector<Scenario> & sList);
+    QTableWidget* createTable(const std::vector<Scenario> & sList);
+
+
 
 };
 

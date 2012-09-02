@@ -29,14 +29,25 @@ class Scenario
         inline std::vector<std::string> getItemSequence() const { return itemSequence; }
         inline int getPeriodMs() const { return periodMs; }
         inline int getNumberOfItems() const { return numberOfItems; }
-        inline TestMode getMode() { return modeInhibition; }
-        inline int getRatioOfExceptions() { return ratioOfExceptions; }
+        inline int getNumberOfExceptions() const { return numberOfExceptions; }
+
+        inline TestMode getMode() const { return modeInhibition; }
+        inline int getRatioOfExceptions() const { return ratioOfExceptions; }
 
         bool evaluateUserClick(const std::string & item, bool hasClicked);
         void addClickTime(qint64 clickTime);
         void consolidateResult();
         void store(const QString & file);
         static bool load(const QString & filename, vector<Scenario> & scenarioList);
+
+        std::vector<Scenario> getSameScenario(const std::vector<Scenario> & all) const;
+
+        inline int getAverageClickSpeed() const { return averageClickSpeed; }
+        inline int getGlobalGrade() const { return globalGrade; }
+        inline std::string getDatetime() const { return datetime; }
+        inline int getCorrectRegularItems() const { return correctRegularItems; }
+        inline int getCorrectExceptions() const { return correctExceptions; }
+
 
     private :
         bool parseItems(const std::string & line, std::set<std::string> &items);
@@ -65,17 +76,8 @@ class Scenario
         int correctExceptions;
         int globalGrade;
         std::string datetime;
-};
+        bool isSame(const Scenario & other) const;
 
-
-class ScenarioManager
-{
-    public :
-        static vector<string> getAvailableScenarios();
-        
-        static string ScenarioHomeDirectory;
-        static map<string, Scenario> AvailableScenarios;
-        
 };
 
 
