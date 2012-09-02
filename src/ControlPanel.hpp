@@ -6,6 +6,7 @@
 #include <QtGui>
 
 #include "ScenarioManager.hpp"
+#include "User.hpp"
 
 class ControlPanel : public QWidget
 {
@@ -68,7 +69,8 @@ private:
     QRadioButton *soundOff;
 
     void updateDefaultValues(Scenario s);
-
+    QTableWidget *table;
+    void *updateTable(const User * u);
 
 
 

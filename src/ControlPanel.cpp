@@ -11,8 +11,6 @@ using namespace std;
 
 ControlPanel::ControlPanel()
 {
-
-
     User::loadUsers("Data");
     // player name
     playerLabel = new QLabel("Joueur : ");
@@ -70,31 +68,9 @@ ControlPanel::ControlPanel()
 
 
     // table
-    QTableWidget *filesTable = new QTableWidget(0, 7);
-    QStringList labels;
-    labels << tr("Date") << tr("Theme") << tr("Son") << tr("Type") << tr("% Exceptions") << tr("Vitesse") << tr("Longueur");
-    filesTable->setHorizontalHeaderLabels(labels);
-    filesTable->horizontalHeader()->setResizeMode(0, QHeaderView::Stretch);
-    filesTable->verticalHeader()->hide();
-    filesTable->setShowGrid(true);
-    int row = 0;
+    table = new QTableWidget(0, 7);
 
-    filesTable->insertRow(row);
-    QTableWidgetItem *x1 = new QTableWidgetItem("01-01-2012 10:23");
-    filesTable->setItem(row, 0, x1);
-    QTableWidgetItem *x2 = new QTableWidgetItem("Animaux/volants");
-    filesTable->setItem(row, 1, x2);
-
-    row++;
-    filesTable->insertRow(row);
-    QTableWidgetItem *x3 = new QTableWidgetItem("01-01-2012 10:45");
-    filesTable->setItem(row, 0, x3);
-    QTableWidgetItem *x4 = new QTableWidgetItem("Animaux/volants");
-    filesTable->setItem(row, 1, x4);
-
-
-
-    grid->addWidget(filesTable, 2, 0, 1, 7);
+    grid->addWidget(table, 2, 0, 1, 7);
 
     grid->addWidget(goButton, 3, 1);
     grid->addWidget(showGraphButton, 3, 2);
@@ -106,6 +82,76 @@ ControlPanel::ControlPanel()
     //resize(700, 300);
 }
 
+void *ControlPanel::updateTable(const User * u)
+{
+    QStringList labels;
+    labels << tr("Date") << tr("Theme") << tr("Son") << tr("Type") << tr("% Exceptions") << tr("Vitesse") << tr("Longueur");
+    table->setHorizontalHeaderLabels(labels);
+    table->horizontalHeader()->setResizeMode(0, QHeaderView::Stretch);
+    table->verticalHeader()->hide();
+    table->setShowGrid(true);
+    int row = 0;
+
+    std::vector<Scenario> sList = u->getScenarioList();
+    std::vector<Scenario>::iterator s;
+    QTableWidgetItem *wItem = 0;
+    for (s=sList.begin(); s!=sList.end(); s++) {
+        table->insertRow(row);
+        int col = 0;
+
+        const char * dt = s->getDatetime().c_str();
+        wItem = new QTableWidgetItem(dt);
+        table->setItem(row, col, wItem);
+        col ++;
+
+        QString path(s->getPath().c_str());
+        wItem = new QTableWidgetItem(path);
+        table->setItem(row, col, wItem);
+        col ++;
+
+        QString sound = QString("%1").arg(s->getWithSound());
+        wItem = new QTableWidgetItem(sound);
+        table->setItem(row, col, wItem);
+        col ++;
+
+        QString mode;
+        if (s->getMode() == MODE_INHIBITION) mode = "inhibition";
+        else mode = "attention";
+        wItem = new QTableWidgetItem(mode);
+        table->setItem(row, col, wItem);
+        col ++; //skip sound info;
+
+
+        QString avcs = QString("%1").arg(s->getAverageClickSpeed());
+        wItem = new QTableWidgetItem(avcs);
+        table->setItem(row, col, wItem);
+        col ++;
+
+        QString gg = QString("%1").arg(s->getGlobalGrade());
+        wItem = new QTableWidgetItem(gg);
+        table->setItem(row, col, wItem);
+        col ++;
+
+        QString is = QString("%1").arg(s->getCorrectRegularItems());
+        is += "/";
+        is += QString("%1").arg(s->getNumberOfItems()-s->getNumberOfExceptions());
+        wItem = new QTableWidgetItem(is);
+        table->setItem(row, col, wItem);
+        col ++;
+
+        QString ip = QString("%1").arg(s->getCorrectExceptions());
+        ip += "/";
+        ip += QString("%1").arg(s->getNumberOfExceptions());
+        wItem = new QTableWidgetItem(ip);
+        table->setItem(row, col, wItem);
+        col ++;
+
+        row++;
+    }
+
+    for (int i=0; i<table->columnCount(); i++) table->resizeColumnToContents(i);
+    return table;
+}
 void ControlPanel::updateDefaultValues(Scenario s)
 {
     // scenario name
@@ -169,6 +215,7 @@ void ControlPanel::loadUser(QString text)
         }
 
         // update table of all record for that user TODO
+        updateTable(u);
 
         // update graph
 

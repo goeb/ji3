@@ -92,6 +92,7 @@ QTableWidget* GraphPanel::createTable(const std::vector<Scenario> & sList)
         row++;
 
     }
+    for (int i=0; i<table->columnCount(); i++) table->resizeColumnToContents(i);
     return table;
 }
 

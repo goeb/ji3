@@ -30,6 +30,7 @@ class Scenario
         inline int getPeriodMs() const { return periodMs; }
         inline int getNumberOfItems() const { return numberOfItems; }
         inline int getNumberOfExceptions() const { return numberOfExceptions; }
+        inline int getWithSound() const { return withSound; }
 
         inline TestMode getMode() const { return modeInhibition; }
         inline int getRatioOfExceptions() const { return ratioOfExceptions; }

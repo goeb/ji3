@@ -21,7 +21,7 @@ public:
     static User* getUserbyName(string name);
 
     void store(); // store into the user's file
-    inline vector<Scenario> getScenarioList() { return scenarioList; }
+    inline vector<Scenario> getScenarioList() const { return scenarioList; }
 
     bool load(const string & filename);
 
