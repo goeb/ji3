@@ -10,7 +10,7 @@ using namespace std;
 #include "Viewer.hpp"
 #include "ScenarioManager.hpp"
 #include "ControlPanel.hpp"
-#include "Graph.hpp"
+#include "GraphPanel.hpp"
 
 void usage()
 {
@@ -147,8 +147,10 @@ int main(int argc, char **argv)
         } else if (showGraph) {
             if (c) c->hide();
 
-            Graph x;
+            GraphPanel x;
+            x.show();
             bool r = app.exec();
+
 
         }
     }

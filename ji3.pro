@@ -18,7 +18,8 @@ SOURCES += \
     src/ScenarioManager.cpp \
     src/Viewer.cpp \
     src/ControlPanel.cpp \
-    src/Graph.cpp
+    src/Graph.cpp \
+    src/GraphPanel.cpp
 
 HEADERS += \
     src/SoundManager.hpp \
@@ -29,7 +30,8 @@ HEADERS += \
     src/ScenarioManager.hpp \
     src/Viewer.hpp \
     src/ControlPanel.hpp \
-    src/Graph.hpp
+    src/Graph.hpp \
+    src/GraphPanel.hpp
 
 
 linux-g++ {
