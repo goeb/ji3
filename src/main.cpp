@@ -33,8 +33,11 @@ int main(int argc, char **argv)
     Logger::init(".");
     SoundManager::init();
 
+
+
     LOG_INFO("Starting...");
     QApplication app(argc, argv);
+    QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
     QString scenario;
 
     // set default values

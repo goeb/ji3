@@ -40,7 +40,7 @@ ControlPanel::ControlPanel()
     player->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
     // theme
-    scenarioLabel = new QLabel("Theme : ");
+    scenarioLabel = new QLabel(tr("Thème : "));
     scenario = new QComboBox;
     scenario->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     scenario->addItem("Animaux/rampants.conf"); // TODO
@@ -75,8 +75,6 @@ ControlPanel::ControlPanel()
     grid->addWidget(goButton, 3, 1);
     grid->addWidget(showGraphButton, 3, 2);
 
-    //Graph *x = new Graph();
-    //grid->addWidget(x, 4, 1, 2, 3);
     setLayout(grid);
     setWindowTitle("Jeu Inhibition 3");
     //resize(700, 300);
@@ -85,7 +83,7 @@ ControlPanel::ControlPanel()
 void *ControlPanel::updateTable(const User * u)
 {
     QStringList labels;
-    labels << tr("Date") << tr("Theme") << tr("Son") << tr("Type") << tr("% Exceptions") << tr("Vitesse") << tr("Longueur");
+    labels << tr("Date") << tr("Thème") << tr("Son") << tr("Type") << tr("% Exceptions") << tr("Vitesse") << tr("Longueur");
     table->setHorizontalHeaderLabels(labels);
     table->horizontalHeader()->setResizeMode(0, QHeaderView::Stretch);
     table->verticalHeader()->hide();
@@ -115,8 +113,8 @@ void *ControlPanel::updateTable(const User * u)
         col ++;
 
         QString mode;
-        if (s->getMode() == MODE_INHIBITION) mode = "inhibition";
-        else mode = "attention";
+        if (s->getMode() == MODE_INHIBITION) mode = tr("inhibition");
+        else mode = tr("attention");
         wItem = new QTableWidgetItem(mode);
         table->setItem(row, col, wItem);
         col ++; //skip sound info;
@@ -320,7 +318,7 @@ QGroupBox *ControlPanel::createTypeGroup()
 
     modeInhibition = new QRadioButton(tr("Inhibition"));
     modeAttention = new QRadioButton(tr("Attention"));
-    modeDividedAttention = new QRadioButton(tr("Attention divisee"));
+    modeDividedAttention = new QRadioButton(tr("Attention divisée"));
 
     modeInhibition->setChecked(true);
 
