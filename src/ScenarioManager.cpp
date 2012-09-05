@@ -128,6 +128,8 @@ bool Scenario::load()
 
             } else if (0 == left.compare("description")) {
                 description = right;
+            } else if (0 == left.compare("encoding")) {
+                //encoding = right;
             }
         } // else go to next line
     }

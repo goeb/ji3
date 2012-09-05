@@ -68,7 +68,7 @@ ControlPanel::ControlPanel()
 
 
     // table
-    table = new QTableWidget(0, 7);
+    table = new QTableWidget();
 
     grid->addWidget(table, 2, 0, 1, 7);
 
@@ -83,7 +83,14 @@ ControlPanel::ControlPanel()
 void *ControlPanel::updateTable(const User * u)
 {
     QStringList labels;
-    labels << tr("Date") << tr("Thème") << tr("Son") << tr("Type") << tr("% Exceptions") << tr("Vitesse") << tr("Longueur");
+
+    table->clearContents();
+    table->setColumnCount(11);
+    table->setRowCount(0);
+
+
+    labels << tr("Date") << tr("Thème") << tr("Son") << tr("Type") << tr("% Exceptions") << tr("Vitesse") << tr("Longueur")  <<
+              tr("Vitesse de click") << tr("Score") << tr("Réussite sur items standards") << tr("Réussite sur exception");
     table->setHorizontalHeaderLabels(labels);
     table->horizontalHeader()->setResizeMode(0, QHeaderView::Stretch);
     table->verticalHeader()->hide();
@@ -118,6 +125,26 @@ void *ControlPanel::updateTable(const User * u)
         wItem = new QTableWidgetItem(mode);
         table->setItem(row, col, wItem);
         col ++; //skip sound info;
+
+
+        // % exception
+        QString ex = QString("%1").arg(s->getRatioOfExceptions());
+        wItem = new QTableWidgetItem(ex);
+        table->setItem(row, col, wItem);
+        col ++;
+
+        // speed
+        double speed = s->getPeriodMs()/1000;
+        QString sp = QString("%1").arg(speed, 0, 'f', 1);
+        wItem = new QTableWidgetItem(sp);
+        table->setItem(row, col, wItem);
+        col ++;
+
+        // length
+        QString n = QString("%1").arg(s->getNumberOfItems());
+        wItem = new QTableWidgetItem(n);
+        table->setItem(row, col, wItem);
+        col ++;
 
 
         QString avcs = QString("%1").arg(s->getAverageClickSpeed());
