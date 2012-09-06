@@ -76,6 +76,7 @@ ControlPanel::ControlPanel()
 
     grid->addWidget(goButton, 3, 1);
     grid->addWidget(showGraphButton, 3, 2);
+    grid->addWidget(quitButton, 3, 3);
 
     setLayout(grid);
     setWindowTitle("Jeu Inhibition 3");
