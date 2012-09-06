@@ -11,7 +11,7 @@ using namespace std;
 
 GraphPanel::GraphPanel(const QString & username, const Scenario & refScenario)
 {
-
+    resize(800, 600);
     User u;
     u.load(username.toStdString());
 

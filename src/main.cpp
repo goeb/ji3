@@ -38,8 +38,10 @@ int main(int argc, char **argv)
     LOG_INFO("Starting...");
     QApplication app(argc, argv);
     QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
-    //QTextCodec::setCodecForCStrings(QTextCodec::codecForName("ISO 8859-1")); // latin1
-    QTextCodec::setCodecForLocale(QTextCodec::codecForName("ISO 8859-1"));
+    QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8")); // latin1
+//    QTextCodec::setCodecForLocale(QTextCodec::codecForName("ISO 8859-1"));
+    QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
+
     QString scenario;
 
     // set default values

@@ -70,7 +70,7 @@ ControlPanel::ControlPanel()
 
     // table
     table = new QTableWidget();
-    connect(this, SIGNAL(resizeTableColumns()), table, SLOT(resizeColumnToContents));
+    connect(this, SIGNAL(resizeTableColumns()), table, SLOT(resizeColumnToContents()));
 
     grid->addWidget(table, 2, 0, 1, 7);
 
@@ -99,8 +99,8 @@ void *ControlPanel::updateTable(const User * u)
     table->setRowCount(0);
 
 
-    labels << tr("Date") << tr("Thème") << tr("Son") << tr("Type") << tr("% Exceptions") << tr("Vitesse") << tr("Longueur")  <<
-              tr("Vitesse de click") << tr("Score") << tr("Réussite sur items standards") << tr("Réussite sur exception");
+    labels << tr("Date") << tr("Thème") << tr("Son") << tr("Type") << tr("% Exc.") << tr("Vitesse") << tr("Long.")  <<
+              tr("Vitesse\nde click") << tr("Score") << tr("Réussite\n items\nstandards") << tr("Réussite\nexception");
     table->setHorizontalHeaderLabels(labels);
     table->horizontalHeader()->setResizeMode(0, QHeaderView::Stretch);
     table->verticalHeader()->hide();
@@ -188,9 +188,9 @@ void *ControlPanel::updateTable(const User * u)
     }
 
 
-    emit resizeTableColumns();
+    //emit resizeTableColumns();
 
-    //for (int i=0; i<table->columnCount(); i++) table->resizeColumnToContents(i);
+    for (int i=0; i<table->columnCount(); i++) table->resizeColumnToContents(i);
     return table;
 }
 void ControlPanel::updateDefaultValues(Scenario s)

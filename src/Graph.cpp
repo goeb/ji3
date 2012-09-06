@@ -19,7 +19,9 @@ void Graph::addCurve(std::vector<int> points, int min, int max, const std::strin
 
 
     for (int i=1; i<points.size(); i++) {
-        QGraphicsLineItem *line = new QGraphicsLineItem(QLine(i-1, points[i-1], i, points[i]));
+        QLine L(i-1, points[i-1], i, points[i]);
+        qDebug() << "Line=" << L;
+        QGraphicsLineItem *line = new QGraphicsLineItem(L);
         line->setPen(QPen(Qt::black, 0.05));
         scene->addItem(line);
         //scene->setBackgroundBrush(Qt::green);
@@ -28,7 +30,7 @@ void Graph::addCurve(std::vector<int> points, int min, int max, const std::strin
     }
     // update display (scale, etc.)
     setSceneRect(scene->sceneRect());
-    fitInView(scene->sceneRect(), Qt::KeepAspectRatio);
+    fitInView(scene->sceneRect(), Qt::IgnoreAspectRatio);
     qDebug() << "scene->sceneRect()=" << scene->sceneRect();
     qDebug() << "view->sceneRect()=" << sceneRect();
 

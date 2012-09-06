@@ -2,7 +2,7 @@
 #include <strings.h>
 #include <QDateTime>
 #include <QTextStream>
-
+#include <QDebug>
 
 #include "ScenarioManager.hpp"
 #include "Util.hpp"
@@ -305,6 +305,7 @@ void Scenario::store(const QString & filename)
 bool Scenario::load(const QString & filename, vector<Scenario> & scenarioList)
 {
     // load from user
+    qDebug() << "filename=" << filename;
     QFile f(filename);
     int r = f.open(QIODevice::ReadOnly);
     if (!r) {
