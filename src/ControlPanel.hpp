@@ -18,13 +18,14 @@ public:
     inline QString getScenario() { return scenario->currentText(); }
     inline bool getSound() { return soundOn->isChecked()?true:false; }
     inline int getType() { return modeInhibition->isChecked()?true:false;} // TODO manage 3rd mode
-    inline int getNumber() { return n75->isChecked()?75:(n100->isChecked()?100:150); }
+    inline int getNumber() { return n75->isChecked()?10:(n100->isChecked()?100:150); } // TODO 10->75
     inline int getPeriod() { return speed10->isChecked()?1000:
                                           (speed15->isChecked()?1500:
                                               (speed20->isChecked()?2000:
                                                   (speed25->isChecked()?2500:3000))); }
     inline int getRatio() { return ratio10->isChecked()?10:(ratio20->isChecked()?20:30); }
 
+    void updateTable();
 
 private slots:
     void start();
@@ -71,6 +72,8 @@ private:
     void updateDefaultValues(Scenario s);
     QTableWidget *table;
     void *updateTable(const User * u);
+    std::string userName ;
+
 
 
 

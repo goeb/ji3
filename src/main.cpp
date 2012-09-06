@@ -98,6 +98,7 @@ int main(int argc, char **argv)
 
             if (!c) c = new ControlPanel();
 
+            c->updateTable();
             c->show();
             int r = app.exec();
             LOG_DEBUG("after app.exec(), r=" << r);
@@ -127,7 +128,7 @@ int main(int argc, char **argv)
         }
 
         Scenario s(scenario.toLocal8Bit().constData(), period*1000, numberOfItems, ratioOfExceptions, modeInhibition);
-        QString filename = "Data/" + player + ".ji3u";
+        QString filename = User::getUserfile(player);
 
         if (playGame) {
             if (c) c->hide();

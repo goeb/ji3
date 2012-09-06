@@ -24,7 +24,8 @@ public:
     inline vector<Scenario> getScenarioList() const { return scenarioList; }
 
     bool load(const string & filename);
-
+    static inline QString getUserfile(const QString &name) { return getUserfile(std::string(name.toAscii())).c_str(); }
+    static inline std::string getUserfile(const  std::string & name) { return std::string("Data/") + name + ".ji3u"; }
 private:
     static vector<User> Users;
     string filename;

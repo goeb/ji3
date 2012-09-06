@@ -13,7 +13,7 @@ ControlPanel::ControlPanel()
 {
     User::loadUsers("Data");
     // player name
-    playerLabel = new QLabel("Joueur : ");
+    playerLabel = new QLabel(tr("Nom : "));
     QFont f = playerLabel->font();
     f.setPointSize(f.pointSize()*2);
     playerLabel->setFont(f);
@@ -80,6 +80,13 @@ ControlPanel::ControlPanel()
     //resize(700, 300);
 }
 
+void ControlPanel::updateTable()
+{
+    User u;
+    u.load(User::getUserfile(userName));
+    updateTable(&u);
+}
+
 void *ControlPanel::updateTable(const User * u)
 {
     QStringList labels;
@@ -96,6 +103,9 @@ void *ControlPanel::updateTable(const User * u)
     table->verticalHeader()->hide();
     table->setShowGrid(true);
     int row = 0;
+
+    if (!u) return table;
+
 
     std::vector<Scenario> sList = u->getScenarioList();
     std::vector<Scenario>::iterator s;
@@ -228,7 +238,7 @@ void ControlPanel::loadUser(QString text)
     // load user inforation, and update widgets
     LOG_DEBUG("loadUser" << text.toLocal8Bit().constData());
 
-    std::string userName = text.toLocal8Bit().constData();
+    userName = text.toLocal8Bit().constData();
     User *u = User::getUserbyName(userName);
 
     if (u) {
@@ -239,13 +249,12 @@ void ControlPanel::loadUser(QString text)
             updateDefaultValues(sList[sList.size()-1]);
         }
 
-        // update table of all record for that user TODO
-        updateTable(u);
-
         // update graph
 
-
     }
+    // update table of all record for that user
+    updateTable(u);
+
 }
 
 void ControlPanel::start()

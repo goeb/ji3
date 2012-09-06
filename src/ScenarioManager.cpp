@@ -259,6 +259,7 @@ void Scenario::addClickTime(qint64 clickTime)
 void Scenario::consolidateResult()
 {
     LOG_DEBUG("cumulatedClickTime=" << cumulatedClickTime << ", numberOfClick=" << numberOfClick);
+    if (numberOfClick == 0) numberOfClick = 1;
     averageClickSpeed = cumulatedClickTime / numberOfClick;
     correctRegularItems = (numberOfItems - numberOfExceptions - errorsOnRegularItems);
     correctExceptions = numberOfExceptions - errorsOnExceptions;
@@ -303,6 +304,7 @@ void Scenario::store(const QString & filename)
 
 bool Scenario::load(const QString & filename, vector<Scenario> & scenarioList)
 {
+    // load from user
     QFile f(filename);
     int r = f.open(QIODevice::ReadOnly);
     if (!r) {
@@ -319,6 +321,7 @@ bool Scenario::load(const QString & filename, vector<Scenario> & scenarioList)
         vector<string> tokens = Util::split(";", L);
         if (tokens.size() != 11) {
             LOG_ERROR("Malformed result file: " << filename.toLocal8Bit().constData());
+            f.close();
             return false;
         }
         int i = 0;
@@ -338,9 +341,12 @@ bool Scenario::load(const QString & filename, vector<Scenario> & scenarioList)
         i++;
         s.ratioOfExceptions = atoi(tokens[i++].c_str());
         s.numberOfItems = atoi(tokens[i++].c_str());
+        s.numberOfExceptions = s.ratioOfExceptions*s.numberOfItems/100;
+
         s.periodMs = atoi(tokens[i++].c_str());
         scenarioList.push_back(s);
     }
+    f.close();
     return true;
 
 }
