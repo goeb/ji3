@@ -52,6 +52,7 @@ ControlPanel::ControlPanel()
     goButton = createButton(tr("Commencer"), SLOT(start()));
 
     showGraphButton = createButton(tr("Courbe"), SLOT(showGraph()));
+    quitButton = createButton(tr("Quitter"), SLOT(quit()));
 
     QGridLayout *grid = new QGridLayout;
     grid->setSizeConstraint(QLayout::SetNoConstraint);
@@ -69,6 +70,7 @@ ControlPanel::ControlPanel()
 
     // table
     table = new QTableWidget();
+    connect(this, SIGNAL(resizeTableColumns()), table, SLOT(resizeColumnToContents));
 
     grid->addWidget(table, 2, 0, 1, 7);
 
@@ -181,10 +183,13 @@ void *ControlPanel::updateTable(const User * u)
         table->setItem(row, col, wItem);
         col ++;
 
-        row++;
+        //row++;
     }
 
-    for (int i=0; i<table->columnCount(); i++) table->resizeColumnToContents(i);
+
+    emit resizeTableColumns();
+
+    //for (int i=0; i<table->columnCount(); i++) table->resizeColumnToContents(i);
     return table;
 }
 void ControlPanel::updateDefaultValues(Scenario s)
@@ -262,6 +267,14 @@ void ControlPanel::start()
     LOG_DEBUG("start");
     QCoreApplication::exit(1); // back to main, that will actually start the game
 }
+
+void ControlPanel::quit()
+{
+    LOG_DEBUG("quit");
+    exit(0);
+}
+
+
 
 void ControlPanel::showGraph()
 {

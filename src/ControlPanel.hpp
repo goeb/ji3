@@ -29,10 +29,14 @@ public:
 
 private slots:
     void start();
+    void quit();
     void showGraph();
 
     void loadUser(QString text);
 
+
+signals:
+        void resizeTableColumns();
 protected:
     void keyReleaseEvent(QKeyEvent *e);
 
@@ -44,6 +48,7 @@ private:
     QComboBox *scenario;
     QPushButton *goButton;
     QPushButton *showGraphButton;
+    QPushButton *quitButton;
     QPushButton *createButton(const QString &text, const char *member);
     QGroupBox *createSoundGroup();
     QGroupBox *createTypeGroup();
