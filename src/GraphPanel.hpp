@@ -23,11 +23,11 @@ protected:
     void keyReleaseEvent(QKeyEvent *e);
 
 private:
-    Graph graph;
+    Graph *graph;
     QTableWidget *table;
     QPushButton *closeButton;
     QPushButton *createButton(const QString &text, const char *member);
-    QGridLayout *grid;
+    QVBoxLayout *grid;
 
     std::vector<int> getClickSpeedCurve(const std::vector<Scenario> & sList);
     std::vector<int> getGlobalGradeCurve(const std::vector<Scenario> & sList);

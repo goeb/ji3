@@ -3,6 +3,7 @@
 
 using namespace std;
 
+
 #include "Logger.hpp"
 #include "GraphPanel.hpp"
 #include "User.hpp"
@@ -11,6 +12,8 @@ using namespace std;
 
 GraphPanel::GraphPanel(const QString & username, const Scenario & refScenario)
 {
+    graph = new Graph();
+
     resize(800, 600);
     User u;
     u.load(username.toStdString());
@@ -18,21 +21,21 @@ GraphPanel::GraphPanel(const QString & username, const Scenario & refScenario)
     std::vector<Scenario> sList = refScenario.getSameScenario(u.getScenarioList());
 
     std::vector<int> clickSpeedCurve = getClickSpeedCurve(sList);
-    graph.addCurve(clickSpeedCurve, 0, 10, "Vitesse de click");
+    graph->addCurve(clickSpeedCurve, 0, 0, "Vitesse de click");
 
     std::vector<int> correctnessCurve = getGlobalGradeCurve(sList);
-    graph.addCurve(correctnessCurve, 0, 10, "Réussite");
+    graph->addCurve(correctnessCurve, 0, 100, "Réussite");
 
-    grid = new QGridLayout;
-    grid->setSizeConstraint(QLayout::SetNoConstraint);
-    grid->addWidget(&graph, 0, 0);
+    // do the grid
+    grid = new QVBoxLayout(this);
+
+    grid->addWidget(graph);
 
     table = createTable(sList);
-    grid->addWidget(table, 2, 0, 1, 7);
+    grid->addWidget(table);
 
     closeButton = createButton(tr("Fermer"), SLOT(close()));
-
-    grid->addWidget(closeButton, 3, 1);
+    grid->addWidget(closeButton);
 
     setLayout(grid);
     setWindowTitle("Jeu Inhibition 3 - graphe");

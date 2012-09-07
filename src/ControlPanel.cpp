@@ -70,7 +70,7 @@ ControlPanel::ControlPanel()
 
     // table
     table = new QTableWidget();
-    connect(this, SIGNAL(resizeTableColumns()), table, SLOT(resizeColumnToContents()));
+    connect(this, SIGNAL(resizeTableColumns()), table, SLOT(resizeColumnsToContents()));
 
     grid->addWidget(table, 2, 0, 1, 7);
 

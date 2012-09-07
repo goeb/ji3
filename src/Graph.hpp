@@ -4,16 +4,30 @@
 #include <vector>
 #include <QtGui>
 
-class Graph : public QGraphicsView
+typedef struct {
+    std::vector<int> points;
+    int min;
+    int max;
+    std::string label;
+} Curve;
+
+
+class Graph : public QFrame
 {
+    Q_OBJECT
+
 public:
     Graph();
     ~Graph();
 
-    void addCurve(std::vector<int> points, int min, int max, const std::string & label);
+    void addCurve(const std::vector<int> &points, int min, int max, const std::string & label);
+
+protected:
+    void paintEvent(QPaintEvent *);
 
 private:
-    QGraphicsScene *scene;
+    std::vector<Curve> curves;
+    std::vector<QColor> colors;
 
 };
 
