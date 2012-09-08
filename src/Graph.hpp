@@ -4,13 +4,21 @@
 #include <vector>
 #include <QtGui>
 
+enum AxisSide { LEFT, RIGHT };
+typedef struct {
+    AxisSide side;
+    QStringList labels; // labels are equally distributed along the axis
+} Axis;
+
 typedef struct {
     std::vector<int> points;
     int min;
     int max;
     std::string label;
     bool reverse;
+    Axis axis;
 } Curve;
+
 
 
 class Graph : public QFrame
@@ -21,7 +29,8 @@ public:
     Graph();
     ~Graph();
 
-    void addCurve(const std::vector<int> &points, int min, int max, const std::string & label, bool reverse = false);
+    void addCurve(const std::vector<int> & points, int min, int max, const std::string & label, bool reverse, Axis axis);
+
 
 protected:
     void paintEvent(QPaintEvent *);

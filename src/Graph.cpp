@@ -24,7 +24,7 @@ Graph::~Graph()
 {
 }
 
-void Graph::addCurve(const std::vector<int> & points, int min, int max, const std::string & label, bool reverse)
+void Graph::addCurve(const std::vector<int> & points, int min, int max, const std::string & label, bool reverse, Axis axis)
 {
     Curve c;
     c.points = points;
@@ -44,6 +44,7 @@ void Graph::addCurve(const std::vector<int> & points, int min, int max, const st
     }
     c.label = label;
     c.reverse = reverse;
+    c.axis = axis;
     curves.push_back(c);
 
 }
@@ -56,8 +57,10 @@ void Graph::paintEvent(QPaintEvent *e)
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing, true);
 
 
-    int xMargin = 30;
-    int yMargin = 30;
+    int xMarginLeft = 90;
+    int xMarginRight = 80;
+    int yMarginTop = 30;
+    int yMarginBottom = 60;
 
     // draw the curves
     std::vector<Curve>::iterator c;
@@ -70,17 +73,17 @@ void Graph::paintEvent(QPaintEvent *e)
         // scaling
         int w = width();
         int h = height();
-        float xScale = (float)(w - 2 * xMargin) / c->points.size();
-        float yScale = (float)(h - 3 * yMargin) / (c->max - c->min);
+        float xScale = (float)(w - (xMarginLeft+xMarginRight)) / c->points.size();
+        float yScale = (float)(h - (yMarginTop + yMarginBottom)) / (c->max - c->min);
 
         std::vector<int>::iterator point;
         int i = 0;
         QPoint p0;
         for (point = c->points.begin(); point != c->points.end(); point++) {
             QPoint p;
-            p.setX(i*xScale + xMargin);
-            if (c->reverse) p.setY((*point)*yScale + yMargin);
-            else p.setY(h - (*point)*yScale - 2*yMargin);
+            p.setX(i*xScale + xMarginLeft);
+            if (c->reverse) p.setY((*point)*yScale + yMarginTop);
+            else p.setY(h - (*point)*yScale - yMarginBottom);
             if (point == c->points.begin()) {
                 // nothing
             } else {
@@ -99,21 +102,55 @@ void Graph::paintEvent(QPaintEvent *e)
 
             // draw x index (1, 2, 3 ,...)
             painter.setPen(QPen(Qt::black));
-            int xIndex = i*xScale + xMargin;
+            int xIndex = i*xScale + xMarginLeft;
             QRect position(xIndex, h - 30, xIndex + 20, h);
             painter.drawText(position, QString("%1").arg(i+1));
 
 
             i++;
             p0 = p;
+
         }
-        //painter.drawLine(QLine(0, 0, w, 0));
 
         // write label
         QPoint pLabel(p0.x() + 8, p0.y());
         painter.drawText(pLabel, c->label.c_str());
         colorIndex = (colorIndex + 1) % colors.size();
+
+        // draw the axis in the margins
+
+        Axis a = c->axis;
+        QPoint p1, p2;
+        if (a.side == LEFT) {
+            p1 = QPoint(xMarginLeft - 15, h);
+            p2 = QPoint(xMarginLeft - 15, yMarginTop/2);
+        } else {
+            // RIGHT
+            p1 = QPoint(w-xMarginRight, h);
+            p2 = QPoint(w-xMarginRight, yMarginTop/2);
+        }
+        painter.setPen(QPen(C, 3));
+        QLine line(p1, p2);
+        qDebug() << "Axis=" << line;
+        painter.drawLine(line);
+        // labels are distributed equally along the axis, starting at the bottom
+        for (int i = 0; i < a.labels.size(); i++) {
+            int yPos;
+            if ((a.labels.size()-1) == 0) yPos = h;
+            else yPos = h - i*(h-yMarginTop)/(a.labels.size()-1);
+
+            int xPos;
+            if (a.side == LEFT) xPos = 5;
+            else xPos = p1.x() + 5; // RIGHT
+
+            QRect position(xPos, yPos-20, 100, 30);
+            painter.drawText(position, a.labels.at(i));
+            qDebug() << "label position[" << a.labels.at(i) << "]: " << position;
+        }
     }
+
+
+
 }
 
 
