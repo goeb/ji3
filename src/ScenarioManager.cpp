@@ -11,9 +11,9 @@
 
 
 #define SEPARATOR ';';
+#define SCENARIO_DESCRIPTOR_SUFFIX ".conf"
 
-
-Scenario::Scenario(const string &_path, int _periodMs, int _numberOfItems, int _ratioOfExceptions, bool _modeInhibition)
+Scenario::Scenario(const string &_path, int _periodMs, int _numberOfItems, int _ratioOfExceptions, bool _modeInhibition, bool sound)
 {
     path = _path;
     periodMs = _periodMs;
@@ -29,7 +29,7 @@ Scenario::Scenario(const string &_path, int _periodMs, int _numberOfItems, int _
     cumulatedClickTime = 0;
     numberOfClick = 0;
 
-    withSound = true; // TODO manage this option
+    withSound = sound;
 }
 
 Scenario::Scenario()
@@ -162,6 +162,29 @@ bool Scenario::load()
     return true;
 }
 
+QStringList Scenario::retrieveScenarios()
+{
+    QDir cwd(".");
+    QStringList dirs = cwd.entryList(QDir::AllDirs|QDir::NoDotAndDotDot);
+    // for each of these dir, look for *.conf (in other words: */*.conf)
+
+    QStringList scenarioFiles;
+    for (int i = 0; i < dirs.size(); i++) {
+        QDir dir(dirs.at(i));
+        QString filter = "*";
+        filter += SCENARIO_DESCRIPTOR_SUFFIX;
+        QStringList filters;
+        filters << filter;
+        QStringList confFiles = dir.entryList(filters);
+        for (int j = 0; j < confFiles.size(); j++) {
+            QString withPath = dirs.at(i) + "/" + confFiles.at(j);
+            scenarioFiles += withPath;
+        }
+
+    }
+    qDebug() << scenarioFiles;
+    return scenarioFiles;
+}
 
 vector<string> Scenario::createFixedSizeList(vector<string> & inputList, int n)
 {
@@ -382,6 +405,7 @@ bool Scenario::isSame(const Scenario & other) const
     if (getNumberOfItems() != other.getNumberOfItems()) return false;
     if (getMode() != other.getMode()) return false;
     if (getRatioOfExceptions() != other.getRatioOfExceptions()) return false;
+    if (getWithSound() != other.getWithSound()) return false;
     return true;
 }
 

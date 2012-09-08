@@ -83,6 +83,7 @@ int main(int argc, char **argv)
     QString player = "";
     bool playGame = false;
     bool showGraph = false;
+    bool withSound = true;
     while (1) {
         if (commandLine) {
             // command line mode:
@@ -126,10 +127,11 @@ int main(int argc, char **argv)
                 modeInhibition = c->getType();
                 scenario = c->getScenario();
                 player = c->getPlayer();
+                withSound = c->getSound();
             }
         }
 
-        Scenario s(scenario.toLocal8Bit().constData(), period*1000, numberOfItems, ratioOfExceptions, modeInhibition);
+        Scenario s(scenario.toLocal8Bit().constData(), period*1000, numberOfItems, ratioOfExceptions, modeInhibition, withSound);
         QString filename = User::getUserfile(player);
 
         if (playGame) {

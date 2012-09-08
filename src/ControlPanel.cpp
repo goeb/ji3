@@ -43,13 +43,10 @@ ControlPanel::ControlPanel()
     scenarioLabel = new QLabel(tr("Thème : "));
     scenario = new QComboBox;
     scenario->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    scenario->addItem("Animaux/rampants.conf"); // TODO
-    scenario->addItem("Animaux/sauf_chevre.conf");
-    scenario->addItem("Animaux-8/sauf_araignee.conf");
-    scenario->addItem("Animaux/volants.conf");
-    scenario->addItem("Couleurs/rouge.conf");
-    scenario->addItem("Instruments");
-    scenario->addItem("Maison/cuisine");
+    QStringList scenarioFiles = Scenario::retrieveScenarios();
+    for (int i = 0; i < scenarioFiles.size(); i++) {
+        scenario->addItem(scenarioFiles.at(i));
+    }
     scenario->addItem("Test Normal");
     goButton = createButton(tr("Commencer"), SLOT(start()));
     //goButton->setDefault(true);
@@ -218,6 +215,8 @@ void ControlPanel::updateDefaultValues(Scenario s)
     }
 
     // sound TODO
+    if (s.getWithSound()) soundOn->setChecked(true);
+    else soundOff->setChecked(true);
 
     // mode inhibition/attention
     if (s.getMode() == MODE_INHIBITION) modeInhibition->setChecked(true);
@@ -248,6 +247,7 @@ void ControlPanel::updateDefaultValues(Scenario s)
     int n = s.getNumberOfItems();
     if (n == 150) n150->setChecked(true);
     else if (n == 100) n100->setChecked(true);
+    else if (n == 10) n10->setChecked(true);
     else n75->setChecked(true);
 
 }
@@ -358,6 +358,7 @@ QGroupBox *ControlPanel::createSpeedGroup()
 QGroupBox *ControlPanel::createNumberGroup()
 {
     QGroupBox *groupBox = new QGroupBox(tr("Longueur"));
+    n10 = new QRadioButton(tr("Très court (10 items)"));
     n75 = new QRadioButton(tr("Court (75 items)"));
     n100 = new QRadioButton(tr("Long (100 items)"));
     n150 = new QRadioButton(tr("Tres long (150 items)"));
@@ -365,6 +366,7 @@ QGroupBox *ControlPanel::createNumberGroup()
     n75->setChecked(true);
 
     QVBoxLayout *vbox = new QVBoxLayout;
+    vbox->addWidget(n10);
     vbox->addWidget(n75);
     vbox->addWidget(n100);
     vbox->addWidget(n150);
@@ -382,6 +384,7 @@ QGroupBox *ControlPanel::createTypeGroup()
     modeInhibition = new QRadioButton(tr("Inhibition"));
     modeAttention = new QRadioButton(tr("Attention"));
     modeDividedAttention = new QRadioButton(tr("Attention divisée"));
+    modeDividedAttention->setEnabled(0);
 
     modeInhibition->setChecked(true);
 

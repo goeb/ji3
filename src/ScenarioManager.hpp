@@ -19,7 +19,7 @@ typedef enum {
 class Scenario
 {
     public :
-        Scenario(const string & path, int periodMs, int numberOfItems, int numberOfExceptions, bool modeInhibition);
+        Scenario(const string & path, int periodMs, int numberOfItems, int numberOfExceptions, bool modeInhibition, bool sound);
         Scenario();
         void generateItemList(); // create a random sequence of items
         bool load();
@@ -49,6 +49,8 @@ class Scenario
         inline int getCorrectRegularItems() const { return correctRegularItems; }
         inline int getCorrectExceptions() const { return correctExceptions; }
         inline std::string getDescription() { return description; }
+        static QStringList retrieveScenarios();
+
 
 
     private :

@@ -66,7 +66,7 @@ void Viewer::timerEvent(QTimerEvent *event)
     cout << "timerEvent\n";
     killTimer(pendingTimer);
     bool ok = scenario.evaluateUserClick(currentFile, false);
-    if (!ok) {
+    if (!ok && scenario.getWithSound()) {
         SoundManager::playSound(dingFile, DING_CHANNEL);
         usleep(300000); // TODO get actual length of the sound
     }
@@ -95,34 +95,37 @@ void Viewer::keyReleaseEvent(QKeyEvent *e)
 }
 void Viewer::mousePressEvent(QMouseEvent *event)
 {
-    cout << "mouseReleaseEvent\n";
+    cout << "mousePressEvent";
     processUserClick();
 }
 
 
 void Viewer::processUserClick() {
+    LOG_DEBUG("processUserClick, state=" << state);
     if (state == STARTING) {
         descriptionLabel->hide();
         //delete descriptionLabel;
         pendingTimer = startTimer(periodMs);
         setCentralWidget(imageLabel);
-
+        state = CLICKING;
         next();
     } else if (state == RUNNING) {
+        state = CLICKING;
+
         qint64 clickTime = clickSpeedTimer.elapsed();
         LOG_DEBUG("clickTime=" << clickTime);
         scenario.addClickTime(clickTime);
 
         killTimer(pendingTimer);
         bool ok = scenario.evaluateUserClick(currentFile, true);
-        if (!ok) {
+        if (!ok && scenario.getWithSound()) {
             SoundManager::playSound(dingFile, DING_CHANNEL);
             usleep(300000);
         }
         pendingTimer = startTimer(periodMs);
         next(); // goto next image
     } else {
-        // probably ENDING.
+        // probably ENDING or CLICKING.
         // do nothing
     }
 }
@@ -159,7 +162,7 @@ void Viewer::next() {
     // get sound from image file
     std::string soundFile = currentFile.substr(0, currentFile.size()-4); // remove ".png"
     soundFile += ".wav";
-    SoundManager::playSound(soundFile, ITEM_CHANNEL);
+    if (scenario.getWithSound()) SoundManager::playSound(soundFile, ITEM_CHANNEL);
 
     imageLabel->setImage(currentFile.c_str());
 

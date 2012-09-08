@@ -9,6 +9,7 @@
 enum State {
     STARTING,
     RUNNING,
+    CLICKING,
     ENDING
 };
 

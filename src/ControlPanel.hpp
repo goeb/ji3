@@ -18,7 +18,8 @@ public:
     inline QString getScenario() { return scenario->currentText(); }
     inline bool getSound() { return soundOn->isChecked()?true:false; }
     inline int getType() { return modeInhibition->isChecked()?true:false;} // TODO manage 3rd mode
-    inline int getNumber() { return n75->isChecked()?10:(n100->isChecked()?100:150); } // TODO 10->75
+    inline int getNumber() { return n10->isChecked()?10:
+                                        (n75->isChecked()?75:n100->isChecked()?100:150); } // TODO 10->75
     inline int getPeriod() { return speed10->isChecked()?1000:
                                           (speed15->isChecked()?1500:
                                               (speed20->isChecked()?2000:
@@ -60,6 +61,7 @@ private:
     QRadioButton *modeInhibition;
     QRadioButton *modeAttention;
     QRadioButton *modeDividedAttention;
+    QRadioButton *n10;
     QRadioButton *n75;
     QRadioButton *n100;
     QRadioButton *n150;
