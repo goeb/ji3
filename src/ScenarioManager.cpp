@@ -95,7 +95,7 @@ bool Scenario::load()
     if (!r) return false;
 
     int lineNum = 0;
-    std::string encoding = "UTF-8"; // default value
+    encoding = "UTF-8"; // default value
     std::string exceptionsPattern = "";
     std::string itemsPattern = "";
 
@@ -120,7 +120,7 @@ bool Scenario::load()
             L = L.substr(commentMarker);
         }
 
-        vector<string> tokens = Util::split(":", L);
+        vector<string> tokens = Util::split(":", L, 1);
         if (tokens.size() > 1) {
             string left = tokens[0];
             Util::trim(left);
@@ -138,7 +138,6 @@ bool Scenario::load()
 
             } else if (0 == left.compare("encoding")) {
                 encoding = right;
-
             }
         } // else go to next line
     }

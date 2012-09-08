@@ -139,7 +139,9 @@ int main(int argc, char **argv)
             s.generateItemList();
 
             Viewer imageViewer(s);
-            imageViewer.showFullScreen();
+            //imageViewer.showFullScreen();
+            imageViewer.show();
+            imageViewer.resize(800,600);
             bool r = app.exec();
 
             if (commandLine) exit(0);

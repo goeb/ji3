@@ -6,6 +6,12 @@
 #include <QtGui>
 #include "ScenarioManager.hpp"
 
+enum State {
+    STARTING,
+    RUNNING,
+    ENDING
+};
+
 class Image : public QLabel
 {
 public:
@@ -42,11 +48,15 @@ private:
 
     void processUserClick();
     void next();
+    void start();
     void end();
 
     int periodMs; // milliseconds
     Scenario & scenario;
     QElapsedTimer clickSpeedTimer;
+    QLabel * descriptionLabel;
+
+    enum State state;
 
 };
 

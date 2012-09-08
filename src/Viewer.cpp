@@ -51,13 +51,12 @@ Viewer::Viewer(Scenario & s) : scenario(s)
     items = s.getItemSequence();
     periodMs = s.getPeriodMs();
     index = 0;
-    pendingTimer = startTimer(periodMs);
     imageLabel = new Image;
     imageLabel->setBackgroundRole(QPalette::Base);
     imageLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
     imageLabel->setAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
-    setCentralWidget(imageLabel);
-    next();
+
+    start();
 }
 
 
@@ -102,21 +101,56 @@ void Viewer::mousePressEvent(QMouseEvent *event)
 
 
 void Viewer::processUserClick() {
-    qint64 clickTime = clickSpeedTimer.elapsed();
-    LOG_DEBUG("clickTime=" << clickTime);
-    scenario.addClickTime(clickTime);
+    if (state == STARTING) {
+        descriptionLabel->hide();
+        //delete descriptionLabel;
+        pendingTimer = startTimer(periodMs);
+        setCentralWidget(imageLabel);
 
-    killTimer(pendingTimer);
-    bool ok = scenario.evaluateUserClick(currentFile, true);
-    if (!ok) {
-        SoundManager::playSound(dingFile, DING_CHANNEL);
-        usleep(300000);
+        next();
+    } else if (state == RUNNING) {
+        qint64 clickTime = clickSpeedTimer.elapsed();
+        LOG_DEBUG("clickTime=" << clickTime);
+        scenario.addClickTime(clickTime);
+
+        killTimer(pendingTimer);
+        bool ok = scenario.evaluateUserClick(currentFile, true);
+        if (!ok) {
+            SoundManager::playSound(dingFile, DING_CHANNEL);
+            usleep(300000);
+        }
+        pendingTimer = startTimer(periodMs);
+        next(); // goto next image
+    } else {
+        // probably ENDING.
+        // do nothing
     }
-    pendingTimer = startTimer(periodMs);
-    next(); // goto next image
 }
 
+void Viewer::start()
+{
+    // display instructions of scenario
+    state = STARTING;
+    QString d = QString::fromStdString(scenario.getDescription());
+    //scenario.getEncoding(); TODO ?
+    descriptionLabel = new QLabel(this);
+    descriptionLabel->setText(d);
+    descriptionLabel->setFrameStyle(QFrame::Box);
+    descriptionLabel->setWordWrap(true);
+    descriptionLabel->setMinimumSize(300, 300);
+    descriptionLabel->setAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
+
+    QFont f = descriptionLabel->font();
+    f.setPointSize(16);
+    descriptionLabel->setFont(f);
+
+    setCentralWidget(descriptionLabel);
+}
+
+
 void Viewer::next() {
+
+    state = RUNNING;
     // goto next image
     currentFile = getNextImage();
     if (currentFile == "") end();

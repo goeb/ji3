@@ -48,6 +48,7 @@ class Scenario
         inline std::string getDatetime() const { return datetime; }
         inline int getCorrectRegularItems() const { return correctRegularItems; }
         inline int getCorrectExceptions() const { return correctExceptions; }
+        inline std::string getDescription() { return description; }
 
 
     private :
@@ -78,6 +79,7 @@ class Scenario
         int globalGrade;
         std::string datetime;
         bool isSame(const Scenario & other) const;
+        std::string encoding;
 
 };
 

@@ -52,7 +52,7 @@ ControlPanel::ControlPanel()
     scenario->addItem("Maison/cuisine");
     scenario->addItem("Test Normal");
     goButton = createButton(tr("Commencer"), SLOT(start()));
-
+    //goButton->setDefault(true);
     showGraphButton = createButton(tr("Courbe"), SLOT(showGraph()));
     quitButton = createButton(tr("Quitter"), SLOT(quit()));
 
