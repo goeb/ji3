@@ -3,6 +3,7 @@
 #include <QDateTime>
 #include <QTextStream>
 #include <QDebug>
+#include <QTextCodec>
 
 #include "ScenarioManager.hpp"
 #include "Util.hpp"
@@ -35,13 +36,21 @@ Scenario::Scenario()
 {
 }
 
-bool Scenario::parseItems(const std::string & line, std::set<std::string> & items)
+bool Scenario::parseItems(const std::string & line, std::set<std::string> & items, const std::string & encoding)
 {
     // parse a line to get a list of files.
     // Ex:
     // *.png => [ a.png, b.png ]        // use global
     // a.png b.png => [ a.png, b.png ]  // simple case
     // "a b.png" => [ 'a b.png' ]       // manage white spaces when between double quotes
+
+    LOG_DEBUG("parseItems(encoding=" << encoding << ")");
+    // handle encoding of file names.
+    QTextCodec *saveCodecCStrings = QTextCodec::codecForCStrings();
+    QTextCodec::setCodecForCStrings(QTextCodec::codecForName(encoding.c_str()));
+    QTextCodec *saveCodecLocale = QTextCodec::codecForLocale();
+    QTextCodec::setCodecForLocale(QTextCodec::codecForName(encoding.c_str()));
+
 
     std::vector<std::string> result;
 
@@ -67,8 +76,12 @@ bool Scenario::parseItems(const std::string & line, std::set<std::string> & item
     // and add directory in path
 
     for (int i = 0; i < files.size(); ++i) {
+        LOG_DEBUG("toAscii=" << files.at(i).toLocal8Bit().constData());
         items.insert(dir + '/' + files.at(i).toLocal8Bit().constData());
     }
+
+    QTextCodec::setCodecForCStrings(saveCodecCStrings);
+    QTextCodec::setCodecForCStrings(saveCodecLocale);
 
     return true;
 }
@@ -82,7 +95,10 @@ bool Scenario::load()
     if (!r) return false;
 
     int lineNum = 0;
-    
+    std::string encoding = "UTF-8"; // default value
+    std::string exceptionsPattern = "";
+    std::string itemsPattern = "";
+
     // parse the file
     vector<string> lines = Util::split("\n", fileContents);
     vector<string>::iterator line;
@@ -112,27 +128,36 @@ bool Scenario::load()
             Util::trim(right);
             
             if (0 == left.compare("items")) {
-                // parse items
-                bool r  = parseItems(right, listOfAllItems);
-                if (!r) {
-                    LOG_ERROR("Erreur de syntaxe. Fichier: " << path << " Ligne: " << lineNum);
-                }
-                LOG_DEBUG("items: " << Util::vectorToString(listOfAllItems));
+                itemsPattern = right;
 
             } else if (0 == left.compare("exceptions")) {
-                bool r  = parseItems(right, listOfExceptions);
-                if (!r) {
-                    LOG_ERROR("Erreur de syntaxe. Fichier: " << path << " Ligne: " << lineNum);
-                }
-                LOG_DEBUG("exceptions: " << Util::vectorToString(listOfExceptions));
+                exceptionsPattern = right;
 
             } else if (0 == left.compare("description")) {
                 description = right;
+
             } else if (0 == left.compare("encoding")) {
-                //encoding = right;
+                encoding = right;
+
             }
         } // else go to next line
     }
+
+    // resolve items
+    r  = parseItems(itemsPattern, listOfAllItems, encoding);
+    if (!r) {
+        LOG_ERROR("Erreur de syntaxe sur 'items'. Fichier: " << path << "  " << lineNum);
+    }
+    LOG_DEBUG("items: " << Util::vectorToString(listOfAllItems));
+
+    // resolve exceptions
+    r  = parseItems(exceptionsPattern, listOfExceptions, encoding);
+    if (!r) {
+        LOG_ERROR("Erreur de syntaxe. Fichier: " << path << " Ligne: " << lineNum);
+    }
+    LOG_DEBUG("exceptions: " << Util::vectorToString(listOfExceptions));
+
+
     // TODO check some things: listOfItemsToBeIgnored ! =0, etc
     
     return true;

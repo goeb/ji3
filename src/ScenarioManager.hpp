@@ -51,7 +51,7 @@ class Scenario
 
 
     private :
-        bool parseItems(const std::string & line, std::set<std::string> &items);
+        bool parseItems(const std::string & line, std::set<std::string> &items, const string &encoding);
         set<string> listOfAllItems; // including exceptions
         set<string> listOfExceptions;
         string path;

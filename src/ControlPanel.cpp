@@ -44,6 +44,8 @@ ControlPanel::ControlPanel()
     scenario = new QComboBox;
     scenario->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     scenario->addItem("Animaux/rampants.conf"); // TODO
+    scenario->addItem("Animaux/sauf_chevre.conf");
+    scenario->addItem("Animaux-8/sauf_araignee.conf");
     scenario->addItem("Animaux/volants.conf");
     scenario->addItem("Couleurs/rouge.conf");
     scenario->addItem("Instruments");
@@ -119,16 +121,19 @@ void *ControlPanel::updateTable(const User * u)
 
         const char * dt = s->getDatetime().c_str();
         wItem = new QTableWidgetItem(dt);
+        wItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
         table->setItem(row, col, wItem);
         col ++;
 
         QString path(s->getPath().c_str());
         wItem = new QTableWidgetItem(path);
+        wItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
         table->setItem(row, col, wItem);
         col ++;
 
         QString sound = QString("%1").arg(s->getWithSound());
         wItem = new QTableWidgetItem(sound);
+        wItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
         table->setItem(row, col, wItem);
         col ++;
 
@@ -136,6 +141,7 @@ void *ControlPanel::updateTable(const User * u)
         if (s->getMode() == MODE_INHIBITION) mode = tr("inhibition");
         else mode = tr("attention");
         wItem = new QTableWidgetItem(mode);
+        wItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
         table->setItem(row, col, wItem);
         col ++; //skip sound info;
 
@@ -143,6 +149,7 @@ void *ControlPanel::updateTable(const User * u)
         // % exception
         QString ex = QString("%1").arg(s->getRatioOfExceptions());
         wItem = new QTableWidgetItem(ex);
+        wItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
         table->setItem(row, col, wItem);
         col ++;
 
@@ -150,23 +157,27 @@ void *ControlPanel::updateTable(const User * u)
         double speed = s->getPeriodMs()/1000;
         QString sp = QString("%1").arg(speed, 0, 'f', 1);
         wItem = new QTableWidgetItem(sp);
+        wItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
         table->setItem(row, col, wItem);
         col ++;
 
         // length
         QString n = QString("%1").arg(s->getNumberOfItems());
         wItem = new QTableWidgetItem(n);
+        wItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
         table->setItem(row, col, wItem);
         col ++;
 
 
         QString avcs = QString("%1").arg(s->getAverageClickSpeed());
         wItem = new QTableWidgetItem(avcs);
+        wItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
         table->setItem(row, col, wItem);
         col ++;
 
         QString gg = QString("%1").arg(s->getGlobalGrade());
         wItem = new QTableWidgetItem(gg);
+        wItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
         table->setItem(row, col, wItem);
         col ++;
 
@@ -174,6 +185,7 @@ void *ControlPanel::updateTable(const User * u)
         is += "/";
         is += QString("%1").arg(s->getNumberOfItems()-s->getNumberOfExceptions());
         wItem = new QTableWidgetItem(is);
+        wItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
         table->setItem(row, col, wItem);
         col ++;
 
@@ -181,6 +193,7 @@ void *ControlPanel::updateTable(const User * u)
         ip += "/";
         ip += QString("%1").arg(s->getNumberOfExceptions());
         wItem = new QTableWidgetItem(ip);
+        wItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
         table->setItem(row, col, wItem);
         col ++;
 

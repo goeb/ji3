@@ -9,6 +9,7 @@ typedef struct {
     int min;
     int max;
     std::string label;
+    bool reverse;
 } Curve;
 
 
@@ -20,7 +21,7 @@ public:
     Graph();
     ~Graph();
 
-    void addCurve(const std::vector<int> &points, int min, int max, const std::string & label);
+    void addCurve(const std::vector<int> &points, int min, int max, const std::string & label, bool reverse = false);
 
 protected:
     void paintEvent(QPaintEvent *);
