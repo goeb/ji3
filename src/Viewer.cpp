@@ -19,7 +19,8 @@ std::string Viewer::getNextImage()
 }
 
 
-void Image::setImage(const char * filepath) {
+void Image::setImage(const char * filepath)
+{
     LOG_DEBUG("setImage: " << filepath);
     QString fileName = filepath;
     QImage image(fileName);
@@ -30,7 +31,8 @@ void Image::setImage(const char * filepath) {
 }
 
 
-void Image::resizeEvent ( QResizeEvent * event ) {
+void Image::resizeEvent ( QResizeEvent * event )
+{
     fitImageToLabel();
 }
 void Image::fitImageToLabel() {
@@ -44,7 +46,8 @@ void Image::fitImageToLabel() {
 }
 
 
-Viewer::Viewer(Scenario & s) : scenario(s) {
+Viewer::Viewer(Scenario & s) : scenario(s)
+{
     items = s.getItemSequence();
     periodMs = s.getPeriodMs();
     index = 0;
@@ -59,7 +62,8 @@ Viewer::Viewer(Scenario & s) : scenario(s) {
 
 
 
-void Viewer::timerEvent(QTimerEvent *event) {
+void Viewer::timerEvent(QTimerEvent *event)
+{
     cout << "timerEvent\n";
     killTimer(pendingTimer);
     bool ok = scenario.evaluateUserClick(currentFile, false);
@@ -70,11 +74,10 @@ void Viewer::timerEvent(QTimerEvent *event) {
     pendingTimer = startTimer(periodMs);
     next(); // goto next image
 }
-void Viewer::keyPressEvent(QKeyEvent *e) {
+
+void Viewer::keyPressEvent(QKeyEvent *e)
+{
     cout << "keyPressEvent: " << e->key() <<  "\n";
-}
-void Viewer::keyReleaseEvent(QKeyEvent *e) {
-    cout << "keyReleaseEvent: " << e->key() <<  "\n";
     const char c = e->key();
     if ( c == 'q' || c == 'Q') QCoreApplication::exit(1);
     else if (c == ' ') {
@@ -84,8 +87,15 @@ void Viewer::keyReleaseEvent(QKeyEvent *e) {
         if (isFullScreen()) showNormal();
         else showFullScreen();
     }
+
 }
-void Viewer::mouseReleaseEvent(QMouseEvent *event) {
+
+void Viewer::keyReleaseEvent(QKeyEvent *e)
+{
+    cout << "keyReleaseEvent: " << e->key() <<  "\n";
+}
+void Viewer::mousePressEvent(QMouseEvent *event)
+{
     cout << "mouseReleaseEvent\n";
     processUserClick();
 }

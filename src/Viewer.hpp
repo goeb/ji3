@@ -29,7 +29,7 @@ protected:
     void timerEvent(QTimerEvent *event);
     void keyPressEvent(QKeyEvent *e);
     void keyReleaseEvent(QKeyEvent *e);
-    void mouseReleaseEvent(QMouseEvent *event);
+    void mousePressEvent(QMouseEvent *event);
 
 private:
     std::string getNextImage();
