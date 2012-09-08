@@ -21,10 +21,10 @@ Un thème est constitué de :
 
 
 Fichier .ji3c:
-> description: Images d'animaux. Exceptions : animaux qui rampent.
-> items: *.png feuilledechene2.jpeg
-> exceptions: Escargot.png feuilledechene2.jpeg
-> encoding: latin1 # or utf-8
+    description: Images d'animaux. Exceptions : animaux qui rampent.
+    items: *.png feuilledechene2.jpeg
+    exceptions: Escargot.png feuilledechene2.jpeg
+    encoding: latin1 # or utf-8
 
-Les valeurs pour encoding sont celles supportées par QT (http://doc.qt.nokia.com/4.7-snapshot/qtextcodec.html)
+Les valeurs pour 'encoding' sont celles supportées par QT (http://doc.qt.nokia.com/4.7-snapshot/qtextcodec.html)
 
