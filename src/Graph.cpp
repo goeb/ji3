@@ -11,7 +11,7 @@ Graph::Graph()
     //show();
     setFrameStyle(QFrame::Box | QFrame::Raised);
     setLineWidth(2);
-    qDebug() << "Graph: size=" << size() << ", updatesEnabled=" << updatesEnabled ();
+    //qDebug() << "Graph: size=" << size() << ", updatesEnabled=" << updatesEnabled ();
     //update();
 
     // prepare available colors
@@ -52,7 +52,7 @@ void Graph::addCurve(const std::vector<int> & points, int min, int max, const st
 
 void Graph::paintEvent(QPaintEvent *e)
 {
-    qDebug() << "Graph::paintEvent, size=" << size();
+    //qDebug() << "Graph::paintEvent, size=" << size();
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing, true);
 
@@ -89,7 +89,7 @@ void Graph::paintEvent(QPaintEvent *e)
             } else {
                 painter.setPen(QPen(C, 5));
                 QLine line(p0, p);
-                qDebug() << "Line=" << line;
+                //qDebug() << "Line=" << line;
                 painter.drawLine(line);
             }
 
@@ -131,7 +131,7 @@ void Graph::paintEvent(QPaintEvent *e)
         }
         painter.setPen(QPen(C, 3));
         QLine line(p1, p2);
-        qDebug() << "Axis=" << line;
+        //qDebug() << "Axis=" << line;
         painter.drawLine(line);
         // labels are distributed equally along the axis, starting at the bottom
         for (int i = 0; i < a.labels.size(); i++) {
@@ -145,7 +145,7 @@ void Graph::paintEvent(QPaintEvent *e)
 
             QRect position(xPos, yPos-20, 100, 30);
             painter.drawText(position, a.labels.at(i));
-            qDebug() << "label position[" << a.labels.at(i) << "]: " << position;
+            //qDebug() << "label position[" << a.labels.at(i) << "]: " << position;
         }
     }
 
