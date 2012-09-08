@@ -29,3 +29,21 @@ Fichier .ji3c:
 
 Les valeurs pour 'encoding' sont celles supportées par QT (http://doc.qt.nokia.com/4.7-snapshot/qtextcodec.html)
 
+
+Calcul des scores :
+-------------------
+
+Vitesse moyenne de click : temps moyen entre l'apparition de l'item et le click (en millisecondes). Si le joueur ne clique pas, ce n'est pas compté.
+
+Note globale :
+    nombre d'items standards sans faute
+    + 3 x nombre d'exceptions sans faute 
+    - nombre d'items standards avec faute
+    - 3 x nombre d'exceptions avec faute
+    x 100 / note maximale
+
+Le note maximale étant :
+    nombre d'items standards sans faute
+    + 3 x nombre d'exceptions sans faute
+
+(un item étant soit standard, soit exception)
