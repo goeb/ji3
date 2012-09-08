@@ -21,6 +21,7 @@ Un thème est constitué de :
 
 
 Fichier .ji3c:
+
     description: Images d'animaux. Exceptions : animaux qui rampent.
     items: *.png feuilledechene2.jpeg
     exceptions: Escargot.png feuilledechene2.jpeg
