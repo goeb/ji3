@@ -100,6 +100,7 @@ bool Scenario::load()
     std::string itemsPattern = "";
     std::string textItems = "";
     std::string textExceptions = "";
+    description = "Description manquante";
 
     // parse the file
     vector<string> lines = Util::split("\n", fileContents);
@@ -141,8 +142,11 @@ bool Scenario::load()
             } else if (0 == left.compare("text-exceptions")) {
                 textExceptions = right;
 
-            } else if (0 == left.compare("description")) {
-                description = right;
+            } else if (0 == left.compare("description-inhibition")) {
+                if (modeInhibition == MODE_INHIBITION) description = right;
+
+            } else if (0 == left.compare("description-attention")) {
+                if (modeInhibition == MODE_ATTENTION) description = right;
 
             } else if (0 == left.compare("encoding")) {
                 encoding = right;

@@ -23,6 +23,7 @@ void usage()
                  "-i              Inhibition mode (player MUST NOT click on exceptions).\n"
                  "-a              Attention mode (player MUST click on exceptions).\n"
                  "                -i and -a are exclusive.\n"
+                 "--codec codec   Specify codec (UTF-8, latin1, etc.)\n"
                  "\n";
     exit(1);
 
@@ -38,9 +39,6 @@ int main(int argc, char **argv)
     LOG_INFO("Starting...");
     QApplication app(argc, argv);
     QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
-    QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8")); // latin1
-//    QTextCodec::setCodecForLocale(QTextCodec::codecForName("ISO 8859-1"));
-    QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
 
     QString scenario;
 
@@ -50,11 +48,12 @@ int main(int argc, char **argv)
     int ratioOfExceptions = 10; // percent
     bool modeInhibition = true;
     bool commandLine = false;
-
+    const char * codec = 0;
 
     QStringList args = QCoreApplication::arguments();
     int n = args.size();
     int i = 1;
+
     while (i<n) {
         QString arg = args.at(i);
         //LOG_DEBUG("arg=" << arg.toLocal8Bit().constData());
@@ -64,6 +63,9 @@ int main(int argc, char **argv)
         } else if (arg == "-n") {
             i++; if (i >= n) usage();
             numberOfItems = args.at(i).toInt();
+        } else if (arg == "--codec") {
+            i++; if (i >= n) usage();
+            codec = args.at(i).toAscii().constData();
         } else if (arg == "-x") {
             i++; if (i >= n) usage();
             ratioOfExceptions = args.at(i).toInt();
@@ -77,6 +79,11 @@ int main(int argc, char **argv)
             commandLine = true;
         }
         i++;
+    }
+
+    if (codec) {
+        QTextCodec::setCodecForCStrings(QTextCodec::codecForName(codec));
+        QTextCodec::setCodecForLocale(QTextCodec::codecForName(codec));
     }
 
     ControlPanel *c = 0;

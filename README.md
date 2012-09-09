@@ -22,7 +22,8 @@ Un thème est constitué de :
 
 Fichier .ji3c:
 
-    description: Images d'animaux. Exceptions : animaux qui rampent.
+    description-inhibition: Cliquer sur tous, sauf les animaux qui volent.
+    description-attention: Cliquer sur les animaux qui volent.
     items: *.png feuilledechene2.jpeg
     exceptions: Escargot.png feuilledechene2.jpeg
     encoding: latin1 # or utf-8
@@ -30,8 +31,8 @@ Fichier .ji3c:
 Les valeurs pour 'encoding' sont celles supportées par QT (http://doc.qt.nokia.com/4.7-snapshot/qtextcodec.html)
 
 
-Calcul des scores :
--------------------
+Calcul des scores
+-----------------
 
 Vitesse moyenne de click : temps moyen entre l'apparition de l'item et le click (en millisecondes). Si le joueur ne clique pas, ce n'est pas compté.
 
@@ -47,3 +48,29 @@ Le note maximale étant :
     + 3 x nombre d'exceptions sans faute
 
 (un item étant soit standard, soit exception)
+
+Problème d'encodage des caractères (noms de fichiers)
+-----------------------------------------------------
+
+Il est possible de passer l'option --codec à ji3.exe :
+
+    linux/ji3 --codec UTF-8
+    linux/ji3 --codec latin1
+
+
+Structure des fichiers .ji3u
+----------------------------
+Chaque ligne correspond à un résultat de jeu. Les champs sont séparés par des ;
+
+date (ex: 2012-12-31 19:23:59)
+theme (ex: Animaux/volants)
+note globale (de 0 à 100)
+vitesse de click (en millisecondes)
+nombre de clicks corrects sur exceptions
+nombre de clicks corrects sur items standards
+avec/sans son
+mode inhibition/attention/attention divisée
+nombre d'exceptions
+nombre d'items total
+periode
+

@@ -74,7 +74,7 @@ void Logger::updateOutput()
 
     
     // in all cases, write the log to a file
-    string filePath = TheLogger->directory + "/jeu_inhibition.log";
+    string filePath = TheLogger->directory + "/Data/jeu_inhibition.log";
     ofstream file(filePath.c_str(), ofstream::app | ifstream::binary);
     
     if (!file.fail())
