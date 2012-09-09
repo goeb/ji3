@@ -36,7 +36,7 @@ Scenario::Scenario()
 {
 }
 
-bool Scenario::parseItems(const std::string & line, std::set<std::string> & items, const std::string & encoding)
+bool Scenario::parseFileItems(const std::string & line, std::set<std::string> & items, const std::string & encoding)
 {
     // parse a line to get a list of files.
     // Ex:
@@ -98,6 +98,8 @@ bool Scenario::load()
     encoding = "UTF-8"; // default value
     std::string exceptionsPattern = "";
     std::string itemsPattern = "";
+    std::string textItems = "";
+    std::string textExceptions = "";
 
     // parse the file
     vector<string> lines = Util::split("\n", fileContents);
@@ -133,6 +135,12 @@ bool Scenario::load()
             } else if (0 == left.compare("exceptions")) {
                 exceptionsPattern = right;
 
+            } else if (0 == left.compare("text-items")) {
+                textItems = right;
+
+            } else if (0 == left.compare("text-exceptions")) {
+                textExceptions = right;
+
             } else if (0 == left.compare("description")) {
                 description = right;
 
@@ -143,17 +151,40 @@ bool Scenario::load()
     }
 
     // resolve items
-    r  = parseItems(itemsPattern, listOfAllItems, encoding);
-    if (!r) {
-        LOG_ERROR("Erreur de syntaxe sur 'items'. Fichier: " << path << "  " << lineNum);
+    if (itemsPattern.size() > 0) {
+        r  = parseFileItems(itemsPattern, listOfAllItems, encoding);
+        if (!r) {
+            LOG_ERROR("Erreur de syntaxe sur 'items'. Fichier: " << path << "  " << lineNum);
+        }
+    }
+    if (textItems.size() > 0) {
+        // first, resolve ""
+        std::vector<std::string> tokens;
+        bool r = Util::splitQuotes(textItems, tokens);
+        if (!r) {
+            LOG_ERROR("Cannot resolve quotes in: " << textItems);
+        }
+        listOfAllItems.insert(tokens.begin(), tokens.end());
     }
     LOG_DEBUG("items: " << Util::vectorToString(listOfAllItems));
 
     // resolve exceptions
-    r  = parseItems(exceptionsPattern, listOfExceptions, encoding);
-    if (!r) {
-        LOG_ERROR("Erreur de syntaxe. Fichier: " << path << " Ligne: " << lineNum);
+    if (exceptionsPattern.size() > 0) {
+        r  = parseFileItems(exceptionsPattern, listOfExceptions, encoding);
+        if (!r) {
+            LOG_ERROR("Erreur de syntaxe. Fichier: " << path << " Ligne: " << lineNum);
+        }
     }
+    if (textExceptions.size() > 0) {
+        // first, resolve ""
+        std::vector<std::string> tokens;
+        bool r = Util::splitQuotes(textExceptions, tokens);
+        if (!r) {
+            LOG_ERROR("Cannot resolve quotes in: " << textExceptions);
+        }
+        listOfExceptions.insert(tokens.begin(), tokens.end());
+    }
+
     LOG_DEBUG("exceptions: " << Util::vectorToString(listOfExceptions));
 
 

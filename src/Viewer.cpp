@@ -23,11 +23,17 @@ void Image::setImage(const char * filepath)
 {
     LOG_DEBUG("setImage: " << filepath);
     QString fileName = filepath;
-    QImage image(fileName);
-    QPixmap p = QPixmap::fromImage(image);
-    setPixmap(p);
-    currentImage = image;
-    fitImageToLabel();
+    currentImage = QImage(fileName);
+    if (currentImage.isNull()) {
+        // display text
+        fitTextToLabel(filepath);
+    } else {
+        fitImageToLabel();
+    }
+}
+void Image::fitTextToLabel(const QString & textItem) {
+    setText(textItem);
+    resize(800, 600);
 }
 
 
@@ -159,7 +165,7 @@ void Viewer::next() {
     if (currentFile == "") end();
     LOG_INFO("next image: " << currentFile);
 
-    // get sound from image file
+    // get sound from image file // TODO improve search of sound
     std::string soundFile = currentFile.substr(0, currentFile.size()-4); // remove ".png"
     soundFile += ".wav";
     if (scenario.getWithSound()) SoundManager::playSound(soundFile, ITEM_CHANNEL);

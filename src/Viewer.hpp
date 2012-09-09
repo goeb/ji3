@@ -24,6 +24,8 @@ protected:
 private:
     QImage currentImage;
     void fitImageToLabel();
+    void fitTextToLabel(const QString & textItem);
+
 };
 
 class Viewer : public QMainWindow
