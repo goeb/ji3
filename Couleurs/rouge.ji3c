@@ -1,0 +1,5 @@
+description: Couleurs. Exceptions : le rouge.
+items: *.png
+exceptions: rouge.png
+
+

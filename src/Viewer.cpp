@@ -33,6 +33,9 @@ void Image::setImage(const char * filepath)
 }
 void Image::fitTextToLabel(const QString & textItem) {
     setText(textItem);
+    QFont f = font();
+    f.setPointSize(50);
+    setFont(f);
     resize(800, 600);
 }
 

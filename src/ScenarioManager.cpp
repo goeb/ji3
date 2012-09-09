@@ -11,7 +11,7 @@
 
 
 #define SEPARATOR ';';
-#define SCENARIO_DESCRIPTOR_SUFFIX ".conf"
+#define SCENARIO_DESCRIPTOR_SUFFIX ".ji3c"
 
 Scenario::Scenario(const string &_path, int _periodMs, int _numberOfItems, int _ratioOfExceptions, bool _modeInhibition, bool sound)
 {

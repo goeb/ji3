@@ -146,6 +146,8 @@ int main(int argc, char **argv)
             imageViewer.resize(800,600);
             bool r = app.exec();
 
+            LOG_DEBUG("Return from Viewer: r=" << r);
+
             if (commandLine) exit(0);
 
             if (r == 0) { // nominal case
