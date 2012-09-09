@@ -21,4 +21,5 @@ pkg-src:
 	zip -r $(SRC_PKG_DIR).zip $(SRC_PKG_DIR)
 
 pkg-other:
-	zip -r ji3-other.zip Instruments Animaux
+	zip -r ji3-Instruments.zip Instruments
+	zip -r ji3-Animaux.zip Animaux
