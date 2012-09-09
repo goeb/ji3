@@ -24,25 +24,31 @@ void Image::setImage(const char * filepath)
     LOG_DEBUG("setImage: " << filepath);
     QString fileName = filepath;
     currentImage = QImage(fileName);
+    currentText = fileName;
     if (currentImage.isNull()) {
         // display text
-        fitTextToLabel(filepath);
+        fitTextToLabel();
     } else {
         fitImageToLabel();
     }
 }
-void Image::fitTextToLabel(const QString & textItem) {
-    setText(textItem);
+void Image::fitTextToLabel() {
+    setText(currentText);
     QFont f = font();
-    f.setPointSize(50);
+    f.setPointSize(100);
     setFont(f);
-    resize(800, 600);
+    setFixedSize(800, 600);
 }
 
 
 void Image::resizeEvent ( QResizeEvent * event )
 {
-    fitImageToLabel();
+    if (currentImage.isNull()) {
+        // display text
+        fitTextToLabel();
+    } else {
+        fitImageToLabel();
+    }
 }
 void Image::fitImageToLabel() {
     const QPixmap p = QPixmap::fromImage(currentImage);
@@ -116,7 +122,7 @@ void Viewer::processUserClick() {
         //delete descriptionLabel;
         pendingTimer = startTimer(periodMs);
         setCentralWidget(imageLabel);
-        state = CLICKING;
+        state = CLICKING; // useless as next() makes state = RUNNING
         next();
     } else if (state == RUNNING) {
         state = CLICKING;

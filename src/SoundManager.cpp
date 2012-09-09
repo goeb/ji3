@@ -14,7 +14,7 @@ void SoundManager::init()
 {
     SDL_Init(SDL_INIT_AUDIO);
 
-    if (Mix_OpenAudio(16000, AUDIO_S16SYS, 2, 2048) < 0)
+    if (Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 2048) < 0)
     {
         LOG_ERROR("Error: Couldn't set 44100 Hz 16-bit audio, Reason: " << SDL_GetError());
     }
@@ -38,8 +38,8 @@ void SoundManager::playSound(const string & filename, ChannelId channelId)
         LOG_DEBUG("Loading: " << filename);
 
         // get parameters of audio file (number of channels, etc.)
-        Mix_Chunk *sound = 0;
-        sound = Mix_LoadWAV(filename.c_str());
+        Mix_Music *sound = 0;
+        sound = Mix_LoadMUS(filename.c_str());
     
         if (!sound)
         {
@@ -52,9 +52,9 @@ void SoundManager::playSound(const string & filename, ChannelId channelId)
             else channel = &itemChannel;
                 
             LOG_DEBUG("Playing: " << filename);
-            Mix_HaltChannel(*channel); // halt previous sound
+            Mix_HaltMusic(); // halt previous sound
                                 
-            *channel = Mix_PlayChannel(*channel, sound, 0); // -1 for any channel
+            Mix_PlayMusic(sound, 0); // -1 for any channel
             LOG_DEBUG("Play completed");
         }
     }

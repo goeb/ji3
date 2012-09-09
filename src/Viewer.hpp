@@ -24,7 +24,8 @@ protected:
 private:
     QImage currentImage;
     void fitImageToLabel();
-    void fitTextToLabel(const QString & textItem);
+    void fitTextToLabel();
+    QString currentText;
 
 };
 

@@ -5,7 +5,7 @@
 
 Graph::Graph()
 {
-    setFixedSize(QSize(600, 400));
+    setFixedSize(QSize(800, 400));
 
 
     //show();
