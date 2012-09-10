@@ -5,9 +5,17 @@ Jeu Inhibition (jeu de rééducation)
 
 Installation
 ------------
-* Dézipper, c'est installé!
-* Le répertoire créé 'ji3' est le répertoire racine du jeu.
-* Lancer l'exécutable ji3/ji3.exe pour lancer le jeu.
+* Pour Windows :
+    * Download : [ji3.0-win32.zip](http://fhoerni.free.fr/ji3/ji3.0-win32.zip)
+    * Dézipper, c'est installé !
+    * Le répertoire créé 'ji3' est le répertoire racine du jeu.
+    * Lancer ji3.bat pour lancer le jeu.
+
+* Code source : [ji3.0-src.zip](http://fhoerni.free.fr/ji3/ji3.0-src.zip)
+
+* Fichiers de thèmes supplémentaires :
+    * [ji3-Instruments.zip](http://fhoerni.free.fr/ji3/ji3-Instruments.zip)
+    * [ji3-Animaux.zip](http://fhoerni.free.fr/ji3/ji3-Animaux.zip)
 
 Personnalisation / Création d'un thème
 --------------------------------------
@@ -75,4 +83,8 @@ Chaque ligne correspond à un résultat de jeu. Les champs sont séparés par de
 * nombre d'exceptions
 * nombre d'items total
 * periode
+
+Licence 
+-------
+* Code source sous [GPL v3](http://fhoerni.free.fr/ji3/LICENSE)
 

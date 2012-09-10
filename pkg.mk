@@ -27,7 +27,9 @@ pkg-other:
 	zip -r ji3-Animaux.zip Animaux
 
 doc:
-	cp index_header.html index.html
-	perl Markdown_1.0.1/Markdown.pl --html4tags ../README.md >> index.html
-	cat index_footer.html >> index.html
+	@echo "<html><head><title>Jeu Inhibition 3</title>" > index.html
+	@echo "<meta http-equiv='Content-Type' content='text/html;charset=UTF-8'/>" >> index.html
+	@echo "</head><body>" >> index.html
+	perl Markdown_1.0.1/Markdown.pl --html4tags README.md >> index.html
+	@echo "</body></html>" >> index.html
 
