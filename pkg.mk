@@ -2,11 +2,13 @@
 WIN32_COMPONENTS = DLL ji3.bat Data Couleurs LICENSE README.md TestNormal
 SRC_COMPONENTS = ji3.bat src Makefile ji3.pro Data Couleurs LICENSE README.md TestNormal 
 
+
+V = .0
 pkg: pkg-win32 pkg-src
 
 
-WIN_PKG_DIR = ji3-win32
-SRC_PKG_DIR = ji3-src
+WIN_PKG_DIR = ji3$(V)-win32
+SRC_PKG_DIR = ji3$(V)-src
 pkg-win32:
 	rm -rf $(WIN_PKG_DIR)
 	mkdir -p $(WIN_PKG_DIR)
@@ -23,3 +25,9 @@ pkg-src:
 pkg-other:
 	zip -r ji3-Instruments.zip Instruments
 	zip -r ji3-Animaux.zip Animaux
+
+doc:
+	cp index_header.html index.html
+	perl Markdown_1.0.1/Markdown.pl --html4tags ../README.md >> index.html
+	cat index_footer.html >> index.html
+
