@@ -16,7 +16,8 @@ using namespace std;
 typedef enum {
     MODE_INHIBITION, // click all items but on exception items
     MODE_ATTENTION, // click only on exception items
-    XX_DIVIDED_ATTENTION // sound and image not related
+    XX_DIVIDED_ATTENTION, // sound and image not related
+    MODE_NONE
 } TestMode;
 
 class Scenario
@@ -26,6 +27,7 @@ class Scenario
         Scenario();
         void generateItemList(); // create a random sequence of items
         bool load();
+        bool load(std::string name);
 
         inline std::string getPath() const { return path; }
         inline std::string getDir() const { return Util::dirname(path); }
@@ -42,7 +44,7 @@ class Scenario
         void addClickTime(qint64 clickTime);
         void consolidateResult();
         void store(const QString & file);
-        static bool load(const QString & filename, vector<Scenario> & scenarioList);
+        static bool loadFromUserFile(const QString & filename, vector<Scenario> & scenarioList);
 
         std::vector<Scenario> getSameScenario(const std::vector<Scenario> & all) const;
 
@@ -53,6 +55,13 @@ class Scenario
         inline int getCorrectExceptions() const { return correctExceptions; }
         inline std::string getDescription() { return description; }
         static QStringList retrieveScenarios();
+
+        inline int getForcePeriodMs() { return forcePeriodMs; }
+        inline int getForceNumberOfItems() { return forceNumberOfItems; }
+        inline int getForceModeInhibition() { return forceModeInhibition; }
+        inline int getForceRatioOfExceptions() { return forceRatioOfExceptions; }
+        inline std::string getForceWithSound() { return forceWithSound; }
+
 
 
 
@@ -85,6 +94,16 @@ class Scenario
         std::string datetime;
         bool isSame(const Scenario & other) const;
         std::string encoding;
+
+        // force attributes: if the scenario description file
+        // contains force-speed, etc.
+        // then we store the info in these attributes, and they are
+        // displayed in the control panel
+        int forcePeriodMs;
+        int forceNumberOfItems;
+        int forceRatioOfExceptions;
+        TestMode forceModeInhibition;
+        std::string forceWithSound;
 
 };
 

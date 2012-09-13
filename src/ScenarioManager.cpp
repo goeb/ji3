@@ -87,9 +87,14 @@ bool Scenario::parseFileItems(const std::string & line, std::set<std::string> & 
 
 bool Scenario::load()
 {
+    return load(path);
+}
+
+bool Scenario::load(std::string name)
+{
     // load scenario information from file (parse the file, etc.)
     string fileContents = "";
-    bool r = Util::readWholeFile(path+SCENARIO_DESCRIPTOR_SUFFIX, fileContents);
+    bool r = Util::readWholeFile(name+SCENARIO_DESCRIPTOR_SUFFIX, fileContents);
     
     if (!r) return false;
 
@@ -100,6 +105,12 @@ bool Scenario::load()
     std::string textItems = "";
     std::string textExceptions = "";
     description = "Description manquante";
+
+    forcePeriodMs = 0;
+    forceNumberOfItems = 0;
+    forceRatioOfExceptions = 0;
+    forceModeInhibition = MODE_NONE;
+    forceWithSound = -1;
 
     // parse the file
     vector<string> lines = Util::split("\n", fileContents);
@@ -146,6 +157,23 @@ bool Scenario::load()
 
             } else if (0 == left.compare("description-attention")) {
                 if (modeInhibition == MODE_ATTENTION) description = right;
+
+            } else if (0 == left.compare("force-speed")) {
+                forcePeriodMs = atoi(right.c_str());
+
+            } else if (0 == left.compare("force-sound")) {
+                forceWithSound = right;
+
+            } else if (0 == left.compare("force-exception")) {
+                forceRatioOfExceptions = atoi(right.c_str());
+
+            } else if (0 == left.compare("force-number")) {
+                forceNumberOfItems = atoi(right.c_str());
+
+            } else if (0 == left.compare("force-type")) {
+                if (right == "attention") forceModeInhibition = MODE_ATTENTION;
+                else if (right == "inhibition") forceModeInhibition = MODE_INHIBITION;
+                // else nothing set
 
             } else if (0 == left.compare("encoding")) {
                 encoding = right;
@@ -195,6 +223,8 @@ bool Scenario::load()
     
     return true;
 }
+
+
 
 QStringList Scenario::retrieveScenarios()
 {
@@ -383,7 +413,7 @@ void Scenario::store(const QString & filename)
     f.close();
 }
 
-bool Scenario::load(const QString & filename, vector<Scenario> & scenarioList)
+bool Scenario::loadFromUserFile(const QString & filename, vector<Scenario> & scenarioList)
 {
     // load from user
     qDebug() << "filename=" << filename;

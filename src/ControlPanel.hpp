@@ -34,6 +34,7 @@ private slots:
     void showGraph();
 
     void loadUser(QString text);
+    void checkScenarioForceValues(QString name);
 
 
 signals:

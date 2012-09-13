@@ -55,7 +55,7 @@ void User::loadUsers(string dataDirectory)
 bool User::load(const string & _filename)
 {
     QString file(_filename.c_str());
-    return Scenario::load(file, scenarioList);
+    return Scenario::loadFromUserFile(file, scenarioList);
 }
 
 

@@ -49,6 +49,9 @@ ControlPanel::ControlPanel()
         sName = sName.replace(SCENARIO_DESCRIPTOR_SUFFIX, "");
         scenario->addItem(sName);
     }
+    connect(scenario, SIGNAL(currentIndexChanged(QString)), this, SLOT(checkScenarioForceValues(QString)));
+
+
     goButton = createButton(tr("Commencer"), SLOT(start()));
     //goButton->setDefault(true);
     showGraphButton = createButton(tr("Courbe"), SLOT(showGraph()));
@@ -252,6 +255,122 @@ void ControlPanel::updateDefaultValues(Scenario s)
     else n75->setChecked(true);
 
 }
+
+void ControlPanel::checkScenarioForceValues(QString name)
+{
+    Scenario s;
+    bool r = s.load(name.toLocal8Bit().constData());
+    if (!r) return;
+
+    if (s.getForcePeriodMs() == 1000) {
+        speed10->setChecked(true);
+        speed15->setEnabled(false);
+        speed20->setEnabled(false);
+        speed25->setEnabled(false);
+        speed30->setEnabled(false);
+
+    } else if (s.getForcePeriodMs() == 1500) {
+        speed15->setChecked(true);
+        speed10->setEnabled(false);
+        speed20->setEnabled(false);
+        speed25->setEnabled(false);
+        speed30->setEnabled(false);
+
+    } else if (s.getForcePeriodMs() == 2000) {
+        speed20->setChecked(true);
+        speed10->setEnabled(false);
+        speed15->setEnabled(false);
+        speed25->setEnabled(false);
+        speed30->setEnabled(false);
+
+    } else if (s.getForcePeriodMs() == 2500) {
+        speed25->setChecked(true);
+        speed10->setEnabled(false);
+        speed15->setEnabled(false);
+        speed20->setEnabled(false);
+        speed30->setEnabled(false);
+
+    } else if (s.getForcePeriodMs() == 3000) {
+        speed30->setChecked(true);
+        speed10->setEnabled(false);
+        speed15->setEnabled(false);
+        speed20->setEnabled(false);
+        speed25->setEnabled(false);
+
+    } else {
+        // activate all
+        speed10->setEnabled(true);
+        speed15->setEnabled(true);
+        speed20->setEnabled(true);
+        speed25->setEnabled(true);
+        speed30->setEnabled(true);
+    }
+
+    if (s.getForceRatioOfExceptions() == 10) {
+        ratio10->setChecked(true);
+        ratio20->setEnabled(false);
+        ratio30->setEnabled(false);
+    } else if (s.getForceRatioOfExceptions() == 20) {
+        ratio20->setChecked(true);
+        ratio10->setEnabled(false);
+        ratio30->setEnabled(false);
+    } else if (s.getForceRatioOfExceptions() == 30) {
+        ratio30->setChecked(true);
+        ratio20->setEnabled(false);
+        ratio10->setEnabled(false);
+    } else {
+        // activate all
+        ratio10->setEnabled(true);
+        ratio20->setEnabled(true);
+        ratio30->setEnabled(true);
+    }
+
+    if (s.getForceModeInhibition() == MODE_INHIBITION) {
+        modeInhibition->setChecked(true);
+        modeAttention->setEnabled(false);
+    } else if (s.getForceModeInhibition() == MODE_ATTENTION) {
+        modeAttention->setChecked(true);
+        modeInhibition->setEnabled(false);
+    } else {
+        modeInhibition->setEnabled(true);
+        modeAttention->setEnabled(true);
+    }
+
+    if (s.getForceNumberOfItems() == 75) {
+        n10->setEnabled(false);
+        n75->setChecked(true);
+        n100->setEnabled(false);
+        n150->setEnabled(false);
+    } else if (s.getForceNumberOfItems() == 100) {
+        n10->setEnabled(false);
+        n75->setEnabled(false);
+        n100->setChecked(true);
+        n150->setEnabled(false);
+    } else if (s.getForceNumberOfItems() == 150) {
+        n10->setEnabled(false);
+        n75->setEnabled(false);
+        n100->setEnabled(false);
+        n150->setChecked(true);
+    } else {
+        n10->setEnabled(true);
+        n75->setEnabled(true);
+        n100->setEnabled(true);
+        n150->setEnabled(true);
+    }
+
+    if (s.getForceWithSound() == "on") {
+        soundOn->setChecked(true);
+        soundOff->setEnabled(false);
+    } else if (s.getForceWithSound() == "off") {
+        soundOn->setEnabled(false);
+        soundOff->setChecked(true);
+    } else {
+        soundOn->setEnabled(true);
+        soundOff->setEnabled(true);
+    }
+
+}
+
 
 void ControlPanel::loadUser(QString text)
 {
