@@ -25,14 +25,14 @@ GraphPanel::GraphPanel(const QString & username, const Scenario & refScenario)
     clickAxis.side = LEFT;
     clickAxis.labels << tr("Lent") << tr("Rapide");
 
-    graph->addCurve(clickSpeedCurve, 0, 0, tr("Vitesse de click").toLocal8Bit().constData(), true, clickAxis);
+    graph->addCurve(clickSpeedCurve, 0, 0, tr("Vitesse de click"), true, clickAxis);
 
     Axis gradeAxis;
     gradeAxis.side = RIGHT;
     gradeAxis.labels << tr("0 %") << tr("100 %");
 
     std::vector<int> correctnessCurve = getGlobalGradeCurve(sList);
-    graph->addCurve(correctnessCurve, 0, 100, tr("Réussite").toLocal8Bit().constData(), false, gradeAxis);
+    graph->addCurve(correctnessCurve, 0, 100, tr("Réussite"), false, gradeAxis);
 
     // do the grid
     grid = new QVBoxLayout(this);

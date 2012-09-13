@@ -11,11 +11,10 @@
 
 
 #define SEPARATOR ';';
-#define SCENARIO_DESCRIPTOR_SUFFIX ".ji3c"
 
 Scenario::Scenario(const string &_path, int _periodMs, int _numberOfItems, int _ratioOfExceptions, bool _modeInhibition, bool sound)
 {
-    path = _path;
+    path = _path; // this is the path of the file minus the suffix .ji3c
     periodMs = _periodMs;
     numberOfItems = _numberOfItems;
     ratioOfExceptions = _ratioOfExceptions;
@@ -90,7 +89,7 @@ bool Scenario::load()
 {
     // load scenario information from file (parse the file, etc.)
     string fileContents = "";
-    bool r = Util::readWholeFile(path, fileContents);
+    bool r = Util::readWholeFile(path+SCENARIO_DESCRIPTOR_SUFFIX, fileContents);
     
     if (!r) return false;
 

@@ -14,7 +14,7 @@ typedef struct {
     std::vector<int> points;
     int min;
     int max;
-    std::string label;
+    QString label;
     bool reverse;
     Axis axis;
 } Curve;
@@ -29,7 +29,7 @@ public:
     Graph();
     ~Graph();
 
-    void addCurve(const std::vector<int> & points, int min, int max, const std::string & label, bool reverse, Axis axis);
+    void addCurve(const std::vector<int> & points, int min, int max, const QString & label, bool reverse, Axis axis);
 
 
 protected:

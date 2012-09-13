@@ -9,6 +9,9 @@ using namespace std;
 #include <QDir>
 
 #include "Util.hpp"
+
+#define SCENARIO_DESCRIPTOR_SUFFIX ".ji3c"
+
                  
 typedef enum {
     MODE_INHIBITION, // click all items but on exception items

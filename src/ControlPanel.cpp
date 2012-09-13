@@ -45,9 +45,10 @@ ControlPanel::ControlPanel()
     scenario->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     QStringList scenarioFiles = Scenario::retrieveScenarios();
     for (int i = 0; i < scenarioFiles.size(); i++) {
-        scenario->addItem(scenarioFiles.at(i));
+        QString sName = scenarioFiles.at(i);
+        sName = sName.replace(SCENARIO_DESCRIPTOR_SUFFIX, "");
+        scenario->addItem(sName);
     }
-    scenario->addItem("Test Normal");
     goButton = createButton(tr("Commencer"), SLOT(start()));
     //goButton->setDefault(true);
     showGraphButton = createButton(tr("Courbe"), SLOT(showGraph()));

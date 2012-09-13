@@ -24,7 +24,7 @@ Graph::~Graph()
 {
 }
 
-void Graph::addCurve(const std::vector<int> & points, int min, int max, const std::string & label, bool reverse, Axis axis)
+void Graph::addCurve(const std::vector<int> & points, int min, int max, const QString & label, bool reverse, Axis axis)
 {
     Curve c;
     c.points = points;
@@ -114,7 +114,7 @@ void Graph::paintEvent(QPaintEvent *e)
 
         // write label
         QPoint pLabel(p0.x() + 8, p0.y());
-        painter.drawText(pLabel, c->label.c_str());
+        painter.drawText(pLabel, c->label);
         colorIndex = (colorIndex + 1) % colors.size();
 
         // draw the axis in the margins
