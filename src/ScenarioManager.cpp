@@ -272,7 +272,7 @@ void Scenario::generateItemList()
         exceptions.push_back(*it);
     }
     // 1.b shuffle
-    exceptions = Util::shuffle(exceptions);
+    exceptions = Util::shuffle(exceptions, false);
     // 1.c create list with right number of items
     exceptions = createFixedSizeList(exceptions, numberOfExceptions);
 
@@ -285,7 +285,7 @@ void Scenario::generateItemList()
         }
     }
     // 2.b shuffle
-    regularItems = Util::shuffle(regularItems);
+    regularItems = Util::shuffle(regularItems, false);
 
     // 2.c from L3, build a list with right number of items
     regularItems = createFixedSizeList(regularItems, numberOfItems - numberOfExceptions);
@@ -298,7 +298,7 @@ void Scenario::generateItemList()
     mergedList.insert(mergedList.begin(), regularItems.begin(), regularItems.end());
     
     // shuffle (and randomize the sequence)
-    itemSequence = Util::shuffle(mergedList);
+    itemSequence = Util::shuffle(mergedList, true);
 
     LOG_DEBUG("createItemList: " << Util::vectorToString(itemSequence));
 }

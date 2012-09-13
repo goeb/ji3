@@ -285,8 +285,10 @@ std::string Util::vectorToString(const std::set<std::string> & v)
     return s.str();
 }
 
-std::vector<std::string> Util::shuffle(std::vector<std::string> L)
+std::vector<std::string> Util::shuffle(std::vector<std::string> L, bool forbidSameNeighbors)
 {
+    // if forbidSameNeighbors, then try to avoid 2 same items next each other
+
     std::vector<std::string> result;
     srand(time(0));
     int n;
@@ -295,6 +297,20 @@ std::vector<std::string> Util::shuffle(std::vector<std::string> L)
         // take a random item
         int position = rand()%n;
         string item = L[position];
+
+        if (forbidSameNeighbors) {
+            if (result.size() > 0 && (item == result[result.size()-1])) {
+                // try again
+                position = rand()%n;
+                item = L[position];
+                if (result.size() > 0 && (item == result[result.size()-1])) {
+                    // try one last time
+                    position = rand()%n;
+                    item = L[position];
+                }
+            }
+        }
+
         vector<string>::iterator it = L.begin();
         it += position;
         L.erase(it);
