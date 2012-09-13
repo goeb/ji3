@@ -38,9 +38,14 @@
 
 <pre><code>description-inhibition: Cliquer sur tous, sauf les animaux qui volent.
 description-attention: Cliquer sur les animaux qui volent.
-items: *.png feuilledechene2.jpeg
-exceptions: Escargot.png feuilledechene2.jpeg
+items: *.png feuilledechene2.jpg
+exceptions: Escargot.png feuilledechene2.jpg
 encoding: latin1 # or utf-8
+force-sound: on # 'on' or 'off'
+force-type: inhibition # inhibition or attention
+force-exception: 10 # %
+force-speed: 1000 # milliseconds
+force-number: 75
 </code></pre>
 
 <p>Les valeurs pour 'encoding' sont celles supportées par QT (http://doc.qt.nokia.com/4.7-snapshot/qtextcodec.html)</p>
