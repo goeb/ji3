@@ -37,9 +37,7 @@ void Image::fitTextToLabel() {
     QFont f = font();
     f.setPointSize(200);
     setFont(f);
-    setFixedSize(800, 600);
 }
-
 
 void Image::resizeEvent ( QResizeEvent * event )
 {
@@ -57,7 +55,7 @@ void Image::fitImageToLabel() {
     if (w>800) w = 800; // we do not want too big an image
     if (h>600) h = 600;
     // set a scaled pixmap to a w x h window keeping its aspect ratio
-    setPixmap(p.scaled(w,h,Qt::KeepAspectRatio));
+    setPixmap(p.scaled(w, h, Qt::KeepAspectRatio));
 }
 
 
@@ -67,8 +65,6 @@ Viewer::Viewer(Scenario & s) : scenario(s)
     periodMs = s.getPeriodMs();
     index = 0;
     imageLabel = new Image;
-    imageLabel->setBackgroundRole(QPalette::Base);
-    imageLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
     imageLabel->setAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
 
     descriptionLabel = 0;
@@ -118,8 +114,7 @@ void Viewer::mousePressEvent(QMouseEvent *event)
 
 void Viewer::resizeEvent(QResizeEvent * event)
 {
-    LOG_DEBUG("Viewer::resizeEvent");
-    setCentralWidget(centralWidget());
+    //LOG_DEBUG("Viewer::resizeEvent");
 }
 
 void Viewer::processUserClick() {
@@ -163,7 +158,6 @@ void Viewer::start()
 
     descriptionLabel = new QLabel(this);
     descriptionLabel->setText(d);
-    descriptionLabel->setFrameStyle(QFrame::Box);
     descriptionLabel->setWordWrap(true);
     descriptionLabel->setMinimumSize(300, 300);
     descriptionLabel->setAlignment(Qt::AlignHCenter|Qt::AlignVCenter);

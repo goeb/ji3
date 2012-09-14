@@ -92,6 +92,9 @@ int main(int argc, char **argv)
     bool showGraph = false;
     bool withSound = true;
     while (1) {
+        showGraph = false;
+        playGame = false;
+
         if (commandLine) {
             // command line mode:
             // start immediately test with values given on the command line.
@@ -105,23 +108,23 @@ int main(int argc, char **argv)
 
             // show control panel
             LOG_INFO("Show Contol Panel");
-
             if (!c) c = new ControlPanel();
 
             c->updateTable();
             c->show();
             int r = app.exec();
             LOG_DEBUG("after app.exec(), r=" << r);
+
             if (0 == r) { // ctrl-Q, or closed window
                 // really quit
                 exit(0);
             } else {
                 if (2 == r) {
                     // show graph
-                    playGame = false;
                     showGraph = true;
 
                 } else {
+                    // play game
                     playGame = true;
                 }
 
@@ -152,7 +155,7 @@ int main(int argc, char **argv)
             //imageViewer.showFullScreen();
             imageViewer.show();
             imageViewer.resize(800,600);
-            bool r = app.exec();
+            int r = app.exec();
 
             LOG_DEBUG("Return from Viewer: r=" << r);
 
@@ -181,9 +184,7 @@ int main(int argc, char **argv)
             // (so that the curve compares things comparable)
             GraphPanel x(filename, s);
             x.show();
-            bool r = app.exec();
-
-
+            int r = app.exec();
         }
     }
 
