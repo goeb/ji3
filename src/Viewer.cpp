@@ -79,7 +79,7 @@ void Viewer::timerEvent(QTimerEvent *event)
     cout << "timerEvent\n";
     killTimer(pendingTimer);
     bool ok = scenario.evaluateUserClick(currentFile, false);
-    if (!ok && scenario.getWithSound()) {
+    if (!ok) {
         SoundManager::playSound(dingFile, DING_CHANNEL);
         usleep(300000); // TODO get actual length of the sound
     }
@@ -137,7 +137,7 @@ void Viewer::processUserClick() {
 
         killTimer(pendingTimer);
         bool ok = scenario.evaluateUserClick(currentFile, true);
-        if (!ok && scenario.getWithSound()) {
+        if (!ok) {
             SoundManager::playSound(dingFile, DING_CHANNEL);
             usleep(300000);
         }

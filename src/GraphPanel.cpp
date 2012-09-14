@@ -102,6 +102,8 @@ QTableWidget* GraphPanel::createTable(const std::vector<Scenario> & sList)
         QString ip = QString("%1").arg(s->getCorrectExceptions());
         ip += "/";
         ip += QString("%1").arg(s->getNumberOfExceptions());
+        ip += " ";
+        ip += s->getErrorDetails();
         wItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
         wItem = new QTableWidgetItem(ip);
         table->setItem(row0, col, wItem);

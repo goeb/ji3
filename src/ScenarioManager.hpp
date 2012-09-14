@@ -20,6 +20,13 @@ typedef enum {
     MODE_NONE
 } TestMode;
 
+typedef enum {
+    EXCEPTION_OK,
+    EXCEPTION_ERROR,
+    REGULAR_ITEM_OK,
+    REGULAR_ITEM_ERROR
+} ItemResult;
+
 class Scenario
 {
     public :
@@ -62,8 +69,7 @@ class Scenario
         inline int getForceRatioOfExceptions() { return forceRatioOfExceptions; }
         inline std::string getForceWithSound() { return forceWithSound; }
 
-
-
+        QString getErrorDetails() const;
 
     private :
         bool parseFileItems(const std::string & line, std::set<std::string> &items, const string &encoding);
@@ -104,6 +110,8 @@ class Scenario
         int forceRatioOfExceptions;
         TestMode forceModeInhibition;
         std::string forceWithSound;
+
+        std::vector<ItemResult> resultVector; // store result of all items
 
 };
 

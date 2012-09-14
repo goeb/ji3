@@ -348,6 +348,7 @@ bool Scenario::evaluateUserClick(const std::string & item, bool hasClicked)
             result = hasClicked;
         }
         if (!result) errorsOnExceptions ++;
+        resultVector.push_back(result?EXCEPTION_OK:EXCEPTION_ERROR);
 
     } else {
         // item is a regular item
@@ -358,6 +359,7 @@ bool Scenario::evaluateUserClick(const std::string & item, bool hasClicked)
             result = !hasClicked;
         }
         if (!result) errorsOnRegularItems ++;
+        resultVector.push_back(result?REGULAR_ITEM_OK:REGULAR_ITEM_ERROR);
     }
     return result;
 }
@@ -483,4 +485,25 @@ std::vector<Scenario> Scenario::getSameScenario(const std::vector<Scenario> & al
         if (isSame(*s)) result.push_back(*s);
     }
     return result;
+}
+QString Scenario::getErrorDetails() const
+{
+    // get errors on exceptions for 1st, 2nd and 3rd parts
+    // and format these '(r1-r2-r3)'
+    int n = resultVector.size();
+    int r1 = 0;
+    int r2 = 0;
+    int r3 = 0;
+    int i = 0;
+    for (i = 0; i < n/3; i++) {
+        if (resultVector[i] == EXCEPTION_ERROR) r1 ++;
+    }
+    for (i = n/3; i < 2*n/3; i++) {
+        if (resultVector[i] == EXCEPTION_ERROR) r2 ++;
+    }
+    for (i = 2*n/3; i < n; i++) {
+        if (resultVector[i] == EXCEPTION_ERROR) r3 ++;
+    }
+    QString details = QString("(%1-%2-%3)").arg(r1).arg(r2).arg(r3);
+    return details;
 }
