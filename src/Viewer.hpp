@@ -40,6 +40,8 @@ protected:
     void keyPressEvent(QKeyEvent *e);
     void keyReleaseEvent(QKeyEvent *e);
     void mousePressEvent(QMouseEvent *event);
+    void resizeEvent ( QResizeEvent * event );
+
 
 private:
     std::string getNextImage();

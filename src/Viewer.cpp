@@ -35,7 +35,7 @@ void Image::setImage(const char * filepath)
 void Image::fitTextToLabel() {
     setText(currentText);
     QFont f = font();
-    f.setPointSize(100);
+    f.setPointSize(200);
     setFont(f);
     setFixedSize(800, 600);
 }
@@ -95,7 +95,7 @@ void Viewer::keyPressEvent(QKeyEvent *e)
 {
     cout << "keyPressEvent: " << e->key() <<  "\n";
     const char c = e->key();
-    if ( c == 'q' || c == 'Q') QCoreApplication::exit(1);
+    if ( c == 'q' || c == 'Q') QCoreApplication::exit(0);
     else if (c == ' ') {
         processUserClick();
     } else if (c == 'f' || c == 'F') {
@@ -116,6 +116,11 @@ void Viewer::mousePressEvent(QMouseEvent *event)
     processUserClick();
 }
 
+void Viewer::resizeEvent(QResizeEvent * event)
+{
+    LOG_DEBUG("Viewer::resizeEvent");
+    setCentralWidget(centralWidget());
+}
 
 void Viewer::processUserClick() {
     LOG_DEBUG("processUserClick, state=" << state);
@@ -193,6 +198,7 @@ void Viewer::next()
 void Viewer::finalPage() {
     // display instructions of scenario
     state = ENDING;
+    killTimer(pendingTimer);
     QString d = tr("Fin.\nCliquer pour continuer.");
     //scenario.getEncoding(); TODO ?
 
@@ -214,5 +220,5 @@ void Viewer::finalPage() {
 
 void Viewer::end() {
     scenario.consolidateResult();
-    QCoreApplication::exit(0);
+    QCoreApplication::exit(1);
 }

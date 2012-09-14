@@ -112,7 +112,8 @@ int main(int argc, char **argv)
             c->show();
             int r = app.exec();
             LOG_DEBUG("after app.exec(), r=" << r);
-            if (0 == r) { // ctrl-Q, really quit
+            if (0 == r) { // ctrl-Q, or closed window
+                // really quit
                 exit(0);
             } else {
                 if (2 == r) {
@@ -157,7 +158,10 @@ int main(int argc, char **argv)
 
             if (commandLine) exit(0);
 
-            if (r == 0) { // nominal case
+            if (r == 0) { // closed window, of 'q' pressed
+                // else 'q' pressed, do not store result into file
+            } else {
+                // nominal case
                 if (!player.isEmpty()) {
                     // store to file
                     s.store(filename);
@@ -165,7 +169,7 @@ int main(int argc, char **argv)
                     // go to curve diagram
                     showGraph = true;
                 }
-            } // else 'q' pressed, do not store result into file
+            }
 
         }
 
