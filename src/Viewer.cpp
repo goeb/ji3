@@ -71,6 +71,8 @@ Viewer::Viewer(Scenario & s) : scenario(s)
     imageLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
     imageLabel->setAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
 
+    descriptionLabel = 0;
+
     start();
 }
 
@@ -124,6 +126,8 @@ void Viewer::processUserClick() {
         setCentralWidget(imageLabel);
         state = CLICKING; // useless as next() makes state = RUNNING
         next();
+    } else if (state == ENDING) {
+        end();
     } else if (state == RUNNING) {
         state = CLICKING;
 
@@ -151,6 +155,7 @@ void Viewer::start()
     state = STARTING;
     QString d = QString::fromStdString(scenario.getDescription());
     //scenario.getEncoding(); TODO ?
+
     descriptionLabel = new QLabel(this);
     descriptionLabel->setText(d);
     descriptionLabel->setFrameStyle(QFrame::Box);
@@ -166,12 +171,12 @@ void Viewer::start()
 }
 
 
-void Viewer::next() {
-
+void Viewer::next()
+{
     state = RUNNING;
     // goto next image
     currentFile = getNextImage();
-    if (currentFile == "") end();
+    if (currentFile == "") finalPage();
     LOG_INFO("next image: " << currentFile);
 
     // get sound from image file // TODO improve search of sound
@@ -184,6 +189,28 @@ void Viewer::next() {
     clickSpeedTimer.start();
 
 }
+
+void Viewer::finalPage() {
+    // display instructions of scenario
+    state = ENDING;
+    QString d = tr("Fin.\nCliquer pour continuer.");
+    //scenario.getEncoding(); TODO ?
+
+    descriptionLabel = new QLabel(this);
+    descriptionLabel->setText(d);
+    descriptionLabel->setFrameStyle(QFrame::Box);
+    descriptionLabel->setWordWrap(true);
+    descriptionLabel->setMinimumSize(300, 300);
+    descriptionLabel->setAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
+
+    QFont f = descriptionLabel->font();
+    f.setPointSize(16);
+    descriptionLabel->setFont(f);
+
+    setCentralWidget(descriptionLabel);
+
+}
+
 
 void Viewer::end() {
     scenario.consolidateResult();

@@ -1,6 +1,6 @@
 
-WIN32_COMPONENTS = DLL ji3.bat Data Couleurs LICENSE README.md TestNormal
-SRC_COMPONENTS = ji3.bat src Makefile ji3.pro Data Couleurs LICENSE README.md TestNormal 
+WIN32_COMPONENTS = DLL ji3.bat Data Couleurs LICENSE README.md Test
+SRC_COMPONENTS = ji3.bat src Makefile ji3.pro Data Couleurs LICENSE README.md Test
 
 
 V = .0
@@ -15,6 +15,10 @@ pkg-win32:
 	cp -f win32/ji3.exe DLL/.
 	for c in $(WIN32_COMPONENTS); do ln -fs ../$$c $(WIN_PKG_DIR)/$$c; done
 	zip -r $(WIN_PKG_DIR).zip $(WIN_PKG_DIR) --exclude "*.log" --exclude "*.ji3u"
+	zip -r $(WIN_PKG_DIR)-wodll.zip $(WIN_PKG_DIR) --exclude "*.log" --exclude "*.ji3u" --exclude "*.dll"
+
+
+	
 
 pkg-src:
 	rm -rf $(SRC_PKG_DIR)

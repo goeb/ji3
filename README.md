@@ -6,7 +6,8 @@ Jeu Inhibition (jeu de rééducation)
 Installation
 ------------
 * Pour Windows :
-    * Download : [ji3.0-win32.zip](http://fhoerni.free.fr/ji3/ji3.0-win32.zip)
+    * Télécharger : [ji3.0-win32.zip](http://fhoerni.free.fr/ji3/ji3.0-win32.zip)
+    * (ou sans les DLL [ji3.0-win32-wodll.zip](http://fhoerni.free.fr/ji3/ji3.0-win32-wodll.zip) )
     * Dézipper, c'est installé !
     * Le répertoire créé 'ji3' est le répertoire racine du jeu.
     * Lancer ji3.bat pour lancer le jeu.

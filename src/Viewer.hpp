@@ -53,6 +53,7 @@ private:
     void processUserClick();
     void next();
     void start();
+    void finalPage();
     void end();
 
     int periodMs; // milliseconds
