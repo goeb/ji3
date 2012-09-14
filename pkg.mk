@@ -9,7 +9,9 @@ pkg: pkg-win32 pkg-src
 
 WIN_PKG_DIR = ji3$(V)-win32
 SRC_PKG_DIR = ji3$(V)-src
-pkg-win32:
+pkg-win32: doc
+	qmake -spec mingw32-g++
+	make
 	rm -rf $(WIN_PKG_DIR)
 	mkdir -p $(WIN_PKG_DIR)
 	cp -f win32/ji3.exe DLL/.

@@ -5,7 +5,7 @@ force-sound: off
 force-type: attention
 force-exception: 10 # %
 force-speed: 2000 # milliseconds
-force-number: 100
+force-number: 10
 
 
 
