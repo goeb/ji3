@@ -6,7 +6,7 @@ using namespace std;
 #include "Logger.hpp"
 #include "ControlPanel.hpp"
 #include "User.hpp"
-
+#include "ResultTable.hpp"
 #include "Graph.hpp"
 
 ControlPanel::ControlPanel()
@@ -93,120 +93,17 @@ void ControlPanel::updateTable()
     updateTable(&u);
 }
 
-void *ControlPanel::updateTable(const User * u)
+void ControlPanel::updateTable(const User * u)
 {
     QStringList labels;
 
-    table->clearContents();
-    table->setColumnCount(11);
-    table->setRowCount(0);
-
-
-    labels << tr("Date") << tr("Thème") << tr("Son") << tr("Type") << tr("% Exc.") << tr("Vitesse") << tr("Long.")  <<
-              tr("Vitesse\nde click") << tr("Score") << tr("Réussite\n items\nstandards") << tr("Réussite\nexception");
-    table->setHorizontalHeaderLabels(labels);
-    table->horizontalHeader()->setResizeMode(0, QHeaderView::Stretch);
-    table->verticalHeader()->hide();
-    table->setShowGrid(true);
-    int row = 0;
-
-    if (!u) return table;
-
+    if (!u) return;
 
     std::vector<Scenario> sList = u->getScenarioList();
-    std::vector<Scenario>::iterator s;
-    QTableWidgetItem *wItem = 0;
-    for (s=sList.begin(); s!=sList.end(); s++) {
-        table->insertRow(row);
-        int col = 0;
 
-        const char * dt = s->getDatetime().c_str();
-        wItem = new QTableWidgetItem(dt);
-        wItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
-        table->setItem(row, col, wItem);
-        col ++;
-
-        QString path(s->getPath().c_str());
-        wItem = new QTableWidgetItem(path);
-        wItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
-        table->setItem(row, col, wItem);
-        col ++;
-
-        QString sound = QString("%1").arg(s->getWithSound());
-        wItem = new QTableWidgetItem(sound);
-        wItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
-        table->setItem(row, col, wItem);
-        col ++;
-
-        QString mode;
-        if (s->getMode() == MODE_INHIBITION) mode = tr("inhibition");
-        else mode = tr("attention");
-        wItem = new QTableWidgetItem(mode);
-        wItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
-        table->setItem(row, col, wItem);
-        col ++; //skip sound info;
-
-
-        // % exception
-        QString ex = QString("%1").arg(s->getRatioOfExceptions());
-        wItem = new QTableWidgetItem(ex);
-        wItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
-        table->setItem(row, col, wItem);
-        col ++;
-
-        // speed
-        double speed = s->getPeriodMs()/1000;
-        QString sp = QString("%1").arg(speed, 0, 'f', 1);
-        wItem = new QTableWidgetItem(sp);
-        wItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
-        table->setItem(row, col, wItem);
-        col ++;
-
-        // length
-        QString n = QString("%1").arg(s->getNumberOfItems());
-        wItem = new QTableWidgetItem(n);
-        wItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
-        table->setItem(row, col, wItem);
-        col ++;
-
-
-        QString avcs = QString("%1").arg(s->getAverageClickSpeed());
-        wItem = new QTableWidgetItem(avcs);
-        wItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
-        table->setItem(row, col, wItem);
-        col ++;
-
-        QString gg = QString("%1").arg(s->getGlobalGrade());
-        wItem = new QTableWidgetItem(gg);
-        wItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
-        table->setItem(row, col, wItem);
-        col ++;
-
-        QString is = QString("%1").arg(s->getCorrectRegularItems());
-        is += "/";
-        is += QString("%1").arg(s->getNumberOfItems()-s->getNumberOfExceptions());
-        wItem = new QTableWidgetItem(is);
-        wItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
-        table->setItem(row, col, wItem);
-        col ++;
-
-        QString ip = QString("%1").arg(s->getCorrectExceptions());
-        ip += "/";
-        ip += QString("%1").arg(s->getNumberOfExceptions());
-        wItem = new QTableWidgetItem(ip);
-        wItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
-        table->setItem(row, col, wItem);
-        col ++;
-
-        //row++;
-    }
-
-
-    //emit resizeTableColumns();
-
-    for (int i=0; i<table->columnCount(); i++) table->resizeColumnToContents(i);
-    return table;
+    ResultTable::updateTable(table, sList, TABLE_CONTROL);
 }
+
 void ControlPanel::updateDefaultValues(Scenario s)
 {
     // scenario name

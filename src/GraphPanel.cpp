@@ -7,7 +7,7 @@ using namespace std;
 #include "Logger.hpp"
 #include "GraphPanel.hpp"
 #include "User.hpp"
-
+#include "ResultTable.hpp"
 
 
 GraphPanel::GraphPanel(const QString & username, const Scenario & refScenario)
@@ -51,68 +51,10 @@ GraphPanel::GraphPanel(const QString & username, const Scenario & refScenario)
 
 QTableWidget* GraphPanel::createTable(const std::vector<Scenario> & sList)
 {
-    QTableWidget *table = new QTableWidget(0, 6);
-    QStringList labels;
-    labels << QString::fromUtf8("Numéro") << tr("Date") << tr("Vitesse de click") << QString::fromUtf8("Réussite") << tr("Item standard") << tr("Item particulier");
-    table->setHorizontalHeaderLabels(labels);
-    table->horizontalHeader()->setResizeMode(0, QHeaderView::Stretch);
-    table->verticalHeader()->hide();
-    table->setShowGrid(true);
-    int row = 0;
-    int row0 = 0;
+    QTableWidget *table = new QTableWidget();
 
-    std::vector<Scenario>::const_iterator s;
-    for (s=sList.begin(); s!=sList.end(); s++) {
-        table->insertRow(row0);
-        QTableWidgetItem *wItem;
-        int col = 0;
+    ResultTable::updateTable(table, sList, TABLE_GRAPH);
 
-        QString n = QString("%1").arg(row+1);
-        wItem = new QTableWidgetItem(n);
-        wItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
-        table->setItem(row0, col, wItem);
-        col ++;
-
-        const char * dt = s->getDatetime().c_str();
-        wItem = new QTableWidgetItem(dt);
-        wItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
-        table->setItem(row0, col, wItem);
-        col ++;
-
-        QString avcs = QString("%1").arg(s->getAverageClickSpeed());
-        wItem = new QTableWidgetItem(avcs);
-        wItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
-        table->setItem(row0, col, wItem);
-        col ++;
-
-        QString gg = QString("%1").arg(s->getGlobalGrade());
-        wItem = new QTableWidgetItem(gg);
-        wItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
-        table->setItem(row0, col, wItem);
-        col ++;
-
-        QString is = QString("%1").arg(s->getCorrectRegularItems());
-        is += "/";
-        is += QString("%1").arg(s->getNumberOfItems()-s->getNumberOfExceptions());
-        wItem = new QTableWidgetItem(is);
-        wItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
-        table->setItem(row0, col, wItem);
-        col ++;
-
-        QString ip = QString("%1").arg(s->getCorrectExceptions());
-        ip += "/";
-        ip += QString("%1").arg(s->getNumberOfExceptions());
-        ip += " ";
-        ip += s->getErrorDetails();
-        wItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
-        wItem = new QTableWidgetItem(ip);
-        table->setItem(row0, col, wItem);
-        col ++;
-
-        row++;
-    }
-
-    for (int i=0; i<table->columnCount(); i++) table->resizeColumnToContents(i);
     return table;
 }
 

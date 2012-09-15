@@ -79,7 +79,7 @@ private:
 
     void updateDefaultValues(Scenario s);
     QTableWidget *table;
-    void *updateTable(const User * u);
+    void updateTable(const User * u);
     std::string userName ;
 
 
