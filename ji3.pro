@@ -19,7 +19,8 @@ SOURCES += \
     src/Viewer.cpp \
     src/ControlPanel.cpp \
     src/Graph.cpp \
-    src/GraphPanel.cpp
+    src/GraphPanel.cpp \
+    src/ResultTable.cpp
 
 HEADERS += \
     src/SoundManager.hpp \
@@ -31,7 +32,8 @@ HEADERS += \
     src/Viewer.hpp \
     src/ControlPanel.hpp \
     src/Graph.hpp \
-    src/GraphPanel.hpp
+    src/GraphPanel.hpp \
+    src/ResultTable.hpp
 
 
 linux-g++ {
