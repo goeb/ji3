@@ -285,38 +285,50 @@ std::string Util::vectorToString(const std::set<std::string> & v)
     return s.str();
 }
 
-std::vector<std::string> Util::shuffle(std::vector<std::string> L, bool forbidSameNeighbors)
+std::vector<std::string> Util::shuffle(const std::vector<std::string> & itemList, bool & forbidSameNeighbors)
 {
     // if forbidSameNeighbors, then try to avoid 2 same items next each other
 
     std::vector<std::string> result;
     srand(time(0));
-    int n;
-    while ( (n = L.size()) )
-    {
-        // take a random item
-        int position = rand()%n;
-        string item = L[position];
+    int completeRetry = 2;
+    while (completeRetry >= 0) {
+        std::vector<std::string> Lcopy = itemList;
+        result.clear();
 
-        if (forbidSameNeighbors) {
-            if (result.size() > 0 && (item == result[result.size()-1])) {
-                // try again
-                position = rand()%n;
-                item = L[position];
+        int n;
+        while ( (n = Lcopy.size()) )
+        {
+            // take a random item
+            int position = rand()%n;
+            string item = Lcopy[position];
+
+            if (forbidSameNeighbors) {
                 if (result.size() > 0 && (item == result[result.size()-1])) {
-                    // try one last time
+                    // try again
                     position = rand()%n;
-                    item = L[position];
+                    item = Lcopy[position];
+                    if (result.size() > 0 && (item == result[result.size()-1])) {
+                        // try one last time
+                        position = rand()%n;
+                        item = Lcopy[position];
+                        if (result.size() > 0 && (item == result[result.size()-1])) {
+                            // do a complete retry
+                            if (completeRetry > 0) break;
+                            else forbidSameNeighbors = false; // indicate that result could not be achieved
+                        }
+                    }
                 }
             }
+
+            vector<string>::iterator it = Lcopy.begin() + position;
+            Lcopy.erase(it);
+
+            // and place it into the resulting list
+            result.push_back(item);
+            completeRetry = 0;
         }
-
-        vector<string>::iterator it = L.begin();
-        it += position;
-        L.erase(it);
-
-        // and place it into the resulting list
-        result.push_back(item);
+        completeRetry --;
     }
     return result;
 }

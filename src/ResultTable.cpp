@@ -130,10 +130,12 @@ void ResultTable::updateTable(QTableWidget * table, const std::vector<Scenario> 
         QString ip = QString("%1").arg(s->getCorrectExceptions());
         ip += "/";
         ip += QString("%1").arg(s->getNumberOfExceptions());
-        ip += " ";
-        ip += s->getErrorDetails();
-
         wItem = new QTableWidgetItem(ip);
+        wItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
+        table->setItem(row, col, wItem);
+        col ++;
+
+        wItem = new QTableWidgetItem(s->getErrorDistribution());
         wItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
         table->setItem(row, col, wItem);
         col ++;

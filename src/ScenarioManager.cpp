@@ -302,7 +302,8 @@ void Scenario::generateItemList()
         exceptions.push_back(*it);
     }
     // 1.b shuffle
-    exceptions = Util::shuffle(exceptions, false);
+    bool sameNeighbors = false;
+    exceptions = Util::shuffle(exceptions, sameNeighbors);
     // 1.c create list with right number of items
     exceptions = createFixedSizeList(exceptions, numberOfExceptions);
 
@@ -315,7 +316,7 @@ void Scenario::generateItemList()
         }
     }
     // 2.b shuffle
-    regularItems = Util::shuffle(regularItems, false);
+    regularItems = Util::shuffle(regularItems, sameNeighbors);
 
     // 2.c from L3, build a list with right number of items
     regularItems = createFixedSizeList(regularItems, numberOfItems - numberOfExceptions);
@@ -328,7 +329,10 @@ void Scenario::generateItemList()
     mergedList.insert(mergedList.begin(), regularItems.begin(), regularItems.end());
     
     // shuffle (and randomize the sequence)
-    itemSequence = Util::shuffle(mergedList, true);
+    sameNeighbors = true;
+    itemSequence = Util::shuffle(mergedList, sameNeighbors);
+    if (!sameNeighbors) LOG_ERROR("Could not forbid same neighbors");
+
 
     LOG_DEBUG("createItemList: " << Util::vectorToString(itemSequence));
 }
@@ -376,10 +380,14 @@ void Scenario::consolidateResult()
     averageClickSpeed = cumulatedClickTime / numberOfClick;
     correctRegularItems = (numberOfItems - numberOfExceptions - errorsOnRegularItems);
     correctExceptions = numberOfExceptions - errorsOnExceptions;
-    globalGrade = (correctRegularItems + 3*correctExceptions - errorsOnRegularItems - 3*errorsOnExceptions) * 100 /
+    if (correctRegularItems + 3*correctExceptions != 0) {
+        globalGrade = (correctRegularItems + 3*correctExceptions - errorsOnRegularItems - 3*errorsOnExceptions) * 100 /
                       (correctRegularItems + 3*correctExceptions);
+    } else globalGrade = 0;
 
     if (globalGrade<0) globalGrade = 0;
+
+    computeErrorDetails();
 
     LOG_DEBUG("vitesse de click=" << averageClickSpeed << " ms, score=" << globalGrade <<
               ", errorsOnExceptions="<<errorsOnExceptions << "/" << numberOfExceptions <<
@@ -410,7 +418,8 @@ void Scenario::store(const QString & filename)
     row << ((modeInhibition==MODE_INHIBITION)?"inhibition":"attention") << SEPARATOR;
     row << ratioOfExceptions << SEPARATOR;
     row << numberOfItems << SEPARATOR;
-    row << periodMs;
+    row << periodMs << SEPARATOR;
+    row << errorDistribution;
     row << "\n";
     f.close();
 }
@@ -433,7 +442,7 @@ bool Scenario::loadFromUserFile(const QString & filename, vector<Scenario> & sce
         Scenario s;
         std::string L = line.toLocal8Bit().constData();
         vector<string> tokens = Util::split(";", L);
-        if (tokens.size() != 11) {
+        if (tokens.size() < 11) {
             LOG_ERROR("Malformed result file: " << filename.toLocal8Bit().constData());
             f.close();
             return false;
@@ -458,6 +467,8 @@ bool Scenario::loadFromUserFile(const QString & filename, vector<Scenario> & sce
         s.numberOfExceptions = s.ratioOfExceptions*s.numberOfItems/100;
 
         s.periodMs = atoi(tokens[i++].c_str());
+        if (i<tokens.size()) s.errorDistribution = tokens[i++].c_str();
+        else s.errorDistribution = "";
         scenarioList.push_back(s);
     }
     f.close();
@@ -486,24 +497,24 @@ std::vector<Scenario> Scenario::getSameScenario(const std::vector<Scenario> & al
     }
     return result;
 }
-QString Scenario::getErrorDetails() const
+void Scenario::computeErrorDetails()
 {
     // get errors on exceptions for 1st, 2nd and 3rd parts
     // and format these '(r1-r2-r3)'
     int n = resultVector.size();
-    int r1 = 0;
-    int r2 = 0;
-    int r3 = 0;
+    int q1 = 0;
+    int q2 = 0;
+    int q3 = 0;
+    int q4 = 0;
     int i = 0;
-    for (i = 0; i < n/3; i++) {
-        if (resultVector[i] == EXCEPTION_ERROR) r1 ++;
+    for (i = 0; i < n; i++) {
+        if (resultVector[i] == EXCEPTION_ERROR) {
+            if (i < n/4) q1 ++;
+            else if (i < 2*n/4) q2 ++;
+            else if (i < 3*n/4) q3 ++;
+            else q4 ++;
+        }
     }
-    for (i = n/3; i < 2*n/3; i++) {
-        if (resultVector[i] == EXCEPTION_ERROR) r2 ++;
-    }
-    for (i = 2*n/3; i < n; i++) {
-        if (resultVector[i] == EXCEPTION_ERROR) r3 ++;
-    }
-    QString details = QString("(%1-%2-%3)").arg(r1).arg(r2).arg(r3);
-    return details;
+
+    errorDistribution = QString("%1-%2-%3-%4").arg(q1).arg(q2).arg(q3).arg(q4);
 }

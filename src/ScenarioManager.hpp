@@ -69,7 +69,7 @@ class Scenario
         inline int getForceRatioOfExceptions() { return forceRatioOfExceptions; }
         inline std::string getForceWithSound() { return forceWithSound; }
 
-        QString getErrorDetails() const;
+        inline QString getErrorDistribution() const { return errorDistribution; }
 
     private :
         bool parseFileItems(const std::string & line, std::set<std::string> &items, const string &encoding);
@@ -112,6 +112,9 @@ class Scenario
         std::string forceWithSound;
 
         std::vector<ItemResult> resultVector; // store result of all items
+        QString errorDistribution;
+        void computeErrorDetails();
+
 
 };
 
