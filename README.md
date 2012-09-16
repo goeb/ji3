@@ -104,6 +104,15 @@ Organisation des fichiers
 
 Licence 
 -------
-* Code source sous [GPL v3](http://fhoerni.free.fr/ji3/LICENSE)
+Le code source de ce programme est sous licence [GPL v3](http://fhoerni.free.fr/ji3/LICENSE), qui confère les libertés suivantes :
+
+* liberté d'exécuter le logiciel, pour n'importe quel usage
+* liberté d'étudier le fonctionnement d'un programme et de l'adapter à ses besoins
+* liberté de redistribuer des copies
+* liberté de faire bénéficier à la communauté des versions modifiées
+
+
+
+
 
 

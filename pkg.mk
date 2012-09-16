@@ -7,17 +7,17 @@ V = .0
 pkg: pkg-win32 pkg-src
 
 
-WIN_PKG_DIR = ji3$(V)-win32
+BUILD_DIR=build
+WIN_PKG_DIR = ji3
 SRC_PKG_DIR = ji3$(V)-src
 pkg-win32: doc
 	qmake -spec mingw32-g++
 	make
-	rm -rf $(WIN_PKG_DIR)
-	mkdir -p $(WIN_PKG_DIR)
+	rm -rf $(BUILD_DIR)/$(WIN_PKG_DIR)
+	mkdir -p $(BUILD_DIR)/$(WIN_PKG_DIR)
 	cp -f win32/ji3.exe DLL/.
-	for c in $(WIN32_COMPONENTS); do ln -fs ../$$c $(WIN_PKG_DIR)/$$c; done
-	zip -r $(WIN_PKG_DIR).zip $(WIN_PKG_DIR) --exclude "*.log" --exclude "*.ji3u"
-	zip -r $(WIN_PKG_DIR)-wodll.zip $(WIN_PKG_DIR) --exclude "*.log" --exclude "*.ji3u" --exclude "*.dll"
+	for c in $(WIN32_COMPONENTS); do ln -fs ../../$$c $(BUILD_DIR)/$(WIN_PKG_DIR)/$$c; done
+	cd $(BUILD_DIR); zip -r ../ji3$(V)-win32.zip $(WIN_PKG_DIR) --exclude "*.log" --exclude "*.ji3u"
 
 
 	
