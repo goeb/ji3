@@ -82,8 +82,13 @@ void Graph::paintEvent(QPaintEvent *e)
         for (point = c->points.begin(); point != c->points.end(); point++) {
             QPoint p;
             p.setX(i*xScale + xMarginLeft);
-            if (c->reverse) p.setY((*point)*yScale + yMarginTop);
-            else p.setY(h - (*point)*yScale - yMarginBottom);
+
+            int y = *point;
+            if (y > c->max) y = c->max;
+            else if (y < c->min) y = c->min;
+
+            if (c->reverse) p.setY(y*yScale + yMarginTop);
+            else p.setY(h - y*yScale - yMarginBottom);
             if (point == c->points.begin()) {
                 // nothing
             } else {

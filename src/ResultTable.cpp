@@ -20,7 +20,7 @@ void ResultTable::updateTable(QTableWidget * table, const std::vector<Scenario> 
     labels << tr("Date");
     if (style == TABLE_CONTROL) labels << tr("Thème") << tr("Son") << tr("Type") << tr("% Exc.") << tr("Vitesse") << tr("Long.");
     labels << tr("Vitesse\nde click") << tr("Score") << tr("Réussite\n items\nstandards")
-           << tr("Réussite\nexception") << tr("Répartition");
+           << tr("Réussite\nexception") << tr("Répartition\ndes erreurs");
 
     table->setColumnCount(labels.size());
     table->setHorizontalHeaderLabels(labels);
@@ -36,7 +36,7 @@ void ResultTable::updateTable(QTableWidget * table, const std::vector<Scenario> 
     if (style == TABLE_CONTROL) i = 11;
     else i = 6;
     QTableWidgetItem *x = table->horizontalHeaderItem(i);
-    x->setToolTip(tr("début-milieu-fin"));
+    x->setToolTip(tr("Répartition des erreurs par quart:\ndébut-2ème quart-3ème quart-fin"));
 
     std::vector<Scenario>::const_iterator s;
     QTableWidgetItem *wItem = 0;

@@ -508,7 +508,8 @@ void Scenario::computeErrorDetails()
     int q4 = 0;
     int i = 0;
     for (i = 0; i < n; i++) {
-        if (resultVector[i] == EXCEPTION_ERROR) {
+        if (resultVector[i] == EXCEPTION_ERROR ||
+            resultVector[i] == REGULAR_ITEM_ERROR) {
             if (i < n/4) q1 ++;
             else if (i < 2*n/4) q2 ++;
             else if (i < 3*n/4) q3 ++;

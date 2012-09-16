@@ -25,7 +25,7 @@ GraphPanel::GraphPanel(const QString & username, const Scenario & refScenario)
     clickAxis.side = LEFT;
     clickAxis.labels << tr("Lent") << tr("Rapide");
 
-    graph->addCurve(clickSpeedCurve, 0, 3000, tr("Vitesse de click"), true, clickAxis);
+    graph->addCurve(clickSpeedCurve, 0, 2000, tr("Vitesse de click"), true, clickAxis);
 
     Axis gradeAxis;
     gradeAxis.side = RIGHT;

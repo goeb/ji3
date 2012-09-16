@@ -233,7 +233,12 @@ void ControlPanel::checkScenarioForceValues(QString name)
         modeAttention->setEnabled(true);
     }
 
-    if (s.getForceNumberOfItems() == 75) {
+    if (s.getForceNumberOfItems() == 10) {
+        n75->setEnabled(false);
+        n10->setChecked(true);
+        n100->setEnabled(false);
+        n150->setEnabled(false);
+    } else if (s.getForceNumberOfItems() == 75) {
         n10->setEnabled(false);
         n75->setChecked(true);
         n100->setEnabled(false);
