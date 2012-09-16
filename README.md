@@ -7,7 +7,6 @@ Installation
 ------------
 * Pour Windows :
     * Télécharger : [ji3.0-win32.zip](http://fhoerni.free.fr/ji3/ji3.0-win32.zip)
-    * (ou sans les DLL [ji3.0-win32-wodll.zip](http://fhoerni.free.fr/ji3/ji3.0-win32-wodll.zip) )
     * Dézipper, c'est installé !
     * Le répertoire créé 'ji3' est le répertoire racine du jeu.
     * Lancer ji3.bat pour lancer le jeu.
@@ -22,6 +21,7 @@ Personnalisation / Création d'un thème
 --------------------------------------
 
 Un thème est constitué de :
+
 * un sous-répertoires du répertoire racine (appelons-le T)
 * dans ce répertoire T :
     * un fichier avec suffixe .ji3c, qui décrit le thème
@@ -91,7 +91,19 @@ Chaque ligne correspond à un résultat de jeu. Les champs sont séparés par de
 * nombre d'items total
 * periode
 
+Organisation des fichiers
+------------------------
+    ji3/
+    |-- DLL          (contient le programme)
+    |-- Data         (contient les fichiers des personnes)
+    |-- Couleurs     (thème)
+    |-- Instruments  (thème)
+    |-- Test         (thème)
+    `-- Autre thèmes ...
+
+
 Licence 
 -------
 * Code source sous [GPL v3](http://fhoerni.free.fr/ji3/LICENSE)
+
 

@@ -12,7 +12,6 @@
 
 <ul>
 <li>Télécharger : <a href="http://fhoerni.free.fr/ji3/ji3.0-win32.zip">ji3.0-win32.zip</a></li>
-<li>(ou sans les DLL <a href="http://fhoerni.free.fr/ji3/ji3.0-win32-wodll.zip">ji3.0-win32-wodll.zip</a> )</li>
 <li>Dézipper, c'est installé !</li>
 <li>Le répertoire créé 'ji3' est le répertoire racine du jeu.</li>
 <li>Lancer ji3.bat pour lancer le jeu.</li>
@@ -28,12 +27,17 @@
 
 <h2>Personnalisation / Création d'un thème</h2>
 
-<p>Un thème est constitué de :
-* un sous-répertoires du répertoire racine (appelons-le T)
-* dans ce répertoire T :
-    * un fichier avec suffixe .ji3c, qui décrit le thème
-    * des fichiers images (.png, .jpg)
-    * des fichiers sons (.wav)</p>
+<p>Un thème est constitué de :</p>
+
+<ul>
+<li>un sous-répertoires du répertoire racine (appelons-le T)</li>
+<li>dans ce répertoire T :
+<ul>
+<li>un fichier avec suffixe .ji3c, qui décrit le thème</li>
+<li>des fichiers images (.png, .jpg)</li>
+<li>des fichiers sons (.wav)</li>
+</ul></li>
+</ul>
 
 <p>Fichier .ji3c:</p>
 
@@ -97,6 +101,17 @@ linux/ji3 --codec latin1
 <li>nombre d'items total</li>
 <li>periode</li>
 </ul>
+
+<h2>Organisation des fichiers</h2>
+
+<pre><code>ji3/
+|-- DLL          (contient le programme)
+|-- Data         (contient les fichiers des personnes)
+|-- Couleurs     (thème)
+|-- Instruments  (thème)
+|-- Test         (thème)
+`-- Autre thèmes ...
+</code></pre>
 
 <h2>Licence </h2>
 
