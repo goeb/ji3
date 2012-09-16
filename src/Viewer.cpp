@@ -154,8 +154,10 @@ void Viewer::start()
     // display instructions of scenario
     state = STARTING;
     QString d = QString::fromStdString(scenario.getDescription());
+    d += "\n\n\n\n\n";
+    d += tr("Cliquer pour continuer.");
     d += "\n\n";
-    d += tr("('f' pour plein écran, cliquer pour continuer)");
+    d += "'f' pour plein écran\n'q' pour quitter";
     //scenario.getEncoding(); TODO ?
 
     descriptionLabel = new QLabel(this);
