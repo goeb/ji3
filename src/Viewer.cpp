@@ -6,6 +6,7 @@ using namespace std;
 #include "Logger.hpp"
 #include "SoundManager.hpp"
 #include "Viewer.hpp"
+#include "version.h"
 
 // TODO move this elsewhere
 const std::string dingFile = "Data/ding.wav";
@@ -68,7 +69,7 @@ Viewer::Viewer(Scenario & s) : scenario(s)
     imageLabel->setAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
 
     descriptionLabel = 0;
-
+    setWindowTitle(QString("ji") + VERSION);
     start();
 }
 
@@ -157,7 +158,7 @@ void Viewer::start()
     d += "\n\n\n\n\n";
     d += tr("Cliquer pour continuer.");
     d += "\n\n";
-    d += "'f' pour plein écran\n'q' pour quitter";
+    d += tr("'f' pour plein écran\n'q' pour quitter");
     //scenario.getEncoding(); TODO ?
 
     descriptionLabel = new QLabel(this);

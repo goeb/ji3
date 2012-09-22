@@ -8,6 +8,7 @@ using namespace std;
 #include "User.hpp"
 #include "ResultTable.hpp"
 #include "Graph.hpp"
+#include "version.h"
 
 ControlPanel::ControlPanel()
 {
@@ -82,7 +83,7 @@ ControlPanel::ControlPanel()
     grid->addWidget(quitButton, 3, 3);
 
     setLayout(grid);
-    setWindowTitle("Jeu Inhibition 3");
+    setWindowTitle(QString("ji") + VERSION);
     //resize(700, 300);
 }
 

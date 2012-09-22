@@ -1,9 +1,6 @@
 
 TODO
-- correct problems with accentuated file names
-- display evolution curve
 - use translation (http://doc.qt.nokia.com/4.7-snapshot/linguist-hellotr.html)
-- deduplicate directory name "Data"
 
 
 # first build

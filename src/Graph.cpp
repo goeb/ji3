@@ -1,8 +1,6 @@
 
 #include "Graph.hpp"
 
-
-
 Graph::Graph()
 {
     setFixedSize(QSize(800, 400));
@@ -17,7 +15,6 @@ Graph::Graph()
     // prepare available colors
     colors.push_back(Qt::blue);
     colors.push_back(Qt::red);
-
 }
 
 Graph::~Graph()

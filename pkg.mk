@@ -3,7 +3,7 @@ WIN32_COMPONENTS = DLL ji3.bat Data Couleurs LICENSE README.md Test
 SRC_COMPONENTS = ji3.bat src Makefile ji3.pro Data Couleurs LICENSE README.md Test
 
 
-V = .0
+V = .0.1
 pkg: pkg-win32 pkg-src
 
 

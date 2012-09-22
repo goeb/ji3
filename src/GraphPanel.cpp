@@ -8,6 +8,7 @@ using namespace std;
 #include "GraphPanel.hpp"
 #include "User.hpp"
 #include "ResultTable.hpp"
+#include "version.h"
 
 
 GraphPanel::GraphPanel(const QString & username, const Scenario & refScenario)
@@ -46,7 +47,8 @@ GraphPanel::GraphPanel(const QString & username, const Scenario & refScenario)
     grid->addWidget(closeButton);
 
     setLayout(grid);
-    setWindowTitle("Jeu Inhibition 3 - graphe");
+    setWindowTitle(QString("ji") + VERSION);
+
 }
 
 QTableWidget* GraphPanel::createTable(const std::vector<Scenario> & sList)

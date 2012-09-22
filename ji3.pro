@@ -33,7 +33,8 @@ HEADERS += \
     src/ControlPanel.hpp \
     src/Graph.hpp \
     src/GraphPanel.hpp \
-    src/ResultTable.hpp
+    src/ResultTable.hpp \
+    src/version.h
 
 
 linux-g++ {
