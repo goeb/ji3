@@ -1,0 +1,6 @@
+description-attention: Cliquer sur la couleur rouge.
+description-inhibition: Cliquer sur toutes les couleurs, sauf le rouge.
+items: *.png
+exceptions: rouge.png
+
+

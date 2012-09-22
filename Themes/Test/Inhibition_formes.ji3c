@@ -1,0 +1,12 @@
+description-inhibition: Ne pas cliquer sur les ronds.
+items: *.png
+exceptions: rondbleu.png rondjaune.png rondorange.png rondrouge.png rondvert.png rondviolet.png
+force-sound: off
+force-type: inhibition
+force-exception: 10 # %
+force-speed: 2000 # milliseconds
+force-number: 150
+
+
+
+

@@ -1,0 +1,12 @@
+description-inhibition: Cliquer sur les lettres, mais pas sur les chiffres.
+text-items: A B C D E F G H I J K L M N P Q R S T U V W X Y Z
+text-exceptions: 1 2 3 4 5 6 7 8 9 
+force-sound: off
+force-type: inhibition
+force-exception: 20 # %
+force-speed: 2000 # milliseconds
+force-number: 10
+
+
+
+
