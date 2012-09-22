@@ -11,6 +11,7 @@
 
 
 #define SEPARATOR ';';
+const char * THEME_DIR = "Themes";
 
 Scenario::Scenario(const string &_path, int _periodMs, int _numberOfItems, int _ratioOfExceptions, bool _modeInhibition, bool sound)
 {
@@ -58,7 +59,9 @@ bool Scenario::parseFileItems(const std::string & line, std::set<std::string> & 
     bool r = Util::splitQuotes(line, tokens);
     if (!r) return r;
 
-    std::string dir = Util::dirname(path);
+    std::string filename = THEME_DIR;
+    filename += "/" + path;
+    std::string dir = Util::dirname(filename);
     QDir qdir(QString(dir.c_str()));
 
     // then resolv wildcards
@@ -94,7 +97,9 @@ bool Scenario::load(std::string name)
 {
     // load scenario information from file (parse the file, etc.)
     string fileContents = "";
-    bool r = Util::readWholeFile(name+SCENARIO_DESCRIPTOR_SUFFIX, fileContents);
+    string filename = THEME_DIR;
+    filename += "/" + name + SCENARIO_DESCRIPTOR_SUFFIX;
+    bool r = Util::readWholeFile(filename, fileContents);
     
     if (!r) return false;
 
@@ -228,13 +233,13 @@ bool Scenario::load(std::string name)
 
 QStringList Scenario::retrieveScenarios()
 {
-    QDir cwd(".");
-    QStringList dirs = cwd.entryList(QDir::AllDirs|QDir::NoDotAndDotDot);
-    // for each of these dir, look for *.conf (in other words: */*.conf)
+    QDir themeDir(THEME_DIR);
+    QStringList dirs = themeDir.entryList(QDir::AllDirs|QDir::NoDotAndDotDot);
+    // for each of these dir, look for *.ji3c (in other words: Themes/*/*.ji3c)
 
     QStringList scenarioFiles;
     for (int i = 0; i < dirs.size(); i++) {
-        QDir dir(dirs.at(i));
+        QDir dir(QString(THEME_DIR) + "/" + dirs.at(i));
         QString filter = "*";
         filter += SCENARIO_DESCRIPTOR_SUFFIX;
         QStringList filters;
@@ -447,7 +452,7 @@ bool Scenario::loadFromUserFile(const QString & filename, vector<Scenario> & sce
             f.close();
             return false;
         }
-        int i = 0;
+        unsigned int i = 0;
         s.datetime = tokens[i++];
         s.path = tokens[i++];
         s.globalGrade = atoi(tokens[i++].c_str());

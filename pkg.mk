@@ -29,8 +29,9 @@ pkg-src:
 	zip -r $(SRC_PKG_DIR).zip $(SRC_PKG_DIR) --exclude "*.log" --exclude "*.ji3u"
 
 pkg-other:
-	zip -r ji3-Instruments.zip Instruments
-	zip -r ji3-Animaux.zip Animaux
+	zip -r Instruments.zip Instruments
+	zip -r Fruits.zip Fruits
+	zip -r Animaux.zip Animaux
 
 doc:
 	@echo "<html><head><title>Jeu Inhibition 3</title>" > index.html

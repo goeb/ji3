@@ -5,17 +5,20 @@ Jeu Inhibition (jeu de rééducation)
 
 Installation
 ------------
-* Pour Windows :
+
     * [Télécharger](http://fhoerni.free.fr/ji3/download.html)
     * Dézipper, c'est installé !
-    * Le répertoire créé 'ji3' est le répertoire racine du jeu.
     * Lancer ji3.bat pour lancer le jeu.
 
-* Code source : [ji3.0-src.zip](http://fhoerni.free.fr/ji3/ji3.0-src.zip)
 
-* Fichiers de thèmes supplémentaires :
-    * [ji3-Instruments.zip](http://fhoerni.free.fr/ji3/ji3-Instruments.zip)
-    * [ji3-Animaux.zip](http://fhoerni.free.fr/ji3/ji3-Animaux.zip)
+Raccourcis clavier
+-------------------
+Sur l'écran de contrôle (le premier écran) :
+    * Ctrl-Q pour quitter
+
+Sur les autres (le déroulement et le graphe) :
+    * q : abandonner et revenir à l'écran de contrôle
+    * f : plein écran / réduire
 
 Personnalisation / Création d'un thème
 --------------------------------------
@@ -69,7 +72,7 @@ Le note maximale étant :
 Problème d'encodage des caractères (noms de fichiers)
 -----------------------------------------------------
 
-Il est possible de passer l'option --codec à ji3.exe, afin de régler d'éventuels problèmes concernant les accents dans les noms des fichiers .ji3u :
+Il est possible de passer l'option --codec à ji3.exe (dans ji3.bat), afin de régler d'éventuels problèmes concernant les accents dans les noms des fichiers .ji3u :
 
     linux/ji3 --codec UTF-8
     linux/ji3 --codec latin1
@@ -96,10 +99,11 @@ Organisation des fichiers
     ji3/
     |-- DLL          (contient le programme)
     |-- Data         (contient les fichiers des personnes)
-    |-- Couleurs     (thème)
-    |-- Instruments  (thème)
-    |-- Test         (thème)
-    `-- Autre thèmes ...
+    `-- Themes
+        |-- Couleurs
+        |-- Instruments
+        |-- Test
+        `-- Autres...
 
 
 Licence 

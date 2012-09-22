@@ -1,6 +1,0 @@
-description-attention: Cliquer sur les fruits uniquement.
-description-inhibition: Ne pas cliquer sur les fruits.
-items: *.png
-exceptions: banane.png cerise.png fraise.png kiwi.png pomme.png raisin.png
-encoding: ISO 8859-1
-

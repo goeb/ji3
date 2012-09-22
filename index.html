@@ -7,23 +7,19 @@
 
 <h2>Installation</h2>
 
-<ul>
-<li><p>Pour Windows :</p>
+<pre><code>* [Télécharger](http://fhoerni.free.fr/ji3/download.html)
+* Dézipper, c'est installé !
+* Lancer ji3.bat pour lancer le jeu.
+</code></pre>
 
-<ul>
-<li><a href="http://fhoerni.free.fr/ji3/download.html">Télécharger</a></li>
-<li>Dézipper, c'est installé !</li>
-<li>Le répertoire créé 'ji3' est le répertoire racine du jeu.</li>
-<li>Lancer ji3.bat pour lancer le jeu.</li>
-</ul></li>
-<li><p>Code source : <a href="http://fhoerni.free.fr/ji3/ji3.0-src.zip">ji3.0-src.zip</a></p></li>
-<li><p>Fichiers de thèmes supplémentaires :</p>
+<h2>Raccourcis clavier</h2>
 
-<ul>
-<li><a href="http://fhoerni.free.fr/ji3/ji3-Instruments.zip">ji3-Instruments.zip</a></li>
-<li><a href="http://fhoerni.free.fr/ji3/ji3-Animaux.zip">ji3-Animaux.zip</a></li>
-</ul></li>
-</ul>
+<p>Sur l'écran de contrôle (le premier écran) :
+    * Ctrl-Q pour quitter</p>
+
+<p>Sur les autres (le déroulement et le graphe) :
+    * q : abandonner et revenir à l'écran de contrôle
+    * f : plein écran / réduire</p>
 
 <h2>Personnalisation / Création d'un thème</h2>
 
@@ -78,7 +74,7 @@ force-number: 75
 
 <h2>Problème d'encodage des caractères (noms de fichiers)</h2>
 
-<p>Il est possible de passer l'option --codec à ji3.exe, afin de régler d'éventuels problèmes concernant les accents dans les noms des fichiers .ji3u :</p>
+<p>Il est possible de passer l'option --codec à ji3.exe (dans ji3.bat), afin de régler d'éventuels problèmes concernant les accents dans les noms des fichiers .ji3u :</p>
 
 <pre><code>linux/ji3 --codec UTF-8
 linux/ji3 --codec latin1
@@ -107,10 +103,11 @@ linux/ji3 --codec latin1
 <pre><code>ji3/
 |-- DLL          (contient le programme)
 |-- Data         (contient les fichiers des personnes)
-|-- Couleurs     (thème)
-|-- Instruments  (thème)
-|-- Test         (thème)
-`-- Autre thèmes ...
+`-- Themes
+    |-- Couleurs
+    |-- Instruments
+    |-- Test
+    `-- Autres...
 </code></pre>
 
 <h2>Licence </h2>

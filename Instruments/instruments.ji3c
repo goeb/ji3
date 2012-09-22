@@ -1,6 +1,0 @@
-description-attention: Cliquer sur les instruments de musique uniquement.
-description-inhibition: Cliquer sur tous les objets, sauf sur les instruments de musique.
-items: *.png
-exceptions: accordeon.png castagnettes.png clarinette.png cornemuse.png cornet.png cymbales.png flute.png guitare.png guitareelec.png harmonica.png harpe.png mandoline.png maracas.png saxophone.png tambour.png tambourin.png triangle.png trombone.png trompe.png trompette.png tuba.png violon.png violoncelle.png xylophone.png
-encoding: ISO 8859-1
-
