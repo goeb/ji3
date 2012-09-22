@@ -288,6 +288,8 @@ vector<string> Scenario::createFixedSizeList(vector<string> & inputList, int n)
     return result;
 }
 
+
+
 void Scenario::generateItemList()
 {
     // Create a list of elements, conforming to the configuration of the scenario:
@@ -329,16 +331,28 @@ void Scenario::generateItemList()
     LOG_DEBUG("regularItems: " << Util::vectorToString(regularItems));
 
     // 3. merge these 2 lists
-    vector<string> mergedList;
-    mergedList.insert(mergedList.begin(), exceptions.begin(), exceptions.end());
-    mergedList.insert(mergedList.begin(), regularItems.begin(), regularItems.end());
+    // work quarter by quarter
+    const int N_Q = 4; // 4 quarters
+    int takeFromL1 = 0;
+    int takeFromL2 = 0;
+    int offset = 0;
+    for (int q = 1; q <= N_Q; q++) {
+        takeFromL1 = regularItems.size()/(N_Q + 1 - q);
+        takeFromL2 = exceptions.size()/(N_Q + 1 - q);
+
+        itemSequence.insert(itemSequence.end(), regularItems.begin(), regularItems.begin() + takeFromL1);
+        itemSequence.insert(itemSequence.end(), exceptions.begin(), exceptions.begin() + takeFromL2);
+
+        regularItems.erase(regularItems.begin(), regularItems.begin() + takeFromL1);
+        exceptions.erase(exceptions.begin(), exceptions.begin() + takeFromL2);
+
+        // shuffle this "in place"
+        sameNeighbors = true;
+        Util::shuffle(itemSequence, offset, takeFromL1+takeFromL2, sameNeighbors);
+        if (!sameNeighbors) LOG_ERROR("Could not forbid same neighbors");
+        offset += takeFromL1 + takeFromL2;
+    }
     
-    // shuffle (and randomize the sequence)
-    sameNeighbors = true;
-    itemSequence = Util::shuffle(mergedList, sameNeighbors);
-    if (!sameNeighbors) LOG_ERROR("Could not forbid same neighbors");
-
-
     LOG_DEBUG("createItemList: " << Util::vectorToString(itemSequence));
 }
 

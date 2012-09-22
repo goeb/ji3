@@ -24,6 +24,7 @@ class Util
         static bool splitQuotes(const std::string & line, std::vector<std::string> & tokens);
         static std::string vectorToString(const std::vector<std::string> & v);
         static std::string vectorToString(const std::set<std::string> & v);
+        static void shuffle(std::vector<std::string> & items, int offset, int N, bool & forbidSameNeighbors);
         static std::vector<std::string> shuffle(const std::vector<std::string> &L, bool &forbidSameNeighbors);
 
 

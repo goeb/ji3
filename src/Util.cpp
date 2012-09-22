@@ -285,6 +285,58 @@ std::string Util::vectorToString(const std::set<std::string> & v)
     return s.str();
 }
 
+void Util::shuffle(std::vector<std::string> & items, int offset, int N, bool & forbidSameNeighbors)
+{
+    // shuffle n items starting at given offset
+    // if forbidSameNeighbors, then try to avoid 2 same items next each other
+
+    std::vector<std::string> resultInit = std::vector<std::string>(items.begin(), items.begin() + offset);
+    std::vector<std::string> result;
+    //srand(time(0));
+    int completeRetry = 2;
+    while (completeRetry >= 0) {
+        // Lcopy is the restricted set of items to shuffle
+        std::vector<std::string> Lcopy = std::vector<std::string>(items.begin() + offset, items.begin() + offset + N);
+        result = resultInit;
+
+        int n = 0;
+        while ( (n = Lcopy.size()) )
+        {
+            // take a random item
+            int position = rand()%n;
+            string item = Lcopy[position];
+
+            if (forbidSameNeighbors) {
+                if (result.size() > 0 && (item == result[result.size()-1])) {
+                    // try again
+                    position = rand()%n;
+                    item = Lcopy[position];
+                    if (result.size() > 0 && (item == result[result.size()-1])) {
+                        // try one last time
+                        position = rand()%n;
+                        item = Lcopy[position];
+                        if (result.size() > 0 && (item == result[result.size()-1])) {
+                            // do a complete retry
+                            if (completeRetry > 0) break;
+                            else forbidSameNeighbors = false; // indicate that result could not be achieved
+                        }
+                    }
+                }
+            }
+
+            vector<string>::iterator it = Lcopy.begin() + position;
+            Lcopy.erase(it);
+
+            // and place it into the resulting list
+            result.push_back(item);
+            completeRetry = 0;
+        }
+        completeRetry --;
+    }
+    items = result;
+}
+
+
 std::vector<std::string> Util::shuffle(const std::vector<std::string> & itemList, bool & forbidSameNeighbors)
 {
     // if forbidSameNeighbors, then try to avoid 2 same items next each other
