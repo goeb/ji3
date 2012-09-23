@@ -14,12 +14,16 @@
 
 <h2>Raccourcis clavier</h2>
 
-<p>Sur l'écran de contrôle (le premier écran) :
-    * Ctrl-Q pour quitter</p>
+<p>Sur l'écran de contrôle (le premier écran) :</p>
 
-<p>Sur les autres (le déroulement et le graphe) :
-    * q : abandonner et revenir à l'écran de contrôle
-    * f : plein écran / réduire</p>
+<pre><code>* Ctrl-Q pour quitter
+</code></pre>
+
+<p>Sur les autres (le déroulement et le graphe) :</p>
+
+<pre><code>* q : abandonner et revenir à l'écran de contrôle
+* f : plein écran / réduire
+</code></pre>
 
 <h2>Personnalisation / Création d'un thème</h2>
 
@@ -109,6 +113,25 @@ linux/ji3 --codec latin1
     |-- Test
     `-- Autres...
 </code></pre>
+
+<h2>Développeurs</h2>
+
+<ul>
+<li>Pré-requis :
+<ul>
+<li>SDL-1.2, SDL_mixer-1.2</li>
+<li>Qt v4.7</li>
+</ul></li>
+<li>Cross-Compiler pour Windows (à partir d'un Linux)
+<ul>
+<li>copier qmake.conf -> /usr/share/qt4/mkspecs/mingw32-g++/qmake.conf</li>
+<li>qmake -spec mingw32-g++ &amp;&amp; make</li>
+</ul></li>
+<li>Compiler pour Linux
+<ul>
+<li>qmake &amp;&amp; make</li>
+</ul></li>
+</ul>
 
 <h2>Licence </h2>
 

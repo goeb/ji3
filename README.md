@@ -14,9 +14,11 @@ Installation
 Raccourcis clavier
 -------------------
 Sur l'écran de contrôle (le premier écran) :
+
     * Ctrl-Q pour quitter
 
 Sur les autres (le déroulement et le graphe) :
+
     * q : abandonner et revenir à l'écran de contrôle
     * f : plein écran / réduire
 
@@ -105,6 +107,18 @@ Organisation des fichiers
         |-- Test
         `-- Autres...
 
+
+Développeurs
+------------
+
+* Pré-requis :
+    - SDL-1.2, SDL_mixer-1.2
+    - Qt v4.7
+* Cross-Compiler pour Windows (à partir d'un Linux)
+    - copier qmake.conf -> /usr/share/qt4/mkspecs/mingw32-g++/qmake.conf
+    - qmake -spec mingw32-g++ && make
+* Compiler pour Linux
+    - qmake && make
 
 Licence 
 -------
