@@ -68,6 +68,20 @@ Viewer::Viewer(Scenario & s) : scenario(s)
     imageLabel = new Image;
     imageLabel->setAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
 
+    if (scenario.getMode() == MODE_DIVIDED_ATTENTION) {
+        distractor = new QLabel(this);
+        const QImage img("Data/lutin.png");
+        const QPixmap p = QPixmap::fromImage(img);
+        int w = width()/4;
+        int h = height()/4;
+        // set a scaled pixmap to a w x h window keeping its aspect ratio
+        distractor->setPixmap(p.scaled(w, h, Qt::KeepAspectRatio));
+        distractor->hide();
+    }
+    else distractor = 0;
+
+    nDistractor = 0;
+
     descriptionLabel = 0;
     setWindowTitle(QString("ji") + VERSION);
     start();
@@ -180,7 +194,12 @@ void Viewer::next()
     state = RUNNING;
     // goto next image
     currentFile = getNextImage();
-    if (currentFile == "") finalPage();
+    if (currentFile == "") {
+        // end of the sequence
+        // display the final page
+        if (scenario.getMode() == MODE_DIVIDED_ATTENTION) return dividedAttentionFinalPage();
+        else return finalPage();
+    }
     LOG_INFO("next image: " << currentFile);
 
     // get sound from image file // TODO improve search of sound
@@ -190,12 +209,42 @@ void Viewer::next()
 
     imageLabel->setImage(currentFile.c_str());
 
+    if (scenario.getMode() == MODE_DIVIDED_ATTENTION)
+    {
+        if (rand() % 100 > 10) {
+            // play sound only if sound of items is not enabled
+            if (! scenario.getWithSound()) {
+                SoundManager::playSound("Data/coucou.wav", ITEM_CHANNEL);
+                distractor->hide();
+            } else {
+                // display the distractor
+                // chose a random position
+                Qt::Alignment align;
+                switch (rand() % 8) {
+                case 0: align = Qt::AlignTop | Qt::AlignLeft; break;
+                case 1: align = Qt::AlignTop | Qt::AlignHCenter; break;
+                case 2: align = Qt::AlignTop | Qt::AlignRight; break;
+                case 3: align = Qt::AlignVCenter | Qt::AlignLeft; break;
+                case 4: align = Qt::AlignVCenter | Qt::AlignRight; break;
+                case 5: align = Qt::AlignBottom | Qt::AlignLeft; break;
+                case 6: align = Qt::AlignBottom | Qt::AlignHCenter; break;
+                case 7: align = Qt::AlignBottom | Qt::AlignRight; break;
+                }
+                distractor->setAlignment(align);
+                distractor->setGeometry(0, 0, width(), height());
+                distractor->show();
+                distractor->raise();
+                nDistractor++;
+            }
+        } else distractor->hide();
+    }
+
     clickSpeedTimer.start();
 
 }
 
 void Viewer::finalPage() {
-    // display instructions of scenario
+    // indicate that the scenario is finished
     state = ENDING;
     killTimer(pendingTimer);
     QString d = tr("Fin.\nCliquer pour continuer.");
@@ -216,6 +265,34 @@ void Viewer::finalPage() {
 
 }
 
+
+void Viewer::dividedAttentionFinalPage() {
+    // collect user input about number of distractors seen
+    state = ENDING;
+    killTimer(pendingTimer);
+    QString d = tr("Fin.\nIndiquer combien de distracteurs ont été vus.");
+    //scenario.getEncoding(); TODO ?
+    distractor->hide();
+
+    descriptionLabel = new QLabel(this);
+    descriptionLabel->setText(d);
+    descriptionLabel->setFrameStyle(QFrame::Box);
+    descriptionLabel->setWordWrap(true);
+    descriptionLabel->setMinimumSize(300, 300);
+    descriptionLabel->setAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
+
+    QFont f = descriptionLabel->font();
+    f.setPointSize(16);
+    descriptionLabel->setFont(f);
+
+    QVBoxLayout *vbox = new QVBoxLayout;
+    QLineEdit *textInput = new QLineEdit();
+    vbox->addWidget(descriptionLabel);
+    vbox->addWidget(textInput);
+    //setLayout(vbox);
+
+    setCentralWidget(descriptionLabel);
+}
 
 void Viewer::end() {
     scenario.consolidateResult();

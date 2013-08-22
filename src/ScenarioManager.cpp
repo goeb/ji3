@@ -13,7 +13,7 @@
 #define SEPARATOR ';';
 const char * THEME_DIR = "Themes";
 
-Scenario::Scenario(const string &_path, int _periodMs, int _numberOfItems, int _ratioOfExceptions, bool _modeInhibition, bool sound)
+Scenario::Scenario(const string &_path, int _periodMs, int _numberOfItems, int _ratioOfExceptions, TestMode _modeInhibition, bool sound)
 {
     path = _path; // this is the path of the file minus the suffix .ji3c
     periodMs = _periodMs;
@@ -21,8 +21,7 @@ Scenario::Scenario(const string &_path, int _periodMs, int _numberOfItems, int _
     ratioOfExceptions = _ratioOfExceptions;
     numberOfExceptions = ratioOfExceptions*numberOfItems/100;
 
-    if (_modeInhibition) modeInhibition = MODE_INHIBITION;
-    else modeInhibition = MODE_ATTENTION;
+    modeInhibition = _modeInhibition;
 
     errorsOnRegularItems = 0;
     errorsOnExceptions = 0;
@@ -163,6 +162,9 @@ bool Scenario::load(std::string name)
             } else if (0 == left.compare("description-attention")) {
                 if (modeInhibition == MODE_ATTENTION) description = right;
 
+            } else if (0 == left.compare("description-attention-divisee")) {
+                if (modeInhibition == MODE_DIVIDED_ATTENTION) description = right;
+
             } else if (0 == left.compare("force-speed")) {
                 forcePeriodMs = atoi(right.c_str());
 
@@ -178,6 +180,7 @@ bool Scenario::load(std::string name)
             } else if (0 == left.compare("force-type")) {
                 if (right == "attention") forceModeInhibition = MODE_ATTENTION;
                 else if (right == "inhibition") forceModeInhibition = MODE_INHIBITION;
+                else if (right == "attention-divisee") forceModeInhibition = MODE_DIVIDED_ATTENTION;
                 // else nothing set
 
             } else if (0 == left.compare("encoding")) {
@@ -367,7 +370,7 @@ bool Scenario::evaluateUserClick(const std::string & item, bool hasClicked)
             result = !hasClicked;
 
         } else {
-            // mode attention
+            // mode attention or divided attention
             result = hasClicked;
         }
         if (!result) errorsOnExceptions ++;
@@ -378,7 +381,7 @@ bool Scenario::evaluateUserClick(const std::string & item, bool hasClicked)
         if (MODE_INHIBITION == modeInhibition) {
             result = hasClicked;
         } else {
-            // mode attention
+            // mode attention or divided attention
             result = !hasClicked;
         }
         if (!result) errorsOnRegularItems ++;
@@ -434,7 +437,12 @@ void Scenario::store(const QString & filename)
     row << correctExceptions << SEPARATOR;
     row << correctRegularItems << SEPARATOR;
     row << (withSound?"sound-on":"sound-off") << SEPARATOR;
-    row << ((modeInhibition==MODE_INHIBITION)?"inhibition":"attention") << SEPARATOR;
+
+    if (modeInhibition == MODE_INHIBITION) row << "inhibition";
+    else if (modeInhibition == MODE_ATTENTION) row << "attention";
+    else row << "attention divisee";
+    row << SEPARATOR;
+
     row << ratioOfExceptions << SEPARATOR;
     row << numberOfItems << SEPARATOR;
     row << periodMs << SEPARATOR;
@@ -479,7 +487,8 @@ bool Scenario::loadFromUserFile(const QString & filename, vector<Scenario> & sce
         i++;
 
         if (tokens[i] == "inhibition") s.modeInhibition = MODE_INHIBITION;
-        else s.modeInhibition = MODE_ATTENTION;
+        else if (tokens[i] == "attention") s.modeInhibition = MODE_ATTENTION;
+        else s.modeInhibition = MODE_DIVIDED_ATTENTION;
         i++;
         s.ratioOfExceptions = atoi(tokens[i++].c_str());
         s.numberOfItems = atoi(tokens[i++].c_str());

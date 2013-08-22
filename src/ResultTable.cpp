@@ -77,7 +77,8 @@ void ResultTable::updateTable(QTableWidget * table, const std::vector<Scenario> 
 
             QString mode;
             if (s->getMode() == MODE_INHIBITION) mode = tr("inhibition");
-            else mode = tr("attention");
+            else if (s->getMode() == MODE_ATTENTION) mode = tr("attention");
+            else mode = tr("attention divisée");
             wItem = new QTableWidgetItem(mode);
             wItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
             table->setItem(row, col, wItem);

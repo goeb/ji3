@@ -50,12 +50,16 @@ private:
     std::vector<std::string> items;
     unsigned int index;
     Image * imageLabel;
+    QLabel * distractor; // used only for MODE_DIVIDED_ATTENTION
+    int nDistractor;
     int pendingTimer;
+
 
     void processUserClick();
     void next();
     void start();
     void finalPage();
+    void dividedAttentionFinalPage();
     void end();
 
     int periodMs; // milliseconds

@@ -226,12 +226,19 @@ void ControlPanel::checkScenarioForceValues(QString name)
     if (s.getForceModeInhibition() == MODE_INHIBITION) {
         modeInhibition->setChecked(true);
         modeAttention->setEnabled(false);
+        modeDividedAttention->setEnabled(false);
     } else if (s.getForceModeInhibition() == MODE_ATTENTION) {
         modeAttention->setChecked(true);
         modeInhibition->setEnabled(false);
+        modeDividedAttention->setEnabled(false);
+    } else if (s.getForceModeInhibition() == MODE_DIVIDED_ATTENTION) {
+        modeAttention->setEnabled(false);
+        modeInhibition->setEnabled(false);
+        modeDividedAttention->setChecked(true);
     } else {
         modeInhibition->setEnabled(true);
         modeAttention->setEnabled(true);
+        modeDividedAttention->setEnabled(true);
     }
 
     if (s.getForceNumberOfItems() == 10) {
@@ -407,7 +414,7 @@ QGroupBox *ControlPanel::createTypeGroup()
     modeInhibition = new QRadioButton(tr("Inhibition"));
     modeAttention = new QRadioButton(tr("Attention"));
     modeDividedAttention = new QRadioButton(tr("Attention divisée"));
-    modeDividedAttention->setEnabled(0);
+    //modeDividedAttention->setEnabled(0);
 
     modeInhibition->setChecked(true);
 

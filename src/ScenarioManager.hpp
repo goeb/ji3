@@ -16,7 +16,7 @@ using namespace std;
 typedef enum {
     MODE_INHIBITION, // click all items but on exception items
     MODE_ATTENTION, // click only on exception items
-    XX_DIVIDED_ATTENTION, // sound and image not related
+    MODE_DIVIDED_ATTENTION, // mode ATTENTION + random distractor (image+sound)
     MODE_NONE
 } TestMode;
 
@@ -30,7 +30,7 @@ typedef enum {
 class Scenario
 {
     public :
-        Scenario(const string & path, int periodMs, int numberOfItems, int numberOfExceptions, bool modeInhibition, bool sound);
+        Scenario(const string & path, int periodMs, int numberOfItems, int numberOfExceptions, TestMode modeInhibition, bool sound);
         Scenario();
         void generateItemList(); // create a random sequence of items
         bool load();
@@ -42,7 +42,7 @@ class Scenario
         inline int getPeriodMs() const { return periodMs; }
         inline int getNumberOfItems() const { return numberOfItems; }
         inline int getNumberOfExceptions() const { return numberOfExceptions; }
-        inline int getWithSound() const { return withSound; }
+        inline bool getWithSound() const { return withSound; }
 
         inline TestMode getMode() const { return modeInhibition; }
         inline int getRatioOfExceptions() const { return ratioOfExceptions; }
@@ -65,7 +65,7 @@ class Scenario
 
         inline int getForcePeriodMs() { return forcePeriodMs; }
         inline int getForceNumberOfItems() { return forceNumberOfItems; }
-        inline int getForceModeInhibition() { return forceModeInhibition; }
+        inline TestMode getForceModeInhibition() { return forceModeInhibition; }
         inline int getForceRatioOfExceptions() { return forceRatioOfExceptions; }
         inline std::string getForceWithSound() { return forceWithSound; }
 

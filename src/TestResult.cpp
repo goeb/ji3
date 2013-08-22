@@ -25,10 +25,12 @@ bool TestResult::loadFromString(string line)
     if (0 == elements[3].compare("attention"))
     {
         attentionOrInhibition = MODE_ATTENTION;
-    }
-    else
-    {
+
+    } else if (0 == elements[3].compare("inhibition")) {
         attentionOrInhibition = MODE_INHIBITION;
+
+    } else {
+        attentionOrInhibition=  MODE_DIVIDED_ATTENTION;
     }
     
     string correctnessStr = elements[4];
@@ -52,10 +54,12 @@ string TestResult::serialize()
     if (attentionOrInhibition == MODE_ATTENTION)
     {
         res << "attention" << SEP;
-    }
-    else
-    {
+
+    } else if (attentionOrInhibition == MODE_INHIBITION) {
         res << "inhibition" << SEP;
+
+    } else {
+        res << "attention-divisee" << SEP;
     }
     res << correctness << SEP;
     res << clickSpeed << SEP;

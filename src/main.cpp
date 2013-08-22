@@ -22,6 +22,7 @@ void usage()
                  "-x X            Ratio of exceptions showed (percent of N).\n"
                  "-i              Inhibition mode (player MUST NOT click on exceptions).\n"
                  "-a              Attention mode (player MUST click on exceptions).\n"
+                 "-ad             Divided Attention mode.\n"
                  "                -i and -a are exclusive.\n"
                  "--codec codec   Specify codec (UTF-8, latin1, etc.)\n"
                  "\n";
@@ -46,7 +47,7 @@ int main(int argc, char **argv)
     float period = 1; // seconds
     int numberOfItems = 10;
     int ratioOfExceptions = 10; // percent
-    bool modeInhibition = true;
+    TestMode modeInhibition = MODE_ATTENTION;
     bool commandLine = false;
     const char * codec = 0;
 
@@ -70,9 +71,11 @@ int main(int argc, char **argv)
             i++; if (i >= n) usage();
             ratioOfExceptions = args.at(i).toInt();
         } else if (arg == "-a") {
-            modeInhibition = false;
+            modeInhibition = MODE_ATTENTION;
         } else if (arg == "-i") {
-            modeInhibition = true;
+            modeInhibition = MODE_INHIBITION;
+        } else if (arg == "-ad") {
+            modeInhibition = MODE_DIVIDED_ATTENTION;
         } else {
             // scenario
             scenario = args.at(i);
