@@ -1,0 +1,264 @@
+#############################################################################
+# Makefile for building: linux/ji3
+# Modified manually (fho)
+#############################################################################
+QT_DIR = $(HOME)/.wine/drive_c/Qt/4.8.2
+QT_INCLUDES = $(QT_DIR)/include
+QT_LIBS = $(QT_DIR)/bin
+
+SDL_DIR = $(HOME)/win32libs/SDL-1.2.15
+SDL_MIXER_DIR = $(HOME)/win32libs/SDL_mixer-1.2.12
+
+CROSS_COMPILE = i686-w64-mingw32-
+
+####### Compiler, tools and options
+
+CC            = $(CROSS_COMPILE)gcc
+CXX           = $(CROSS_COMPILE)g++
+DEFINES       = -DQT_WEBKIT -DQT_GUI_LIB -DQT_CORE_LIB -DQT_SHARED
+CFLAGS        = -pipe -g -Wall -W -D_REENTRANT $(DEFINES)
+CXXFLAGS      = -pipe -g -Wall -W -D_REENTRANT $(DEFINES)
+INCPATH       = -I$(QT_INCLUDES) -I$(QT_INCLUDES)/QtGui -I$(QT_INCLUDES)/QtCore -I. -I$(SDL_DIR)/include -I$(SDL_MIXER_DIR)/include -I$(SDL_DIR)/include/SDL
+LINK          = $(CROSS_COMPILE)g++
+LFLAGS        = 
+LIBS          = $(SUBLIBS) -L$(QT_LIBS) -L$(SDL_DIR)/lib -L$(SDL_MIXER_DIR)/lib -lSDL -lSDL_mixer -lQtGui4 -lQtCore4
+AR            = ar cqs
+RANLIB        = 
+QMAKE         = /usr/bin/qmake-qt4
+TAR           = tar -cf
+COMPRESS      = gzip -9f
+COPY          = cp -f
+SED           = sed
+COPY_FILE     = $(COPY)
+COPY_DIR      = $(COPY) -r
+STRIP         = strip
+INSTALL_FILE  = install -m 644 -p
+INSTALL_DIR   = $(COPY_DIR)
+INSTALL_PROGRAM = install -m 755 -p
+DEL_FILE      = rm -f
+SYMLINK       = ln -f -s
+DEL_DIR       = rmdir
+MOVE          = mv -f
+CHK_DIR_EXISTS= test -d
+MKDIR         = mkdir -p
+
+####### Output directory
+
+OBJECTS_DIR   = win32
+
+####### Files
+
+SOURCES       = src/main.cpp \
+		src/SoundManager.cpp \
+		src/Logger.cpp \
+		src/Util.cpp \
+		src/User.cpp \
+		src/TestResult.cpp \
+		src/ScenarioManager.cpp \
+		src/Viewer.cpp \
+		src/ControlPanel.cpp \
+		src/Graph.cpp \
+		src/GraphPanel.cpp \
+		src/ResultTable.cpp $(OBJECTS_DIR)/moc_ControlPanel.cpp \
+		$(OBJECTS_DIR)/moc_Graph.cpp \
+		$(OBJECTS_DIR)/moc_GraphPanel.cpp
+OBJECTS       = $(OBJECTS_DIR)/main.o \
+		$(OBJECTS_DIR)/SoundManager.o \
+		$(OBJECTS_DIR)/Logger.o \
+		$(OBJECTS_DIR)/Util.o \
+		$(OBJECTS_DIR)/User.o \
+		$(OBJECTS_DIR)/TestResult.o \
+		$(OBJECTS_DIR)/ScenarioManager.o \
+		$(OBJECTS_DIR)/Viewer.o \
+		$(OBJECTS_DIR)/ControlPanel.o \
+		$(OBJECTS_DIR)/Graph.o \
+		$(OBJECTS_DIR)/GraphPanel.o \
+		$(OBJECTS_DIR)/ResultTable.o \
+		$(OBJECTS_DIR)/moc_ControlPanel.o \
+		$(OBJECTS_DIR)/moc_Graph.o \
+		$(OBJECTS_DIR)/moc_GraphPanel.o
+QMAKE_TARGET  = ji3
+DESTDIR       = $(OBJECTS_DIR)
+TARGET        = $(OBJECTS_DIR)/ji3.exe
+
+first: all
+####### Implicit rules
+
+.SUFFIXES: .o .c .cpp .cc .cxx .C
+
+.cpp.o:
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o "$@" "$<"
+
+.cc.o:
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o "$@" "$<"
+
+.cxx.o:
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o "$@" "$<"
+
+.C.o:
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o "$@" "$<"
+
+.c.o:
+	$(CC) -c $(CFLAGS) $(INCPATH) -o "$@" "$<"
+
+####### Build rules
+
+all: Makefile $(TARGET)
+
+$(TARGET):  $(OBJECTS)  
+	@$(CHK_DIR_EXISTS) $(OBJECTS_DIR) || $(MKDIR) $(OBJECTS_DIR) 
+	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
+	{ test -n "$(DESTDIR)" && DESTDIR="$(DESTDIR)" || DESTDIR=.; } && test $$(gdb --version | sed -e 's,[^0-9]\+\([0-9]\)\.\([0-9]\).*,\1\2,;q') -gt 72 && gdb --nx --batch --quiet -ex 'set confirm off' -ex "save gdb-index $$DESTDIR" -ex quit '$(TARGET)' && test -f $(TARGET).gdb-index && objcopy --add-section '.gdb_index=$(TARGET).gdb-index' --set-section-flags '.gdb_index=readonly' '$(TARGET)' '$(TARGET)' && rm -f $(TARGET).gdb-index || true
+
+qmake:  FORCE
+	@$(QMAKE) -spec /usr/share/qt4/mkspecs/linux-g++ -o Makefile ji3.pro
+
+
+clean:compiler_clean 
+	-$(DEL_FILE) $(OBJECTS)
+	-$(DEL_FILE) *~ core *.core
+
+
+####### Sub-libraries
+
+distclean: clean
+	-$(DEL_FILE) $(TARGET) 
+	-$(DEL_FILE) Makefile
+
+
+check: first
+
+mocclean: compiler_moc_header_clean compiler_moc_source_clean
+
+mocables: compiler_moc_header_make_all compiler_moc_source_make_all
+
+compiler_moc_header_make_all: $(OBJECTS_DIR)/moc_ControlPanel.cpp $(OBJECTS_DIR)/moc_Graph.cpp $(OBJECTS_DIR)/moc_GraphPanel.cpp
+compiler_moc_header_clean:
+	-$(DEL_FILE) $(OBJECTS_DIR)/moc_ControlPanel.cpp $(OBJECTS_DIR)/moc_Graph.cpp $(OBJECTS_DIR)/moc_GraphPanel.cpp
+$(OBJECTS_DIR)/moc_ControlPanel.cpp: src/ScenarioManager.hpp \
+		src/Util.hpp \
+		src/User.hpp \
+		src/Logger.hpp \
+		src/ControlPanel.hpp
+	/usr/bin/moc-qt4 $(DEFINES) $(INCPATH) src/ControlPanel.hpp -o $(OBJECTS_DIR)/moc_ControlPanel.cpp
+
+$(OBJECTS_DIR)/moc_Graph.cpp: src/Graph.hpp
+	/usr/bin/moc-qt4 $(DEFINES) $(INCPATH) src/Graph.hpp -o $(OBJECTS_DIR)/moc_Graph.cpp
+
+$(OBJECTS_DIR)/moc_GraphPanel.cpp: src/ScenarioManager.hpp \
+		src/Util.hpp \
+		src/Graph.hpp \
+		src/GraphPanel.hpp
+	/usr/bin/moc-qt4 $(DEFINES) $(INCPATH) src/GraphPanel.hpp -o $(OBJECTS_DIR)/moc_GraphPanel.cpp
+
+compiler_rcc_make_all:
+compiler_rcc_clean:
+compiler_image_collection_make_all: $(OBJECTS_DIR)/qmake_image_collection.cpp
+compiler_image_collection_clean:
+	-$(DEL_FILE) $(OBJECTS_DIR)/qmake_image_collection.cpp
+compiler_moc_source_make_all:
+compiler_moc_source_clean:
+compiler_uic_make_all:
+compiler_uic_clean:
+compiler_yacc_decl_make_all:
+compiler_yacc_decl_clean:
+compiler_yacc_impl_make_all:
+compiler_yacc_impl_clean:
+compiler_lex_make_all:
+compiler_lex_clean:
+compiler_clean: compiler_moc_header_clean 
+
+####### Compile
+
+$(OBJECTS_DIR)/main.o: src/main.cpp src/Logger.hpp \
+		src/SoundManager.hpp \
+		src/Viewer.hpp \
+		src/ScenarioManager.hpp \
+		src/Util.hpp \
+		src/ControlPanel.hpp \
+		src/User.hpp \
+		src/GraphPanel.hpp \
+		src/Graph.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o $(OBJECTS_DIR)/main.o src/main.cpp
+
+$(OBJECTS_DIR)/SoundManager.o: src/SoundManager.cpp src/SoundManager.hpp \
+		src/Logger.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o $(OBJECTS_DIR)/SoundManager.o src/SoundManager.cpp
+
+$(OBJECTS_DIR)/Logger.o: src/Logger.cpp src/Logger.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o $(OBJECTS_DIR)/Logger.o src/Logger.cpp
+
+$(OBJECTS_DIR)/Util.o: src/Util.cpp src/Util.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o $(OBJECTS_DIR)/Util.o src/Util.cpp
+
+$(OBJECTS_DIR)/User.o: src/User.cpp src/User.hpp \
+		src/Logger.hpp \
+		src/ScenarioManager.hpp \
+		src/Util.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o $(OBJECTS_DIR)/User.o src/User.cpp
+
+$(OBJECTS_DIR)/TestResult.o: src/TestResult.cpp src/TestResult.hpp \
+		src/ScenarioManager.hpp \
+		src/Util.hpp \
+		src/Logger.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o $(OBJECTS_DIR)/TestResult.o src/TestResult.cpp
+
+$(OBJECTS_DIR)/ScenarioManager.o: src/ScenarioManager.cpp src/ScenarioManager.hpp \
+		src/Util.hpp \
+		src/Logger.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o $(OBJECTS_DIR)/ScenarioManager.o src/ScenarioManager.cpp
+
+$(OBJECTS_DIR)/Viewer.o: src/Viewer.cpp src/Logger.hpp \
+		src/SoundManager.hpp \
+		src/Viewer.hpp \
+		src/ScenarioManager.hpp \
+		src/Util.hpp \
+		src/version.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o $(OBJECTS_DIR)/Viewer.o src/Viewer.cpp
+
+$(OBJECTS_DIR)/ControlPanel.o: src/ControlPanel.cpp src/Logger.hpp \
+		src/ControlPanel.hpp \
+		src/ScenarioManager.hpp \
+		src/Util.hpp \
+		src/User.hpp \
+		src/ResultTable.hpp \
+		src/Graph.hpp \
+		src/version.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o $(OBJECTS_DIR)/ControlPanel.o src/ControlPanel.cpp
+
+$(OBJECTS_DIR)/Graph.o: src/Graph.cpp src/Graph.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o $(OBJECTS_DIR)/Graph.o src/Graph.cpp
+
+$(OBJECTS_DIR)/GraphPanel.o: src/GraphPanel.cpp src/Logger.hpp \
+		src/GraphPanel.hpp \
+		src/ScenarioManager.hpp \
+		src/Util.hpp \
+		src/Graph.hpp \
+		src/User.hpp \
+		src/ResultTable.hpp \
+		src/version.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o $(OBJECTS_DIR)/GraphPanel.o src/GraphPanel.cpp
+
+$(OBJECTS_DIR)/ResultTable.o: src/ResultTable.cpp src/Logger.hpp \
+		src/ResultTable.hpp \
+		src/ScenarioManager.hpp \
+		src/Util.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o $(OBJECTS_DIR)/ResultTable.o src/ResultTable.cpp
+
+$(OBJECTS_DIR)/moc_ControlPanel.o: $(OBJECTS_DIR)/moc_ControlPanel.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o $(OBJECTS_DIR)/moc_ControlPanel.o $(OBJECTS_DIR)/moc_ControlPanel.cpp
+
+$(OBJECTS_DIR)/moc_Graph.o: $(OBJECTS_DIR)/moc_Graph.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o $(OBJECTS_DIR)/moc_Graph.o $(OBJECTS_DIR)/moc_Graph.cpp
+
+$(OBJECTS_DIR)/moc_GraphPanel.o: $(OBJECTS_DIR)/moc_GraphPanel.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o $(OBJECTS_DIR)/moc_GraphPanel.o $(OBJECTS_DIR)/moc_GraphPanel.cpp
+
+####### Install
+
+install:   FORCE
+
+uninstall:   FORCE
+
+FORCE:
+

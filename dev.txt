@@ -1,0 +1,11 @@
+
+
+build SDL-1.2.15:
+    ./configure --host=i686-w64-mingw32 --prefix=$HOME/win32libs/SDL-1.2.15
+
+build SDL_mixer-1.2.12:
+    ./configure --host=i686-w64-mingw32 --prefix=$HOME/win32libs/SDL_mixer-1.2.12 SDL_CFLAGS=-I$HOME/win32libs/SDL-1.2.15/include/SDL SDL_LIBS="-L$HOME/win32libs/SDL-1.2.15/lib -lSDL" --enable-static
+
+
+QT:
+    qt-opensource-windows-x86-mingw482-4.8.6-1.exe
