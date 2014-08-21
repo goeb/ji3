@@ -1158,7 +1158,8 @@ src/moc_GraphPanel.cpp: src/GraphPanel.hpp
 @WINDOWS_TRUE@    $(WINE) "@ISCC@" /q /dMyAppName=@PACKAGE_NAME@ /dMyAppVersion=@PACKAGE_VERSION@ /dMyAppExeName=ji3$(EXEEXT) /f@PACKAGE_TARNAME@-@VERSION@-setup $<
 
 clean-local:
-	rm -f @PACKAGE_TARNAME@-@VERSION@-setup$(EXEEXT)
+	$(RM) @PACKAGE_TARNAME@-@VERSION@-setup$(EXEEXT)
+	$(RM) src/moc_*.cpp
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

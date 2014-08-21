@@ -50,5 +50,6 @@ all-local: @PACKAGE_TARNAME@-@VERSION@-setup$(EXEEXT)
 endif
 
 clean-local:
-	rm -f @PACKAGE_TARNAME@-@VERSION@-setup$(EXEEXT)
+	$(RM) @PACKAGE_TARNAME@-@VERSION@-setup$(EXEEXT)
+	$(RM) src/moc_*.cpp
 
