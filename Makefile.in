@@ -38,7 +38,6 @@ target_triplet = @target@
 bin_PROGRAMS = ji3$(EXEEXT)
 @WINDOWS_TRUE@am__append_1 = -lws2_32 -lgdi32
 @WINDOWS_FALSE@am__append_2 = -ldl -lpthread
-check_PROGRAMS = test_Util$(EXEEXT)
 subdir = .
 DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in $(srcdir)/config.h.in \
@@ -69,10 +68,6 @@ am_ji3_OBJECTS = src/ji3-main.$(OBJEXT) src/ji3-SoundManager.$(OBJEXT) \
 ji3_OBJECTS = $(am_ji3_OBJECTS)
 am__DEPENDENCIES_1 =
 ji3_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
-am_test_Util_OBJECTS = test/test_Util-test_Util.$(OBJEXT) \
-	src/test_Util-Util.$(OBJEXT)
-test_Util_OBJECTS = $(am_test_Util_OBJECTS)
-test_Util_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -97,8 +92,8 @@ am__v_CXXLD_0 = @echo "  CXXLD " $@;
 AM_V_GEN = $(am__v_GEN_@AM_V@)
 am__v_GEN_ = $(am__v_GEN_@AM_DEFAULT_V@)
 am__v_GEN_0 = @echo "  GEN   " $@;
-SOURCES = $(ji3_SOURCES) $(test_Util_SOURCES)
-DIST_SOURCES = $(ji3_SOURCES) $(test_Util_SOURCES)
+SOURCES = $(ji3_SOURCES)
+DIST_SOURCES = $(ji3_SOURCES)
 RECURSIVE_TARGETS = all-recursive check-recursive dvi-recursive \
 	html-recursive info-recursive install-data-recursive \
 	install-dvi-recursive install-exec-recursive \
@@ -292,8 +287,6 @@ ji3_CPPFLAGS = @QTCORE_CFLAGS@ @QTGUI_CFLAGS@ @SDL_CFLAGS@
 ji3_LDADD = @QTCORE_LIBS@ @QTGUI_LIBS@ @SDL_LIBS@ $(am__append_1) \
 	$(am__append_2)
 SUBDIRS = test
-test_Util_SOURCES = test/test_Util.cpp src/Util.cpp
-test_Util_CPPFLAGS = -I@srcdir@/src
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
@@ -385,9 +378,6 @@ uninstall-binPROGRAMS:
 
 clean-binPROGRAMS:
 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
-
-clean-checkPROGRAMS:
-	-test -z "$(check_PROGRAMS)" || rm -f $(check_PROGRAMS)
 src/$(am__dirstamp):
 	@$(MKDIR_P) src
 	@: > src/$(am__dirstamp)
@@ -433,19 +423,6 @@ linux/ji3-moc_GraphPanel.$(OBJEXT): linux/$(am__dirstamp) \
 ji3$(EXEEXT): $(ji3_OBJECTS) $(ji3_DEPENDENCIES) $(EXTRA_ji3_DEPENDENCIES) 
 	@rm -f ji3$(EXEEXT)
 	$(AM_V_CXXLD)$(CXXLINK) $(ji3_OBJECTS) $(ji3_LDADD) $(LIBS)
-test/$(am__dirstamp):
-	@$(MKDIR_P) test
-	@: > test/$(am__dirstamp)
-test/$(DEPDIR)/$(am__dirstamp):
-	@$(MKDIR_P) test/$(DEPDIR)
-	@: > test/$(DEPDIR)/$(am__dirstamp)
-test/test_Util-test_Util.$(OBJEXT): test/$(am__dirstamp) \
-	test/$(DEPDIR)/$(am__dirstamp)
-src/test_Util-Util.$(OBJEXT): src/$(am__dirstamp) \
-	src/$(DEPDIR)/$(am__dirstamp)
-test_Util$(EXEEXT): $(test_Util_OBJECTS) $(test_Util_DEPENDENCIES) $(EXTRA_test_Util_DEPENDENCIES) 
-	@rm -f test_Util$(EXEEXT)
-	$(AM_V_CXXLD)$(CXXLINK) $(test_Util_OBJECTS) $(test_Util_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -464,8 +441,6 @@ mostlyclean-compile:
 	-rm -f src/ji3-Util.$(OBJEXT)
 	-rm -f src/ji3-Viewer.$(OBJEXT)
 	-rm -f src/ji3-main.$(OBJEXT)
-	-rm -f src/test_Util-Util.$(OBJEXT)
-	-rm -f test/test_Util-test_Util.$(OBJEXT)
 
 distclean-compile:
 	-rm -f *.tab.c
@@ -485,8 +460,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/ji3-Util.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/ji3-Viewer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/ji3-main.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/test_Util-Util.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@test/$(DEPDIR)/test_Util-test_Util.Po@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
@@ -713,34 +686,6 @@ linux/ji3-moc_GraphPanel.obj: linux/moc_GraphPanel.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='linux/moc_GraphPanel.cpp' object='linux/ji3-moc_GraphPanel.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ji3_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o linux/ji3-moc_GraphPanel.obj `if test -f 'linux/moc_GraphPanel.cpp'; then $(CYGPATH_W) 'linux/moc_GraphPanel.cpp'; else $(CYGPATH_W) '$(srcdir)/linux/moc_GraphPanel.cpp'; fi`
-
-test/test_Util-test_Util.o: test/test_Util.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(test_Util_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT test/test_Util-test_Util.o -MD -MP -MF test/$(DEPDIR)/test_Util-test_Util.Tpo -c -o test/test_Util-test_Util.o `test -f 'test/test_Util.cpp' || echo '$(srcdir)/'`test/test_Util.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) test/$(DEPDIR)/test_Util-test_Util.Tpo test/$(DEPDIR)/test_Util-test_Util.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='test/test_Util.cpp' object='test/test_Util-test_Util.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(test_Util_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o test/test_Util-test_Util.o `test -f 'test/test_Util.cpp' || echo '$(srcdir)/'`test/test_Util.cpp
-
-test/test_Util-test_Util.obj: test/test_Util.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(test_Util_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT test/test_Util-test_Util.obj -MD -MP -MF test/$(DEPDIR)/test_Util-test_Util.Tpo -c -o test/test_Util-test_Util.obj `if test -f 'test/test_Util.cpp'; then $(CYGPATH_W) 'test/test_Util.cpp'; else $(CYGPATH_W) '$(srcdir)/test/test_Util.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) test/$(DEPDIR)/test_Util-test_Util.Tpo test/$(DEPDIR)/test_Util-test_Util.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='test/test_Util.cpp' object='test/test_Util-test_Util.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(test_Util_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o test/test_Util-test_Util.obj `if test -f 'test/test_Util.cpp'; then $(CYGPATH_W) 'test/test_Util.cpp'; else $(CYGPATH_W) '$(srcdir)/test/test_Util.cpp'; fi`
-
-src/test_Util-Util.o: src/Util.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(test_Util_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/test_Util-Util.o -MD -MP -MF src/$(DEPDIR)/test_Util-Util.Tpo -c -o src/test_Util-Util.o `test -f 'src/Util.cpp' || echo '$(srcdir)/'`src/Util.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/test_Util-Util.Tpo src/$(DEPDIR)/test_Util-Util.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/Util.cpp' object='src/test_Util-Util.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(test_Util_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/test_Util-Util.o `test -f 'src/Util.cpp' || echo '$(srcdir)/'`src/Util.cpp
-
-src/test_Util-Util.obj: src/Util.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(test_Util_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/test_Util-Util.obj -MD -MP -MF src/$(DEPDIR)/test_Util-Util.Tpo -c -o src/test_Util-Util.obj `if test -f 'src/Util.cpp'; then $(CYGPATH_W) 'src/Util.cpp'; else $(CYGPATH_W) '$(srcdir)/src/Util.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/test_Util-Util.Tpo src/$(DEPDIR)/test_Util-Util.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/Util.cpp' object='src/test_Util-Util.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(test_Util_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/test_Util-Util.obj `if test -f 'src/Util.cpp'; then $(CYGPATH_W) 'src/Util.cpp'; else $(CYGPATH_W) '$(srcdir)/src/Util.cpp'; fi`
 
 # This directory's subdirectories are mostly independent; you can cd
 # into them and run `make' without going through this Makefile.
@@ -1068,7 +1013,6 @@ distcleancheck: distclean
 	       $(distcleancheck_listfiles) ; \
 	       exit 1; } >&2
 check-am: all-am
-	$(MAKE) $(AM_MAKEFLAGS) $(check_PROGRAMS)
 check: check-recursive
 @WINDOWS_FALSE@all-local:
 all-am: Makefile $(PROGRAMS) config.h all-local
@@ -1107,20 +1051,17 @@ distclean-generic:
 	-rm -f linux/$(am__dirstamp)
 	-rm -f src/$(DEPDIR)/$(am__dirstamp)
 	-rm -f src/$(am__dirstamp)
-	-rm -f test/$(DEPDIR)/$(am__dirstamp)
-	-rm -f test/$(am__dirstamp)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-recursive
 
-clean-am: clean-binPROGRAMS clean-checkPROGRAMS clean-generic \
-	clean-local mostlyclean-am
+clean-am: clean-binPROGRAMS clean-generic clean-local mostlyclean-am
 
 distclean: distclean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
-	-rm -rf linux/$(DEPDIR) src/$(DEPDIR) test/$(DEPDIR)
+	-rm -rf linux/$(DEPDIR) src/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-hdr distclean-tags
@@ -1168,7 +1109,7 @@ installcheck-am:
 maintainer-clean: maintainer-clean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
-	-rm -rf linux/$(DEPDIR) src/$(DEPDIR) test/$(DEPDIR)
+	-rm -rf linux/$(DEPDIR) src/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
@@ -1186,26 +1127,26 @@ ps-am:
 
 uninstall-am: uninstall-binPROGRAMS
 
-.MAKE: $(RECURSIVE_CLEAN_TARGETS) $(RECURSIVE_TARGETS) all check-am \
+.MAKE: $(RECURSIVE_CLEAN_TARGETS) $(RECURSIVE_TARGETS) all \
 	ctags-recursive install-am install-strip tags-recursive
 
 .PHONY: $(RECURSIVE_CLEAN_TARGETS) $(RECURSIVE_TARGETS) CTAGS GTAGS \
 	all all-am all-local am--refresh check check-am clean \
-	clean-binPROGRAMS clean-checkPROGRAMS clean-generic \
-	clean-local ctags ctags-recursive dist dist-all dist-bzip2 \
-	dist-gzip dist-lzip dist-lzma dist-shar dist-tarZ dist-xz \
-	dist-zip distcheck distclean distclean-compile \
-	distclean-generic distclean-hdr distclean-tags distcleancheck \
-	distdir distuninstallcheck dvi dvi-am html html-am info \
-	info-am install install-am install-binPROGRAMS install-data \
-	install-data-am install-dvi install-dvi-am install-exec \
-	install-exec-am install-html install-html-am install-info \
-	install-info-am install-man install-pdf install-pdf-am \
-	install-ps install-ps-am install-strip installcheck \
-	installcheck-am installdirs installdirs-am maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-compile \
-	mostlyclean-generic pdf pdf-am ps ps-am tags tags-recursive \
-	uninstall uninstall-am uninstall-binPROGRAMS
+	clean-binPROGRAMS clean-generic clean-local ctags \
+	ctags-recursive dist dist-all dist-bzip2 dist-gzip dist-lzip \
+	dist-lzma dist-shar dist-tarZ dist-xz dist-zip distcheck \
+	distclean distclean-compile distclean-generic distclean-hdr \
+	distclean-tags distcleancheck distdir distuninstallcheck dvi \
+	dvi-am html html-am info info-am install install-am \
+	install-binPROGRAMS install-data install-data-am install-dvi \
+	install-dvi-am install-exec install-exec-am install-html \
+	install-html-am install-info install-info-am install-man \
+	install-pdf install-pdf-am install-ps install-ps-am \
+	install-strip installcheck installcheck-am installdirs \
+	installdirs-am maintainer-clean maintainer-clean-generic \
+	mostlyclean mostlyclean-compile mostlyclean-generic pdf pdf-am \
+	ps ps-am tags tags-recursive uninstall uninstall-am \
+	uninstall-binPROGRAMS
 
 
 # Windows installer

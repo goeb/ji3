@@ -29,9 +29,6 @@ ji3_LDADD += -ldl -lpthread
 endif
 
 SUBDIRS = test
-check_PROGRAMS = test_Util
-test_Util_SOURCES = test/test_Util.cpp src/Util.cpp
-test_Util_CPPFLAGS = -I@srcdir@/src
 
 # Windows installer
 if WINDOWS
