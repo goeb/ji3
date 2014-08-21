@@ -15,9 +15,19 @@ ji3_SOURCES = \
 		src/ControlPanel.cpp \
 		src/Graph.cpp \
 		src/GraphPanel.cpp \
-		src/ResultTable.cpp linux/moc_ControlPanel.cpp \
-		linux/moc_Graph.cpp \
-		linux/moc_GraphPanel.cpp
+		src/ResultTable.cpp \
+		src/moc_ControlPanel.cpp \
+		src/moc_Graph.cpp \
+		src/moc_GraphPanel.cpp
+
+src/moc_Graph.cpp: src/Graph.hpp
+	moc $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $< -o $@
+
+src/moc_ControlPanel.cpp: src/ControlPanel.hpp
+	moc $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $< -o $@
+
+src/moc_GraphPanel.cpp: src/GraphPanel.hpp
+	moc $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $< -o $@
 
 ji3_CPPFLAGS = @QTCORE_CFLAGS@ @QTGUI_CFLAGS@ @SDL_CFLAGS@
 ji3_LDADD = @QTCORE_LIBS@ @QTGUI_LIBS@ @SDL_LIBS@
