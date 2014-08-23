@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.68])
-AC_INIT([Ji3], [3.0.1], [], [smit], [http://fhoerni.free.fr/ji3/])
+AC_INIT([Ji3], [3.0.1], [], [ji3], [http://fhoerni.free.fr/ji3/])
 AC_CONFIG_HEADERS([config.h])
 AC_CANONICAL_TARGET
 AM_INIT_AUTOMAKE([-Wall -Werror subdir-objects])
@@ -80,7 +80,8 @@ AC_TYPE_SIZE_T
 AC_CHECK_FUNCS([gettimeofday localtime_r])
 
 AC_CONFIG_FILES([Makefile
-                 test/Makefile])
+                 test/Makefile
+                 ji3.iss])
 
 AC_OUTPUT
 

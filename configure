@@ -556,7 +556,7 @@ MAKEFLAGS=
 
 # Identity of this package.
 PACKAGE_NAME='Ji3'
-PACKAGE_TARNAME='smit'
+PACKAGE_TARNAME='ji3'
 PACKAGE_VERSION='3.0.1'
 PACKAGE_STRING='Ji3 3.0.1'
 PACKAGE_BUGREPORT=''
@@ -1342,7 +1342,7 @@ Fine tuning of the installation directories:
   --infodir=DIR           info documentation [DATAROOTDIR/info]
   --localedir=DIR         locale-dependent data [DATAROOTDIR/locale]
   --mandir=DIR            man documentation [DATAROOTDIR/man]
-  --docdir=DIR            documentation root [DATAROOTDIR/doc/smit]
+  --docdir=DIR            documentation root [DATAROOTDIR/doc/ji3]
   --htmldir=DIR           html documentation [DOCDIR]
   --dvidir=DIR            dvi documentation [DOCDIR]
   --pdfdir=DIR            pdf documentation [DOCDIR]
@@ -2854,7 +2854,7 @@ fi
 
 
 # Define the identity of the package.
- PACKAGE='smit'
+ PACKAGE='ji3'
  VERSION='3.0.1'
 
 
@@ -5612,7 +5612,7 @@ fi
 done
 
 
-ac_config_files="$ac_config_files Makefile test/Makefile"
+ac_config_files="$ac_config_files Makefile test/Makefile ji3.iss"
 
 
 cat >confcache <<\_ACEOF
@@ -6365,6 +6365,7 @@ do
     "depfiles") CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "test/Makefile") CONFIG_FILES="$CONFIG_FILES test/Makefile" ;;
+    "ji3.iss") CONFIG_FILES="$CONFIG_FILES ji3.iss" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac
