@@ -41,6 +41,21 @@ Source: "@srcdir@\COPYING"; DestDir: "{app}"; Flags: ignoreversion
 Source: "@srcdir@\NEWS"; DestDir: "{app}"; Flags: ignoreversion
 Source: "@srcdir@\ChangeLog"; DestDir: "{app}"; Flags: ignoreversion
 Source: "@srcdir@\AUTHORS"; DestDir: "{app}"; Flags: ignoreversion
+Source: "@srcdir@\DLL\libFLAC-8.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "@srcdir@\DLL\libgcc_s_dw2-1.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "@srcdir@\DLL\libgcc_s_sjlj-1.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "@srcdir@\DLL\libmikmod-2.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "@srcdir@\DLL\libogg-0.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "@srcdir@\DLL\libvorbis-0.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "@srcdir@\DLL\libvorbisfile-3.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "@srcdir@\DLL\libstdc++-6.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "@srcdir@\DLL\libwinpthread-1.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "@srcdir@\DLL\mingwm10.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "@srcdir@\DLL\QtCore4.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "@srcdir@\DLL\QtGui4.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "@srcdir@\DLL\SDL.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "@srcdir@\DLL\SDL_mixer.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "@srcdir@\DLL\smpeg.dll"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
