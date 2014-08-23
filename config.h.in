@@ -6,6 +6,12 @@
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
 
+/* Define to 1 if you have the `QtCore4' library (-lQtCore4). */
+#undef HAVE_LIBQTCORE4
+
+/* Define to 1 if you have the `QtGui4' library (-lQtGui4). */
+#undef HAVE_LIBQTGUI4
+
 /* Define to 1 if you have the `SDL_mixer' library (-lSDL_mixer). */
 #undef HAVE_LIBSDL_MIXER
 

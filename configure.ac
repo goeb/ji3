@@ -43,8 +43,6 @@ AM_CONDITIONAL(MINGW, test x$MINGW = xyes)
 
 # Checks for external libraries.
 PKG_PROG_PKG_CONFIG()
-PKG_CHECK_MODULES(QTCORE, QtCore)
-PKG_CHECK_MODULES(QTGUI, QtGui)
 PKG_CHECK_MODULES(SDL, sdl)
 AC_CHECK_LIB([SDL_mixer], [Mix_OpenAudio])
 
@@ -61,6 +59,13 @@ if test x$WINDOWS = xyes; then
         AC_MSG_ERROR([Please install Inno Setup into wine before cross-compiling.])
     fi
     AC_SUBST(ISCC)
+    AC_CHECK_LIB([QtCore4], [QString])
+    AC_CHECK_LIB([QtGui4], [QApplication])
+
+else
+
+    PKG_CHECK_MODULES(QTCORE, QtCore)
+    PKG_CHECK_MODULES(QTGUI, QtGui)
 fi
 
 # Checks for header files.

@@ -45,8 +45,8 @@ if WINDOWS
 all-local: @PACKAGE_TARNAME@-@VERSION@-setup$(EXEEXT)
 
 @PACKAGE_TARNAME@-@VERSION@-setup$(EXEEXT): ji3.iss ji3$(EXEEXT)
-    @STRIP@ ji3$(EXEEXT)
-    $(WINE) "@ISCC@" /q /dMyAppName=@PACKAGE_NAME@ /dMyAppVersion=@PACKAGE_VERSION@ /dMyAppExeName=ji3$(EXEEXT) /f@PACKAGE_TARNAME@-@VERSION@-setup $<
+	@STRIP@ ji3$(EXEEXT)
+	$(WINE) "@ISCC@" /q /dMyAppName=@PACKAGE_NAME@ /dMyAppVersion=@PACKAGE_VERSION@ /dMyAppExeName=ji3$(EXEEXT) /f@PACKAGE_TARNAME@-@VERSION@-setup $<
 endif
 
 clean-local:

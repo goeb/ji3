@@ -1,4 +1,19 @@
 
+build :
+
+    SDL_MIXER=$HOME/win32libs/SDL_mixer-1.2.12
+    SDL=$HOME/win32libs/SDL-1.2.15
+    QT=$HOME/.wine/drive_c/Qt/4.8.2
+    cd win32
+    ../configure --host=i686-w64-mingw32 \
+        SDL_CFLAGS="-I$SDL_MIXER/include -I$SDL/include/SDL -I$SDL/include" \
+        SDL_LIBS="-L$SDL_MIXER/lib -L$SDL/lib -lSDL -lSDL_mixer" \
+        QTCORE_CFLAGS="-I$QT/include/QtCore -I$QT/include" \
+        QTGUI_CFLAGS="-I$QT/include/QtGui"  \
+        QTCORE_LIBS="-L$QT/bin -lQtCore4 $QT/lib/libQtCore4.a" \
+        QTGUI_LIBS="-lQtGui4 $QT/lib/libQtGui4.a"
+
+
 
 build SDL-1.2.15:
     ./configure --host=i686-w64-mingw32 --prefix=$HOME/win32libs/SDL-1.2.15

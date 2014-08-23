@@ -1154,8 +1154,8 @@ src/moc_GraphPanel.cpp: src/GraphPanel.hpp
 @WINDOWS_TRUE@all-local: @PACKAGE_TARNAME@-@VERSION@-setup$(EXEEXT)
 
 @WINDOWS_TRUE@@PACKAGE_TARNAME@-@VERSION@-setup$(EXEEXT): ji3.iss ji3$(EXEEXT)
-@WINDOWS_TRUE@    @STRIP@ ji3$(EXEEXT)
-@WINDOWS_TRUE@    $(WINE) "@ISCC@" /q /dMyAppName=@PACKAGE_NAME@ /dMyAppVersion=@PACKAGE_VERSION@ /dMyAppExeName=ji3$(EXEEXT) /f@PACKAGE_TARNAME@-@VERSION@-setup $<
+@WINDOWS_TRUE@	@STRIP@ ji3$(EXEEXT)
+@WINDOWS_TRUE@	$(WINE) "@ISCC@" /q /dMyAppName=@PACKAGE_NAME@ /dMyAppVersion=@PACKAGE_VERSION@ /dMyAppExeName=ji3$(EXEEXT) /f@PACKAGE_TARNAME@-@VERSION@-setup $<
 
 clean-local:
 	$(RM) @PACKAGE_TARNAME@-@VERSION@-setup$(EXEEXT)
