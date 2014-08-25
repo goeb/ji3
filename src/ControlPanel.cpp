@@ -226,19 +226,28 @@ void ControlPanel::checkScenarioForceValues(QString name)
     if (s.getForceModeInhibition() == MODE_INHIBITION) {
         modeInhibition->setChecked(true);
         modeAttention->setEnabled(false);
-        modeDividedAttention->setEnabled(false);
+        modeDividedAttentionSound->setEnabled(false);
+        modeDividedAttentionVisual->setEnabled(false);
     } else if (s.getForceModeInhibition() == MODE_ATTENTION) {
         modeAttention->setChecked(true);
         modeInhibition->setEnabled(false);
-        modeDividedAttention->setEnabled(false);
-    } else if (s.getForceModeInhibition() == MODE_DIVIDED_ATTENTION) {
+        modeDividedAttentionSound->setEnabled(false);
+        modeDividedAttentionVisual->setEnabled(false);
+    } else if (s.getForceModeInhibition() == MODE_DIVIDED_ATTENTION_SOUND) {
         modeAttention->setEnabled(false);
         modeInhibition->setEnabled(false);
-        modeDividedAttention->setChecked(true);
+        modeDividedAttentionSound->setChecked(true);
+        modeDividedAttentionVisual->setEnabled(false);
+    } else if (s.getForceModeInhibition() == MODE_DIVIDED_ATTENTION_VISUAL) {
+        modeAttention->setEnabled(false);
+        modeInhibition->setEnabled(false);
+        modeDividedAttentionSound->setEnabled(false);
+        modeDividedAttentionVisual->setChecked(true);
     } else {
         modeInhibition->setEnabled(true);
         modeAttention->setEnabled(true);
-        modeDividedAttention->setEnabled(true);
+        modeDividedAttentionSound->setEnabled(true);
+        modeDividedAttentionVisual->setEnabled(true);
     }
 
     if (s.getForceNumberOfItems() == 10) {
@@ -413,7 +422,8 @@ QGroupBox *ControlPanel::createTypeGroup()
 
     modeInhibition = new QRadioButton(tr("Inhibition"));
     modeAttention = new QRadioButton(tr("Attention"));
-    modeDividedAttention = new QRadioButton(tr("Attention divisée"));
+    modeDividedAttentionSound = new QRadioButton(tr("Att. divisée avec son"));
+    modeDividedAttentionVisual = new QRadioButton(tr("Att. divisée avec image"));
     //modeDividedAttention->setEnabled(0);
 
     modeInhibition->setChecked(true);
@@ -421,7 +431,8 @@ QGroupBox *ControlPanel::createTypeGroup()
     QVBoxLayout *vbox = new QVBoxLayout;
     vbox->addWidget(modeInhibition);
     vbox->addWidget(modeAttention);
-    vbox->addWidget(modeDividedAttention);
+    vbox->addWidget(modeDividedAttentionSound);
+    vbox->addWidget(modeDividedAttentionVisual);
     vbox->addStretch(1);
     groupBox->setLayout(vbox);
 

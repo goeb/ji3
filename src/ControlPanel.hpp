@@ -20,7 +20,8 @@ public:
     inline TestMode getType() {
         if (modeInhibition->isChecked()) return MODE_INHIBITION;
         else if (modeAttention->isChecked()) return MODE_ATTENTION;
-        else return MODE_DIVIDED_ATTENTION;
+        else if (modeDividedAttentionSound->isChecked()) return MODE_DIVIDED_ATTENTION_SOUND;
+        else return MODE_DIVIDED_ATTENTION_VISUAL;
     }
     inline int getNumber() { return n10->isChecked()?10:
                                         (n75->isChecked()?75:n100->isChecked()?100:150); } // TODO 10->75
@@ -65,7 +66,8 @@ private:
     // radio buttons
     QRadioButton *modeInhibition;
     QRadioButton *modeAttention;
-    QRadioButton *modeDividedAttention;
+    QRadioButton *modeDividedAttentionSound;
+    QRadioButton *modeDividedAttentionVisual;
     QRadioButton *n10;
     QRadioButton *n75;
     QRadioButton *n100;

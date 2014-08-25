@@ -16,7 +16,8 @@ using namespace std;
 typedef enum {
     MODE_INHIBITION, // click all items but on exception items
     MODE_ATTENTION, // click only on exception items
-    MODE_DIVIDED_ATTENTION, // mode ATTENTION + random distractor (image+sound)
+    MODE_DIVIDED_ATTENTION_SOUND, // mode ATTENTION + random distractor (image+sound)
+    MODE_DIVIDED_ATTENTION_VISUAL,
     MODE_NONE
 } TestMode;
 
@@ -37,12 +38,14 @@ class Scenario
         bool load(std::string name);
 
         inline std::string getPath() const { return path; }
+        inline void setPath(std::string p) { path = p; }
         inline std::string getDir() const { return Util::dirname(path); }
         inline std::vector<std::string> getItemSequence() const { return itemSequence; }
         inline int getPeriodMs() const { return periodMs; }
         inline int getNumberOfItems() const { return numberOfItems; }
         inline int getNumberOfExceptions() const { return numberOfExceptions; }
         inline bool getWithSound() const { return withSound; }
+        inline void setWithSound(bool ws) { withSound = ws; }
 
         inline TestMode getMode() const { return modeInhibition; }
         inline int getRatioOfExceptions() const { return ratioOfExceptions; }
@@ -58,6 +61,7 @@ class Scenario
         inline int getAverageClickSpeed() const { return averageClickSpeed; }
         inline int getGlobalGrade() const { return globalGrade; }
         inline std::string getDatetime() const { return datetime; }
+        inline void setDatetime(std::string d) { datetime = d; }
         inline int getCorrectRegularItems() const { return correctRegularItems; }
         inline int getCorrectExceptions() const { return correctExceptions; }
         inline std::string getDescription() { return description; }
@@ -71,21 +75,6 @@ class Scenario
 
         inline QString getErrorDistribution() const { return errorDistribution; }
 
-    private :
-        bool parseFileItems(const std::string & line, std::set<std::string> &items, const string &encoding);
-        set<string> listOfAllItems; // including exceptions
-        set<string> listOfExceptions;
-        string path;
-        int periodMs;
-        int numberOfItems;
-        int numberOfExceptions;
-        int ratioOfExceptions;
-        TestMode modeInhibition;
-        bool withSound;
-        std::string description;
-        vector<string> createFixedSizeList(vector<string> & inputList, int n);
-        vector<string> itemSequence; // sequence actually showed during the game
-
         // results (updated during the game)
         qint64 cumulatedClickTime; // used to compute average click speed
         int numberOfClick; // used to compute average click speed
@@ -97,6 +86,24 @@ class Scenario
         int correctRegularItems;
         int correctExceptions;
         int globalGrade;
+        QString errorDistribution;
+
+        TestMode modeInhibition;
+        int ratioOfExceptions;
+        int numberOfItems;
+        int numberOfExceptions;
+        int periodMs;
+
+private :
+        bool parseFileItems(const std::string & line, std::set<std::string> &items, const string &encoding);
+        set<string> listOfAllItems; // including exceptions
+        set<string> listOfExceptions;
+        string path;
+        bool withSound;
+        std::string description;
+        vector<string> createFixedSizeList(vector<string> & inputList, int n);
+        vector<string> itemSequence; // sequence actually showed during the game
+
         std::string datetime;
         bool isSame(const Scenario & other) const;
         std::string encoding;
@@ -112,7 +119,6 @@ class Scenario
         std::string forceWithSound;
 
         std::vector<ItemResult> resultVector; // store result of all items
-        QString errorDistribution;
         void computeErrorDetails();
 
 

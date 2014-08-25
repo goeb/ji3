@@ -162,8 +162,11 @@ bool Scenario::load(std::string name)
             } else if (0 == left.compare("description-attention")) {
                 if (modeInhibition == MODE_ATTENTION) description = right;
 
-            } else if (0 == left.compare("description-attention-divisee")) {
-                if (modeInhibition == MODE_DIVIDED_ATTENTION) description = right;
+            } else if (0 == left.compare("description-attention-divisee-son")) {
+                if (modeInhibition == MODE_DIVIDED_ATTENTION_SOUND) description = right;
+
+            } else if (0 == left.compare("description-attention-divisee-visuel")) {
+                if (modeInhibition == MODE_DIVIDED_ATTENTION_VISUAL) description = right;
 
             } else if (0 == left.compare("force-speed")) {
                 forcePeriodMs = atoi(right.c_str());
@@ -180,7 +183,8 @@ bool Scenario::load(std::string name)
             } else if (0 == left.compare("force-type")) {
                 if (right == "attention") forceModeInhibition = MODE_ATTENTION;
                 else if (right == "inhibition") forceModeInhibition = MODE_INHIBITION;
-                else if (right == "attention-divisee") forceModeInhibition = MODE_DIVIDED_ATTENTION;
+                else if (right == "attention-divisee-son") forceModeInhibition = MODE_DIVIDED_ATTENTION_SOUND;
+                else if (right == "attention-divisee-visuel") forceModeInhibition = MODE_DIVIDED_ATTENTION_VISUAL;
                 // else nothing set
 
             } else if (0 == left.compare("encoding")) {
@@ -451,58 +455,6 @@ void Scenario::store(const QString & filename)
     f.close();
 }
 
-bool Scenario::loadFromUserFile(const QString & filename, vector<Scenario> & scenarioList)
-{
-    // load from user
-    qDebug() << "filename=" << filename;
-    QFile f(filename);
-    int r = f.open(QIODevice::ReadOnly);
-    if (!r) {
-        LOG_ERROR("Could not open file: " << filename.toLocal8Bit().constData());
-        return false;
-    }
-
-    // read lines
-    QTextStream in(&f);
-    while (!in.atEnd()) {
-        QString line = in.readLine();
-        Scenario s;
-        std::string L = line.toLocal8Bit().constData();
-        vector<string> tokens = Util::split(";", L);
-        if (tokens.size() < 11) {
-            LOG_ERROR("Malformed result file: " << filename.toLocal8Bit().constData());
-            f.close();
-            return false;
-        }
-        unsigned int i = 0;
-        s.datetime = tokens[i++];
-        s.path = tokens[i++];
-        s.globalGrade = atoi(tokens[i++].c_str());
-        s.averageClickSpeed = atoi(tokens[i++].c_str());
-        s.correctExceptions = atoi(tokens[i++].c_str());
-        s.correctRegularItems = atoi(tokens[i++].c_str());
-
-        if (tokens[i] == "sound-on") s.withSound = true;
-        else s.withSound = false;
-        i++;
-
-        if (tokens[i] == "inhibition") s.modeInhibition = MODE_INHIBITION;
-        else if (tokens[i] == "attention") s.modeInhibition = MODE_ATTENTION;
-        else s.modeInhibition = MODE_DIVIDED_ATTENTION;
-        i++;
-        s.ratioOfExceptions = atoi(tokens[i++].c_str());
-        s.numberOfItems = atoi(tokens[i++].c_str());
-        s.numberOfExceptions = s.ratioOfExceptions*s.numberOfItems/100;
-
-        s.periodMs = atoi(tokens[i++].c_str());
-        if (i<tokens.size()) s.errorDistribution = tokens[i++].c_str();
-        else s.errorDistribution = "";
-        scenarioList.push_back(s);
-    }
-    f.close();
-    return true;
-
-}
 bool Scenario::isSame(const Scenario & other) const
 {
     if (getPath() != other.getPath()) return false;

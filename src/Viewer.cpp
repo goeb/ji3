@@ -67,8 +67,9 @@ Viewer::Viewer(Scenario & s) : scenario(s)
     index = 0;
     imageLabel = new Image;
     imageLabel->setAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
+    distractor = 0;
 
-    if (scenario.getMode() == MODE_DIVIDED_ATTENTION) {
+    if (scenario.getMode() == MODE_DIVIDED_ATTENTION_VISUAL) {
         distractor = new QLabel(this);
         const QImage img("Data/lutin.png");
         const QPixmap p = QPixmap::fromImage(img);
@@ -77,6 +78,8 @@ Viewer::Viewer(Scenario & s) : scenario(s)
         // set a scaled pixmap to a w x h window keeping its aspect ratio
         distractor->setPixmap(p.scaled(w, h, Qt::KeepAspectRatio));
         distractor->hide();
+    } else if (scenario.getMode() == MODE_DIVIDED_ATTENTION_SOUND) {
+        // nothing at this stage
     }
     else distractor = 0;
 
@@ -197,7 +200,8 @@ void Viewer::next()
     if (currentFile == "") {
         // end of the sequence
         // display the final page
-        if (scenario.getMode() == MODE_DIVIDED_ATTENTION) return dividedAttentionFinalPage();
+        if (scenario.getMode() == MODE_DIVIDED_ATTENTION_VISUAL ||
+            scenario.getMode() == MODE_DIVIDED_ATTENTION_SOUND) return dividedAttentionFinalPage();
         else return finalPage();
     }
     LOG_INFO("next image: " << currentFile);
@@ -209,35 +213,32 @@ void Viewer::next()
 
     imageLabel->setImage(currentFile.c_str());
 
-    if (scenario.getMode() == MODE_DIVIDED_ATTENTION)
-    {
-        if (rand() % 100 > 10) {
-            // play sound only if sound of items is not enabled
-            if (! scenario.getWithSound()) {
-                SoundManager::playSound("Data/coucou.wav", ITEM_CHANNEL);
-                distractor->hide();
-            } else {
-                // display the distractor
-                // chose a random position
-                Qt::Alignment align;
-                switch (rand() % 8) {
-                case 0: align = Qt::AlignTop | Qt::AlignLeft; break;
-                case 1: align = Qt::AlignTop | Qt::AlignHCenter; break;
-                case 2: align = Qt::AlignTop | Qt::AlignRight; break;
-                case 3: align = Qt::AlignVCenter | Qt::AlignLeft; break;
-                case 4: align = Qt::AlignVCenter | Qt::AlignRight; break;
-                case 5: align = Qt::AlignBottom | Qt::AlignLeft; break;
-                case 6: align = Qt::AlignBottom | Qt::AlignHCenter; break;
-                case 7: align = Qt::AlignBottom | Qt::AlignRight; break;
-                }
-                distractor->setAlignment(align);
-                distractor->setGeometry(0, 0, width(), height());
-                distractor->show();
-                distractor->raise();
-                nDistractor++;
+    if (rand() % 100 > 10) {
+        if (scenario.getMode() == MODE_DIVIDED_ATTENTION_SOUND) {
+            SoundManager::playSound("Data/coucou.wav", ITEM_CHANNEL);
+            nDistractor++;
+
+        } else if (scenario.getMode() == MODE_DIVIDED_ATTENTION_VISUAL) {
+            // display the distractor
+            // chose a random position
+            Qt::Alignment align;
+            switch (rand() % 8) {
+            case 0: align = Qt::AlignTop | Qt::AlignLeft; break;
+            case 1: align = Qt::AlignTop | Qt::AlignHCenter; break;
+            case 2: align = Qt::AlignTop | Qt::AlignRight; break;
+            case 3: align = Qt::AlignVCenter | Qt::AlignLeft; break;
+            case 4: align = Qt::AlignVCenter | Qt::AlignRight; break;
+            case 5: align = Qt::AlignBottom | Qt::AlignLeft; break;
+            case 6: align = Qt::AlignBottom | Qt::AlignHCenter; break;
+            case 7: align = Qt::AlignBottom | Qt::AlignRight; break;
             }
-        } else distractor->hide();
-    }
+            distractor->setAlignment(align);
+            distractor->setGeometry(0, 0, width(), height());
+            distractor->show();
+            distractor->raise();
+            nDistractor++;
+        }
+    } else if (distractor) distractor->hide();
 
     clickSpeedTimer.start();
 
