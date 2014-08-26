@@ -34,6 +34,7 @@ class Scenario
         Scenario(const string & path, int periodMs, int numberOfItems, int numberOfExceptions, TestMode modeInhibition, bool sound);
         Scenario();
         void generateItemList(); // create a random sequence of items
+        void generateDistractors();
         bool load();
         bool load(std::string name);
 
@@ -94,6 +95,9 @@ class Scenario
         int numberOfExceptions;
         int periodMs;
 
+        int nDistractors;
+        std::vector<int> distractors;
+
 private :
         bool parseFileItems(const std::string & line, std::set<std::string> &items, const string &encoding);
         set<string> listOfAllItems; // including exceptions
@@ -101,8 +105,8 @@ private :
         string path;
         bool withSound;
         std::string description;
-        vector<string> createFixedSizeList(vector<string> & inputList, int n);
-        vector<string> itemSequence; // sequence actually showed during the game
+        std::vector<std::string> createFixedSizeList(std::vector<std::string> & inputList, int n);
+        std::vector<std::string> itemSequence; // sequence actually showed during the game
 
         std::string datetime;
         bool isSame(const Scenario & other) const;

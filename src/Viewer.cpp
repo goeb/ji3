@@ -201,7 +201,7 @@ void Viewer::next()
         // end of the sequence
         // display the final page
         if (scenario.getMode() == MODE_DIVIDED_ATTENTION_VISUAL ||
-            scenario.getMode() == MODE_DIVIDED_ATTENTION_SOUND) return dividedAttentionFinalPage();
+                scenario.getMode() == MODE_DIVIDED_ATTENTION_SOUND) return dividedAttentionFinalPage();
         else return finalPage();
     }
     LOG_INFO("next image: " << currentFile);
@@ -213,31 +213,40 @@ void Viewer::next()
 
     imageLabel->setImage(currentFile.c_str());
 
-    if (rand() % 100 > 10) {
-        if (scenario.getMode() == MODE_DIVIDED_ATTENTION_SOUND) {
-            SoundManager::playSound("Data/coucou.wav", ITEM_CHANNEL);
-            nDistractor++;
+    if (scenario.getMode() == MODE_DIVIDED_ATTENTION_SOUND ||
+            scenario.getMode() == MODE_DIVIDED_ATTENTION_VISUAL) {
 
-        } else if (scenario.getMode() == MODE_DIVIDED_ATTENTION_VISUAL) {
-            // display the distractor
-            // chose a random position
-            Qt::Alignment align;
-            switch (rand() % 8) {
-            case 0: align = Qt::AlignTop | Qt::AlignLeft; break;
-            case 1: align = Qt::AlignTop | Qt::AlignHCenter; break;
-            case 2: align = Qt::AlignTop | Qt::AlignRight; break;
-            case 3: align = Qt::AlignVCenter | Qt::AlignLeft; break;
-            case 4: align = Qt::AlignVCenter | Qt::AlignRight; break;
-            case 5: align = Qt::AlignBottom | Qt::AlignLeft; break;
-            case 6: align = Qt::AlignBottom | Qt::AlignHCenter; break;
-            case 7: align = Qt::AlignBottom | Qt::AlignRight; break;
+        if (scenario.distractors[index]) {
+            // the distractor must be showed or played
+
+            if (scenario.getMode() == MODE_DIVIDED_ATTENTION_SOUND) {
+                SoundManager::playSound("Data/coucou.wav", ITEM_CHANNEL);
+
+            } else if (scenario.getMode() == MODE_DIVIDED_ATTENTION_VISUAL) {
+                // display the distractor
+                // chose a random position
+                static int previousAlignment = 0;
+                int alignment;
+                Qt::Alignment align;
+                // make sure 2 consecutive distractors do not show up at the same place
+                while ( (alignment = (rand() % 8)) == previousAlignment) {}
+                previousAlignment = alignment;
+                switch (alignment) {
+                case 0: align = Qt::AlignTop | Qt::AlignLeft; break;
+                case 1: align = Qt::AlignTop | Qt::AlignHCenter; break;
+                case 2: align = Qt::AlignTop | Qt::AlignRight; break;
+                case 3: align = Qt::AlignVCenter | Qt::AlignLeft; break;
+                case 4: align = Qt::AlignVCenter | Qt::AlignRight; break;
+                case 5: align = Qt::AlignBottom | Qt::AlignLeft; break;
+                case 6: align = Qt::AlignBottom | Qt::AlignHCenter; break;
+                case 7: align = Qt::AlignBottom | Qt::AlignRight; break;
+                }
+                distractor->setAlignment(align);
+                distractor->setGeometry(0, 0, width(), height());
+                distractor->show();
+                distractor->raise();
             }
-            distractor->setAlignment(align);
-            distractor->setGeometry(0, 0, width(), height());
-            distractor->show();
-            distractor->raise();
-            nDistractor++;
-        }
+        } else distractor->hide();
     } else if (distractor) distractor->hide();
 
     clickSpeedTimer.start();

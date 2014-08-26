@@ -156,6 +156,7 @@ int main(int argc, char **argv)
 
             s.load();
             s.generateItemList();
+            s.generateDistractors();
 
             Viewer imageViewer(s);
             //imageViewer.showFullScreen();

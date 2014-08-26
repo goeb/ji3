@@ -296,7 +296,6 @@ vector<string> Scenario::createFixedSizeList(vector<string> & inputList, int n)
 }
 
 
-
 void Scenario::generateItemList()
 {
     // Create a list of elements, conforming to the configuration of the scenario:
@@ -362,6 +361,29 @@ void Scenario::generateItemList()
     
     LOG_DEBUG("createItemList: " << Util::vectorToString(itemSequence));
 }
+
+void Scenario::generateDistractors()
+{
+    if (modeInhibition != MODE_DIVIDED_ATTENTION_SOUND && modeInhibition != MODE_DIVIDED_ATTENTION_VISUAL) return;
+
+    // generate a random sequence of zeroes and ones :
+    // 0 : no distractor
+    // 1 : distractor
+    // number of elements : same as itemSequence
+    // number of distrators : min 3 and max 20 (or max itemSequence.size()-1)
+    int n = itemSequence.size();
+    int max = 20;
+    if (n-1 < max) max = n-1;
+    if (max <= 3) max = 4;
+    int min = 3;
+    nDistractors = rand()%(max-min+1) + min;
+    distractors.insert(distractors.begin(), nDistractors, 1);
+    distractors.insert(distractors.begin(), n-nDistractors, 0);
+    bool neighbors = false;
+    distractors = Util::shuffle<int>(distractors, neighbors);
+}
+
+
 
 bool Scenario::evaluateUserClick(const std::string & item, bool hasClicked)
 {

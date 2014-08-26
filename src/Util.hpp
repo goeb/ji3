@@ -25,9 +25,53 @@ class Util
         static std::string vectorToString(const std::vector<std::string> & v);
         static std::string vectorToString(const std::set<std::string> & v);
         static void shuffle(std::vector<std::string> & items, int offset, int N, bool & forbidSameNeighbors);
-        static std::vector<std::string> shuffle(const std::vector<std::string> &L, bool &forbidSameNeighbors);
+        template <typename T> static std::vector<T> shuffle(const std::vector<T> &itemList, bool &forbidSameNeighbors)
+        {
+            // if forbidSameNeighbors, then try to avoid 2 same items next each other
 
+            std::vector<T> result;
+            srand(time(0));
+            int completeRetry = 2;
+            while (completeRetry >= 0) {
+                std::vector<T> Lcopy = itemList;
+                result.clear();
 
+                int n;
+                while ( (n = Lcopy.size()) )
+                {
+                    // take a random item
+                    int position = rand()%n;
+                    T item = Lcopy[position];
+
+                    if (forbidSameNeighbors) {
+                        if (result.size() > 0 && (item == result[result.size()-1])) {
+                            // try again
+                            position = rand()%n;
+                            item = Lcopy[position];
+                            if (result.size() > 0 && (item == result[result.size()-1])) {
+                                // try one last time
+                                position = rand()%n;
+                                item = Lcopy[position];
+                                if (result.size() > 0 && (item == result[result.size()-1])) {
+                                    // do a complete retry
+                                    if (completeRetry > 0) break;
+                                    else forbidSameNeighbors = false; // indicate that result could not be achieved
+                                }
+                            }
+                        }
+                    }
+
+                    typename std::vector<T>::iterator it = Lcopy.begin() + position;
+                    Lcopy.erase(it);
+
+                    // and place it into the resulting list
+                    result.push_back(item);
+                    completeRetry = 0;
+                }
+                completeRetry --;
+            }
+            return result;
+        }
 
 };
 
