@@ -422,8 +422,8 @@ QGroupBox *ControlPanel::createTypeGroup()
 
     modeInhibition = new QRadioButton(tr("Inhibition"));
     modeAttention = new QRadioButton(tr("Attention"));
-    modeDividedAttentionSound = new QRadioButton(tr("Att. divisée avec son"));
-    modeDividedAttentionVisual = new QRadioButton(tr("Att. divisée avec image"));
+    modeDividedAttentionSound = new QRadioButton(tr("Att. divisée sonore"));
+    modeDividedAttentionVisual = new QRadioButton(tr("Att. divisée visuel"));
     //modeDividedAttention->setEnabled(0);
 
     modeInhibition->setChecked(true);

@@ -64,7 +64,7 @@ am_ji3_OBJECTS = src/ji3-main.$(OBJEXT) src/ji3-SoundManager.$(OBJEXT) \
 	src/ji3-ControlPanel.$(OBJEXT) src/ji3-Graph.$(OBJEXT) \
 	src/ji3-GraphPanel.$(OBJEXT) src/ji3-ResultTable.$(OBJEXT) \
 	src/ji3-moc_ControlPanel.$(OBJEXT) src/ji3-moc_Graph.$(OBJEXT) \
-	src/ji3-moc_GraphPanel.$(OBJEXT)
+	src/ji3-moc_Viewer.$(OBJEXT) src/ji3-moc_GraphPanel.$(OBJEXT)
 ji3_OBJECTS = $(am_ji3_OBJECTS)
 am__DEPENDENCIES_1 =
 ji3_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
@@ -282,6 +282,7 @@ ji3_SOURCES =  \
 		src/ResultTable.cpp \
 		src/moc_ControlPanel.cpp \
 		src/moc_Graph.cpp \
+		src/moc_Viewer.cpp \
 		src/moc_GraphPanel.cpp
 
 ji3_CPPFLAGS = @QTCORE_CFLAGS@ @QTGUI_CFLAGS@ @SDL_CFLAGS@
@@ -415,6 +416,8 @@ src/ji3-moc_ControlPanel.$(OBJEXT): src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/ji3-moc_Graph.$(OBJEXT): src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
+src/ji3-moc_Viewer.$(OBJEXT): src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
 src/ji3-moc_GraphPanel.$(OBJEXT): src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 ji3$(EXEEXT): $(ji3_OBJECTS) $(ji3_DEPENDENCIES) $(EXTRA_ji3_DEPENDENCIES) 
@@ -438,6 +441,7 @@ mostlyclean-compile:
 	-rm -f src/ji3-moc_ControlPanel.$(OBJEXT)
 	-rm -f src/ji3-moc_Graph.$(OBJEXT)
 	-rm -f src/ji3-moc_GraphPanel.$(OBJEXT)
+	-rm -f src/ji3-moc_Viewer.$(OBJEXT)
 
 distclean-compile:
 	-rm -f *.tab.c
@@ -457,6 +461,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/ji3-moc_ControlPanel.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/ji3-moc_Graph.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/ji3-moc_GraphPanel.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/ji3-moc_Viewer.Po@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
@@ -669,6 +674,20 @@ src/ji3-moc_Graph.obj: src/moc_Graph.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/moc_Graph.cpp' object='src/ji3-moc_Graph.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ji3_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/ji3-moc_Graph.obj `if test -f 'src/moc_Graph.cpp'; then $(CYGPATH_W) 'src/moc_Graph.cpp'; else $(CYGPATH_W) '$(srcdir)/src/moc_Graph.cpp'; fi`
+
+src/ji3-moc_Viewer.o: src/moc_Viewer.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ji3_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/ji3-moc_Viewer.o -MD -MP -MF src/$(DEPDIR)/ji3-moc_Viewer.Tpo -c -o src/ji3-moc_Viewer.o `test -f 'src/moc_Viewer.cpp' || echo '$(srcdir)/'`src/moc_Viewer.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/ji3-moc_Viewer.Tpo src/$(DEPDIR)/ji3-moc_Viewer.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/moc_Viewer.cpp' object='src/ji3-moc_Viewer.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ji3_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/ji3-moc_Viewer.o `test -f 'src/moc_Viewer.cpp' || echo '$(srcdir)/'`src/moc_Viewer.cpp
+
+src/ji3-moc_Viewer.obj: src/moc_Viewer.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ji3_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/ji3-moc_Viewer.obj -MD -MP -MF src/$(DEPDIR)/ji3-moc_Viewer.Tpo -c -o src/ji3-moc_Viewer.obj `if test -f 'src/moc_Viewer.cpp'; then $(CYGPATH_W) 'src/moc_Viewer.cpp'; else $(CYGPATH_W) '$(srcdir)/src/moc_Viewer.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/ji3-moc_Viewer.Tpo src/$(DEPDIR)/ji3-moc_Viewer.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/moc_Viewer.cpp' object='src/ji3-moc_Viewer.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ji3_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/ji3-moc_Viewer.obj `if test -f 'src/moc_Viewer.cpp'; then $(CYGPATH_W) 'src/moc_Viewer.cpp'; else $(CYGPATH_W) '$(srcdir)/src/moc_Viewer.cpp'; fi`
 
 src/ji3-moc_GraphPanel.o: src/moc_GraphPanel.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ji3_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/ji3-moc_GraphPanel.o -MD -MP -MF src/$(DEPDIR)/ji3-moc_GraphPanel.Tpo -c -o src/ji3-moc_GraphPanel.o `test -f 'src/moc_GraphPanel.cpp' || echo '$(srcdir)/'`src/moc_GraphPanel.cpp
@@ -1143,6 +1162,9 @@ uninstall-am: uninstall-binPROGRAMS
 	ps ps-am tags tags-recursive uninstall uninstall-am \
 	uninstall-binPROGRAMS
 
+
+src/moc_Viewer.cpp: src/Viewer.hpp
+	moc $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $< -o $@
 
 src/moc_Graph.cpp: src/Graph.hpp
 	moc $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $< -o $@

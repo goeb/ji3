@@ -18,7 +18,11 @@ ji3_SOURCES = \
 		src/ResultTable.cpp \
 		src/moc_ControlPanel.cpp \
 		src/moc_Graph.cpp \
+		src/moc_Viewer.cpp \
 		src/moc_GraphPanel.cpp
+
+src/moc_Viewer.cpp: src/Viewer.hpp
+	moc $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $< -o $@
 
 src/moc_Graph.cpp: src/Graph.hpp
 	moc $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $< -o $@

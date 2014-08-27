@@ -60,7 +60,7 @@ void Image::fitImageToLabel() {
 }
 
 
-Viewer::Viewer(Scenario & s) : scenario(s)
+Viewer::Viewer(Scenario & s) : scenario(s), clickDisabled(false)
 {
     items = s.getItemSequence();
     periodMs = s.getPeriodMs();
@@ -108,6 +108,8 @@ void Viewer::timerEvent(QTimerEvent *event)
 void Viewer::keyPressEvent(QKeyEvent *e)
 {
     cout << "keyPressEvent: " << e->key() <<  "\n";
+    if (clickDisabled) return;
+
     const char c = e->key();
     if ( c == 'q' || c == 'Q') QCoreApplication::exit(0);
     else if (c == ' ') {
@@ -127,6 +129,7 @@ void Viewer::keyReleaseEvent(QKeyEvent *e)
 void Viewer::mousePressEvent(QMouseEvent *event)
 {
     cout << "mousePressEvent";
+    if (clickDisabled) return;
     processUserClick();
 }
 
@@ -284,24 +287,38 @@ void Viewer::dividedAttentionFinalPage() {
     //scenario.getEncoding(); TODO ?
     distractor->hide();
 
+    clickDisabled = true; // disable click, force validation by button
+
+    QVBoxLayout *vbox = new QVBoxLayout;
+
     descriptionLabel = new QLabel(this);
     descriptionLabel->setText(d);
-    descriptionLabel->setFrameStyle(QFrame::Box);
+    //descriptionLabel->setFrameStyle(QFrame::Box);
     descriptionLabel->setWordWrap(true);
-    descriptionLabel->setMinimumSize(300, 300);
+    //descriptionLabel->setMinimumSize(300, 300);
     descriptionLabel->setAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
+    vbox->addWidget(descriptionLabel);
 
     QFont f = descriptionLabel->font();
     f.setPointSize(16);
     descriptionLabel->setFont(f);
 
-    QVBoxLayout *vbox = new QVBoxLayout;
     QLineEdit *textInput = new QLineEdit();
-    vbox->addWidget(descriptionLabel);
+    textInput->setFont(f);
     vbox->addWidget(textInput);
-    //setLayout(vbox);
 
-    setCentralWidget(descriptionLabel);
+    QPushButton *validateButton = new QPushButton(tr("Valider"));
+    validateButton->setFont(f);
+    vbox->addWidget(validateButton);
+    //setLayout(vbox);
+    QWidget *widget = new QWidget();
+    widget->setLayout(vbox);
+    setCentralWidget(widget);
+    textInput->setFocus(Qt::OtherFocusReason);
+
+    connect(validateButton, SIGNAL(clicked()), this, SLOT(end()));
+
+    //setCentralWidget(vbox);
 }
 
 void Viewer::end() {

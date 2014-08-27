@@ -31,6 +31,8 @@ private:
 
 class Viewer : public QMainWindow
 {
+    Q_OBJECT
+
 public:
     Viewer(Scenario & s);
 
@@ -41,6 +43,9 @@ protected:
     void keyReleaseEvent(QKeyEvent *e);
     void mousePressEvent(QMouseEvent *event);
     void resizeEvent ( QResizeEvent * event );
+
+private slots:
+    void end();
 
 
 private:
@@ -60,7 +65,6 @@ private:
     void start();
     void finalPage();
     void dividedAttentionFinalPage();
-    void end();
 
     int periodMs; // milliseconds
     Scenario & scenario;
@@ -68,6 +72,7 @@ private:
     QLabel * descriptionLabel;
 
     enum State state;
+    bool clickDisabled;
 
 };
 
