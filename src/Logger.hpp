@@ -14,8 +14,8 @@ using namespace std;
     Logger::getStream() << Logger::getTime() << " " << level << " " << \
     __FILE__ << ":" << __LINE__ << " " << msg << endl; Logger::updateOutput(); }
 #define LOG_ERROR(x) LOG("ERROR", x)
-//#define LOG_DEBUG(x) LOG("DEBUG", x)
-#define LOG_DEBUG(x)
+#define LOG_DEBUG(x) LOG("DEBUG", x)
+//#define LOG_DEBUG(x)
 #define LOG_INFO(x) LOG("INFO", x)
 
 class Logger

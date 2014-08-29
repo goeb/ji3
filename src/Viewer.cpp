@@ -289,39 +289,54 @@ void Viewer::dividedAttentionFinalPage() {
 
     clickDisabled = true; // disable click, force validation by button
 
-    QVBoxLayout *vbox = new QVBoxLayout;
-
+    QVBoxLayout *vbox = new QVBoxLayout();
+    vbox->setAlignment(Qt::AlignTop | Qt::AlignHCenter);
     descriptionLabel = new QLabel(this);
     descriptionLabel->setText(d);
     //descriptionLabel->setFrameStyle(QFrame::Box);
     descriptionLabel->setWordWrap(true);
-    //descriptionLabel->setMinimumSize(300, 300);
+    descriptionLabel->setFixedHeight(200);
+    descriptionLabel->setFixedWidth(300);
     descriptionLabel->setAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
     vbox->addWidget(descriptionLabel);
 
     QFont f = descriptionLabel->font();
-    f.setPointSize(16);
+    f.setPointSize(18);
     descriptionLabel->setFont(f);
 
-    QLineEdit *textInput = new QLineEdit();
-    textInput->setFont(f);
-    vbox->addWidget(textInput);
+    nDistractorsInput = new QLineEdit();
+    nDistractorsInput->setFont(f);
+    nDistractorsInput->setMaximumWidth(100);
+    nDistractorsInput->setFixedWidth(120);
+    QRegExp expr("[0-9]+");
+    QRegExpValidator *v = new QRegExpValidator(expr, 0);
+    nDistractorsInput->setValidator(v);
+    vbox->addWidget(nDistractorsInput, 0, Qt::AlignCenter);
 
     QPushButton *validateButton = new QPushButton(tr("Valider"));
     validateButton->setFont(f);
+    validateButton->setFixedWidth(300);
+
     vbox->addWidget(validateButton);
     //setLayout(vbox);
     QWidget *widget = new QWidget();
     widget->setLayout(vbox);
     setCentralWidget(widget);
-    textInput->setFocus(Qt::OtherFocusReason);
-
+    nDistractorsInput->setFocus(Qt::OtherFocusReason);
     connect(validateButton, SIGNAL(clicked()), this, SLOT(end()));
 
     //setCentralWidget(vbox);
 }
 
 void Viewer::end() {
+    if (scenario.getMode() == MODE_DIVIDED_ATTENTION_VISUAL ||
+            scenario.getMode() == MODE_DIVIDED_ATTENTION_SOUND) {
+        QString nStr = nDistractorsInput->text();
+        int n = nStr.toInt();
+        LOG_DEBUG("n distractors given by player: " << n);
+    }
+
+
     scenario.consolidateResult();
     QCoreApplication::exit(1);
 }

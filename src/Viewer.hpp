@@ -26,7 +26,6 @@ private:
     void fitImageToLabel();
     void fitTextToLabel();
     QString currentText;
-
 };
 
 class Viewer : public QMainWindow
@@ -56,6 +55,7 @@ private:
     unsigned int index;
     Image * imageLabel;
     QLabel * distractor; // used only for MODE_DIVIDED_ATTENTION
+    QLineEdit *nDistractorsInput;
     int nDistractor;
     int pendingTimer;
 

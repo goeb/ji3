@@ -14,6 +14,7 @@ using namespace std;
 GraphPanel::GraphPanel(const QString & username, const Scenario & refScenario)
 {
     graph = new Graph();
+    graph->setFixedSize(QSize(800, 400));
 
     resize(800, 600);
     User u;
@@ -39,6 +40,27 @@ GraphPanel::GraphPanel(const QString & username, const Scenario & refScenario)
     grid = new QVBoxLayout(this);
 
     grid->addWidget(graph);
+
+
+    // add divide attention graph
+    if (refScenario.modeInhibition == MODE_DIVIDED_ATTENTION_SOUND ||
+        refScenario.modeInhibition == MODE_DIVIDED_ATTENTION_VISUAL) {
+        graph = new Graph();
+        graph->setFixedSize(QSize(800, 200));
+        std::vector<int> delta;
+        delta.push_back(10);
+        delta.push_back(0);
+        delta.push_back(8);
+        delta.push_back(-10);
+        delta.push_back(0);
+        Axis axis;
+        axis.side = LEFT;
+        axis.labels << tr("-10") << tr("10");
+
+        graph->addCurve(delta, -10, 10, tr("Écart distracteurs"), false, axis);
+
+        grid->addWidget(graph);
+    }
 
     table = createTable(sList);
     grid->addWidget(table);

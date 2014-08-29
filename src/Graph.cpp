@@ -3,7 +3,7 @@
 
 Graph::Graph()
 {
-    setFixedSize(QSize(800, 400));
+    //setFixedSize(QSize(800, 400));
 
 
     //show();
@@ -85,7 +85,7 @@ void Graph::paintEvent(QPaintEvent *e)
             else if (y < c->min) y = c->min;
 
             if (c->reverse) p.setY(y*yScale + yMarginTop);
-            else p.setY(h - y*yScale - yMarginBottom);
+            else p.setY(h - (y-c->min)*yScale - yMarginBottom);
             if (point == c->points.begin()) {
                 // nothing
             } else {
