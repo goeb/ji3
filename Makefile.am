@@ -9,7 +9,6 @@ ji3_SOURCES = \
 		src/Logger.cpp \
 		src/Util.cpp \
 		src/User.cpp \
-		src/TestResult.cpp \
 		src/ScenarioManager.cpp \
 		src/Viewer.cpp \
 		src/ControlPanel.cpp \

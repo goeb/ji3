@@ -249,7 +249,7 @@ void Viewer::next()
                 distractor->show();
                 distractor->raise();
             }
-        } else distractor->hide();
+        } else if (distractor) distractor->hide();
     } else if (distractor) distractor->hide();
 
     clickSpeedTimer.start();
@@ -285,7 +285,7 @@ void Viewer::dividedAttentionFinalPage() {
     killTimer(pendingTimer);
     QString d = tr("Fin.\nIndiquer combien de distracteurs ont été vus.");
     //scenario.getEncoding(); TODO ?
-    distractor->hide();
+    if (distractor) distractor->hide(); // case of the visual divided attention, not sonor
 
     clickDisabled = true; // disable click, force validation by button
 
@@ -334,6 +334,7 @@ void Viewer::end() {
         QString nStr = nDistractorsInput->text();
         int n = nStr.toInt();
         LOG_DEBUG("n distractors given by player: " << n);
+        scenario.nDistractorsResponse = n-scenario.distractors.size();
     }
 
 

@@ -14,7 +14,6 @@ SOURCES += \
     src/Logger.cpp \
     src/Util.cpp \
     src/User.cpp \
-    src/TestResult.cpp \
     src/ScenarioManager.cpp \
     src/Viewer.cpp \
     src/ControlPanel.cpp \
@@ -27,7 +26,6 @@ HEADERS += \
     src/Logger.hpp \
     src/Util.hpp \
     src/User.hpp \
-    src/TestResult.hpp \
     src/ScenarioManager.hpp \
     src/Viewer.hpp \
     src/ControlPanel.hpp \

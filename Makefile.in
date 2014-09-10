@@ -59,10 +59,10 @@ PROGRAMS = $(bin_PROGRAMS)
 am__dirstamp = $(am__leading_dot)dirstamp
 am_ji3_OBJECTS = src/ji3-main.$(OBJEXT) src/ji3-SoundManager.$(OBJEXT) \
 	src/ji3-Logger.$(OBJEXT) src/ji3-Util.$(OBJEXT) \
-	src/ji3-User.$(OBJEXT) src/ji3-TestResult.$(OBJEXT) \
-	src/ji3-ScenarioManager.$(OBJEXT) src/ji3-Viewer.$(OBJEXT) \
-	src/ji3-ControlPanel.$(OBJEXT) src/ji3-Graph.$(OBJEXT) \
-	src/ji3-GraphPanel.$(OBJEXT) src/ji3-ResultTable.$(OBJEXT) \
+	src/ji3-User.$(OBJEXT) src/ji3-ScenarioManager.$(OBJEXT) \
+	src/ji3-Viewer.$(OBJEXT) src/ji3-ControlPanel.$(OBJEXT) \
+	src/ji3-Graph.$(OBJEXT) src/ji3-GraphPanel.$(OBJEXT) \
+	src/ji3-ResultTable.$(OBJEXT) \
 	src/ji3-moc_ControlPanel.$(OBJEXT) src/ji3-moc_Graph.$(OBJEXT) \
 	src/ji3-moc_Viewer.$(OBJEXT) src/ji3-moc_GraphPanel.$(OBJEXT)
 ji3_OBJECTS = $(am_ji3_OBJECTS)
@@ -273,7 +273,6 @@ ji3_SOURCES =  \
 		src/Logger.cpp \
 		src/Util.cpp \
 		src/User.cpp \
-		src/TestResult.cpp \
 		src/ScenarioManager.cpp \
 		src/Viewer.cpp \
 		src/ControlPanel.cpp \
@@ -398,8 +397,6 @@ src/ji3-Util.$(OBJEXT): src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/ji3-User.$(OBJEXT): src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
-src/ji3-TestResult.$(OBJEXT): src/$(am__dirstamp) \
-	src/$(DEPDIR)/$(am__dirstamp)
 src/ji3-ScenarioManager.$(OBJEXT): src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/ji3-Viewer.$(OBJEXT): src/$(am__dirstamp) \
@@ -433,7 +430,6 @@ mostlyclean-compile:
 	-rm -f src/ji3-ResultTable.$(OBJEXT)
 	-rm -f src/ji3-ScenarioManager.$(OBJEXT)
 	-rm -f src/ji3-SoundManager.$(OBJEXT)
-	-rm -f src/ji3-TestResult.$(OBJEXT)
 	-rm -f src/ji3-User.$(OBJEXT)
 	-rm -f src/ji3-Util.$(OBJEXT)
 	-rm -f src/ji3-Viewer.$(OBJEXT)
@@ -453,7 +449,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/ji3-ResultTable.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/ji3-ScenarioManager.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/ji3-SoundManager.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/ji3-TestResult.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/ji3-User.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/ji3-Util.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/ji3-Viewer.Po@am__quote@
@@ -548,20 +543,6 @@ src/ji3-User.obj: src/User.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/User.cpp' object='src/ji3-User.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ji3_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/ji3-User.obj `if test -f 'src/User.cpp'; then $(CYGPATH_W) 'src/User.cpp'; else $(CYGPATH_W) '$(srcdir)/src/User.cpp'; fi`
-
-src/ji3-TestResult.o: src/TestResult.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ji3_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/ji3-TestResult.o -MD -MP -MF src/$(DEPDIR)/ji3-TestResult.Tpo -c -o src/ji3-TestResult.o `test -f 'src/TestResult.cpp' || echo '$(srcdir)/'`src/TestResult.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/ji3-TestResult.Tpo src/$(DEPDIR)/ji3-TestResult.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/TestResult.cpp' object='src/ji3-TestResult.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ji3_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/ji3-TestResult.o `test -f 'src/TestResult.cpp' || echo '$(srcdir)/'`src/TestResult.cpp
-
-src/ji3-TestResult.obj: src/TestResult.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ji3_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/ji3-TestResult.obj -MD -MP -MF src/$(DEPDIR)/ji3-TestResult.Tpo -c -o src/ji3-TestResult.obj `if test -f 'src/TestResult.cpp'; then $(CYGPATH_W) 'src/TestResult.cpp'; else $(CYGPATH_W) '$(srcdir)/src/TestResult.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/ji3-TestResult.Tpo src/$(DEPDIR)/ji3-TestResult.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/TestResult.cpp' object='src/ji3-TestResult.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ji3_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/ji3-TestResult.obj `if test -f 'src/TestResult.cpp'; then $(CYGPATH_W) 'src/TestResult.cpp'; else $(CYGPATH_W) '$(srcdir)/src/TestResult.cpp'; fi`
 
 src/ji3-ScenarioManager.o: src/ScenarioManager.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ji3_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/ji3-ScenarioManager.o -MD -MP -MF src/$(DEPDIR)/ji3-ScenarioManager.Tpo -c -o src/ji3-ScenarioManager.o `test -f 'src/ScenarioManager.cpp' || echo '$(srcdir)/'`src/ScenarioManager.cpp

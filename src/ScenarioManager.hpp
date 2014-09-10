@@ -95,8 +95,8 @@ class Scenario
         int numberOfExceptions;
         int periodMs;
 
-        int nDistractors;
         std::vector<int> distractors;
+        int nDistractorsResponse; // usersResponse - distractors.size() (0 if correct response)
 
 private :
         bool parseFileItems(const std::string & line, std::set<std::string> &items, const string &encoding);

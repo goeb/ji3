@@ -162,10 +162,10 @@ bool Scenario::load(std::string name)
             } else if (0 == left.compare("description-attention")) {
                 if (modeInhibition == MODE_ATTENTION) description = right;
 
-            } else if (0 == left.compare("description-attention-divisee-son")) {
+            } else if (0 == left.compare("description-att-div-son")) {
                 if (modeInhibition == MODE_DIVIDED_ATTENTION_SOUND) description = right;
 
-            } else if (0 == left.compare("description-attention-divisee-visuel")) {
+            } else if (0 == left.compare("description-att-div-visuel")) {
                 if (modeInhibition == MODE_DIVIDED_ATTENTION_VISUAL) description = right;
 
             } else if (0 == left.compare("force-speed")) {
@@ -183,8 +183,8 @@ bool Scenario::load(std::string name)
             } else if (0 == left.compare("force-type")) {
                 if (right == "attention") forceModeInhibition = MODE_ATTENTION;
                 else if (right == "inhibition") forceModeInhibition = MODE_INHIBITION;
-                else if (right == "attention-divisee-son") forceModeInhibition = MODE_DIVIDED_ATTENTION_SOUND;
-                else if (right == "attention-divisee-visuel") forceModeInhibition = MODE_DIVIDED_ATTENTION_VISUAL;
+                else if (right == "att-div-son") forceModeInhibition = MODE_DIVIDED_ATTENTION_SOUND;
+                else if (right == "att-div-visuel") forceModeInhibition = MODE_DIVIDED_ATTENTION_VISUAL;
                 // else nothing set
 
             } else if (0 == left.compare("encoding")) {
@@ -376,7 +376,7 @@ void Scenario::generateDistractors()
     if (n-1 < max) max = n-1;
     if (max <= 3) max = 4;
     int min = 3;
-    nDistractors = rand()%(max-min+1) + min;
+    int nDistractors = rand()%(max-min+1) + min;
     distractors.insert(distractors.begin(), nDistractors, 1);
     distractors.insert(distractors.begin(), n-nDistractors, 0);
     bool neighbors = false;
@@ -466,13 +466,18 @@ void Scenario::store(const QString & filename)
 
     if (modeInhibition == MODE_INHIBITION) row << "inhibition";
     else if (modeInhibition == MODE_ATTENTION) row << "attention";
-    else row << "attention divisee";
+    else if (modeInhibition == MODE_DIVIDED_ATTENTION_SOUND) row << "att-div-sound";
+    else row << "att-div-visual";
     row << SEPARATOR;
 
     row << ratioOfExceptions << SEPARATOR;
     row << numberOfItems << SEPARATOR;
     row << periodMs << SEPARATOR;
     row << errorDistribution;
+    if (modeInhibition == MODE_DIVIDED_ATTENTION_SOUND || modeInhibition == MODE_DIVIDED_ATTENTION_VISUAL) {
+        row << SEPARATOR;
+        row << nDistractorsResponse;
+    }
     row << "\n";
     f.close();
 }

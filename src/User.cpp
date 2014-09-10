@@ -99,8 +99,12 @@ bool User::load(const string & _filename)
         s.numberOfExceptions = s.ratioOfExceptions*s.numberOfItems/100;
 
         s.periodMs = atoi(tokens[i++].c_str());
-        if (i<tokens.size()) s.errorDistribution = tokens[i++].c_str();
+        if (i<tokens.size()) s.errorDistribution = tokens[i++].c_str(); // was not in older versions of ji3
         else s.errorDistribution = "";
+
+        if (i<tokens.size()) s.nDistractorsResponse = atoi(tokens[i++].c_str()); // was not in older versions of ji3
+        else s.nDistractorsResponse = 0;
+
         scenarioList.push_back(s);
     }
     f.close();
