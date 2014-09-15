@@ -21,12 +21,18 @@ typedef enum {
     MODE_NONE
 } TestMode;
 
+extern const char *STR_INHIBITION;
+extern const char *STR_ATTENTION;
+extern const char *STR_DIVIDED_ATT_SOUND;
+extern const char *STR_DIVIDED_ATT_VISUAL;
+
 typedef enum {
     EXCEPTION_OK,
     EXCEPTION_ERROR,
     REGULAR_ITEM_OK,
     REGULAR_ITEM_ERROR
 } ItemResult;
+
 
 class Scenario
 {

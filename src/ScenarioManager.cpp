@@ -13,6 +13,12 @@
 #define SEPARATOR ';';
 const char * THEME_DIR = "Themes";
 
+const char *STR_INHIBITION = "inhibition";
+const char *STR_ATTENTION = "attention";
+const char *STR_DIVIDED_ATT_SOUND = "att-div-sound";
+const char *STR_DIVIDED_ATT_VISUAL = "att-div-visual";
+
+
 Scenario::Scenario(const string &_path, int _periodMs, int _numberOfItems, int _ratioOfExceptions, TestMode _modeInhibition, bool sound)
 {
     path = _path; // this is the path of the file minus the suffix .ji3c
@@ -464,10 +470,10 @@ void Scenario::store(const QString & filename)
     row << correctRegularItems << SEPARATOR;
     row << (withSound?"sound-on":"sound-off") << SEPARATOR;
 
-    if (modeInhibition == MODE_INHIBITION) row << "inhibition";
-    else if (modeInhibition == MODE_ATTENTION) row << "attention";
-    else if (modeInhibition == MODE_DIVIDED_ATTENTION_SOUND) row << "att-div-sound";
-    else row << "att-div-visual";
+    if (modeInhibition == MODE_INHIBITION) row << STR_INHIBITION;
+    else if (modeInhibition == MODE_ATTENTION) row << STR_ATTENTION;
+    else if (modeInhibition == MODE_DIVIDED_ATTENTION_SOUND) row << STR_DIVIDED_ATT_SOUND;
+    else row << STR_DIVIDED_ATT_VISUAL;
     row << SEPARATOR;
 
     row << ratioOfExceptions << SEPARATOR;

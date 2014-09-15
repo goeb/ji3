@@ -20,7 +20,7 @@ void ResultTable::updateTable(QTableWidget * table, const std::vector<Scenario> 
     labels << tr("Date");
     if (style == TABLE_CONTROL) labels << tr("Thème") << tr("Son") << tr("Type") << tr("% Exc.") << tr("Vitesse") << tr("Long.");
     labels << tr("Vitesse\nde click") << tr("Score") << tr("Réussite\n items\nstandards")
-           << tr("Réussite\nexception") << tr("Répartition\ndes erreurs");
+           << tr("Réussite\nexception") << tr("Répartition\ndes erreurs") << tr("Écart /\nattention divisée");
 
     table->setColumnCount(labels.size());
     table->setHorizontalHeaderLabels(labels);
@@ -78,7 +78,8 @@ void ResultTable::updateTable(QTableWidget * table, const std::vector<Scenario> 
             QString mode;
             if (s->getMode() == MODE_INHIBITION) mode = tr("inhibition");
             else if (s->getMode() == MODE_ATTENTION) mode = tr("attention");
-            else mode = tr("attention divisée");
+            else if (s->getMode() == MODE_DIVIDED_ATTENTION_SOUND) mode = tr("Att. divisée sonore");
+            else mode = tr("Att. divisée visuel");
             wItem = new QTableWidgetItem(mode);
             wItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
             table->setItem(row, col, wItem);
@@ -137,6 +138,15 @@ void ResultTable::updateTable(QTableWidget * table, const std::vector<Scenario> 
         col ++;
 
         wItem = new QTableWidgetItem(s->getErrorDistribution());
+        wItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
+        table->setItem(row, col, wItem);
+        col ++;
+
+        QString ecart;
+        if (s->getMode() == MODE_INHIBITION) ecart = "-";
+        else if (s->getMode() == MODE_ATTENTION) ecart = "-";
+        else ecart = QString("%1").arg(s->nDistractorsResponse);
+        wItem = new QTableWidgetItem(ecart);
         wItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
         table->setItem(row, col, wItem);
         col ++;

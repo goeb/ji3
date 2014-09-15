@@ -89,9 +89,9 @@ bool User::load(const string & _filename)
         else s.setWithSound(false);
         i++;
 
-        if (tokens[i] == "inhibition") s.modeInhibition = MODE_INHIBITION;
-        else if (tokens[i] == "attention") s.modeInhibition = MODE_ATTENTION;
-        else if (tokens[i] == "att_div_sound") s.modeInhibition = MODE_DIVIDED_ATTENTION_SOUND;
+        if (tokens[i] == STR_INHIBITION) s.modeInhibition = MODE_INHIBITION;
+        else if (tokens[i] == STR_ATTENTION) s.modeInhibition = MODE_ATTENTION;
+        else if (tokens[i] == STR_DIVIDED_ATT_SOUND) s.modeInhibition = MODE_DIVIDED_ATTENTION_SOUND;
         else s.modeInhibition = MODE_DIVIDED_ATTENTION_VISUAL;
         i++;
         s.ratioOfExceptions = atoi(tokens[i++].c_str());

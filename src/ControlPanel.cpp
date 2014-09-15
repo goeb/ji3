@@ -122,7 +122,9 @@ void ControlPanel::updateDefaultValues(Scenario s)
 
     // mode inhibition/attention
     if (s.getMode() == MODE_INHIBITION) modeInhibition->setChecked(true);
-    else modeAttention->setChecked(true);
+    else if (s.getMode() == MODE_ATTENTION) modeAttention->setChecked(true);
+    else if (s.getMode() == MODE_DIVIDED_ATTENTION_SOUND) modeDividedAttentionSound->setChecked(true);
+    else modeDividedAttentionVisual->setChecked(true);
 
     // ratio of exceptions
     int r = s.getRatioOfExceptions();
@@ -293,7 +295,7 @@ void ControlPanel::checkScenarioForceValues(QString name)
 
 void ControlPanel::loadUser(QString text)
 {
-    // load user inforation, and update widgets
+    // load user information, and update widgets
     LOG_DEBUG("loadUser" << text.toLocal8Bit().constData());
 
     userName = text.toLocal8Bit().constData();
