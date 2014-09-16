@@ -102,6 +102,7 @@ class Scenario
         int periodMs;
 
         std::vector<int> distractors;
+        int nDistractors;
         int nDistractorsResponse; // usersResponse - distractors.size() (0 if correct response)
 
 private :

@@ -382,7 +382,7 @@ void Scenario::generateDistractors()
     if (n-1 < max) max = n-1;
     if (max <= 3) max = 4;
     int min = 3;
-    int nDistractors = rand()%(max-min+1) + min;
+    nDistractors = rand()%(max-min+1) + min;
     distractors.insert(distractors.begin(), nDistractors, 1);
     distractors.insert(distractors.begin(), n-nDistractors, 0);
     bool neighbors = false;

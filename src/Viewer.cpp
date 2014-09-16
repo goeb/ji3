@@ -333,8 +333,8 @@ void Viewer::end() {
             scenario.getMode() == MODE_DIVIDED_ATTENTION_SOUND) {
         QString nStr = nDistractorsInput->text();
         int n = nStr.toInt();
-        LOG_DEBUG("n distractors given by player: " << n);
-        scenario.nDistractorsResponse = n-scenario.distractors.size();
+        LOG_DEBUG("Distractors given by player: " << n << ", real: " << scenario.nDistractors);
+        scenario.nDistractorsResponse = n-scenario.nDistractors;
     }
 
 

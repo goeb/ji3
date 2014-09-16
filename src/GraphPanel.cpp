@@ -45,19 +45,15 @@ GraphPanel::GraphPanel(const QString & username, const Scenario & refScenario)
     // add divide attention graph
     if (refScenario.modeInhibition == MODE_DIVIDED_ATTENTION_SOUND ||
         refScenario.modeInhibition == MODE_DIVIDED_ATTENTION_VISUAL) {
+        std::vector<int> distractorCurve = getDistractorCurve(sList);
+
         graph = new Graph();
         graph->setFixedSize(QSize(800, 200));
-        std::vector<int> delta;
-        delta.push_back(10);
-        delta.push_back(0);
-        delta.push_back(8);
-        delta.push_back(-10);
-        delta.push_back(0);
         Axis axis;
         axis.side = LEFT;
         axis.labels << tr("-10") << tr("10");
 
-        graph->addCurve(delta, -10, 10, tr("Écart distracteurs"), false, axis);
+        graph->addCurve(distractorCurve, -10, 10, tr("Écart distracteurs"), false, axis);
 
         grid->addWidget(graph);
     }
@@ -138,4 +134,13 @@ std::vector<int> GraphPanel::getGlobalGradeCurve(const std::vector<Scenario> & s
     return result;
 }
 
+std::vector<int> GraphPanel::getDistractorCurve(const std::vector<Scenario> & sList)
+{
+    std::vector<int> result;
+    std::vector<Scenario>::const_iterator s;
+    for (s=sList.begin(); s!= sList.end(); s++) {
+        result.push_back(s->nDistractorsResponse);
+    }
+    return result;
 
+}

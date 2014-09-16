@@ -31,6 +31,7 @@ private:
 
     std::vector<int> getClickSpeedCurve(const std::vector<Scenario> & sList);
     std::vector<int> getGlobalGradeCurve(const std::vector<Scenario> & sList);
+    std::vector<int> getDistractorCurve(const std::vector<Scenario> & sList);
     QTableWidget* createTable(const std::vector<Scenario> & sList);
 
 
