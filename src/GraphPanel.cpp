@@ -47,7 +47,7 @@ GraphPanel::GraphPanel(const QString & username, const Scenario & refScenario)
         refScenario.modeInhibition == MODE_DIVIDED_ATTENTION_VISUAL) {
         std::vector<int> distractorCurve = getDistractorCurve(sList);
 
-        graph = new Graph();
+        graph = new Graph(GR_HISTOGRAM);
         graph->setFixedSize(QSize(800, 200));
         Axis axis;
         axis.side = LEFT;

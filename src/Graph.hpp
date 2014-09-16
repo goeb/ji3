@@ -19,14 +19,14 @@ typedef struct {
     Axis axis;
 } Curve;
 
-
+enum GraphType { GR_CURVE, GR_HISTOGRAM };
 
 class Graph : public QFrame
 {
     Q_OBJECT
 
 public:
-    Graph();
+    Graph(GraphType type = GR_CURVE);
     ~Graph();
 
     void addCurve(const std::vector<int> & points, int min, int max, const QString & label, bool reverse, Axis axis);
@@ -36,8 +36,18 @@ protected:
     void paintEvent(QPaintEvent *);
 
 private:
+    QPoint getPixel(int x, int xScale, int y, int yScale, int ymin, int ymax);
+    void paintHistogram(QPaintEvent *);
+    void paintCurve(QPaintEvent *);
+
     std::vector<Curve> curves;
     std::vector<QColor> colors;
+    GraphType graphType;
+    int colorIndex;
+    int xMarginLeft;
+    int xMarginRight;
+    int yMarginTop;
+    int yMarginBottom;
 
 };
 
