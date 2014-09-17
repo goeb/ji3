@@ -370,6 +370,8 @@ void Scenario::generateItemList()
 
 void Scenario::generateDistractors()
 {
+    LOG_DEBUG("generateDistractors");
+
     if (modeInhibition != MODE_DIVIDED_ATTENTION_SOUND && modeInhibition != MODE_DIVIDED_ATTENTION_VISUAL) return;
 
     // generate a random sequence of zeroes and ones :
@@ -377,11 +379,15 @@ void Scenario::generateDistractors()
     // 1 : distractor
     // number of elements : same as itemSequence
     // number of distrators : min 3 and max 20 (or max itemSequence.size()-1)
-    int n = itemSequence.size();
-    int max = 20;
+    size_t n = itemSequence.size();
+    if (n == 0) {
+        LOG_ERROR("Cannot generateDistractors: n=0");
+        exit(1);
+    }
+    size_t max = 20;
     if (n-1 < max) max = n-1;
     if (max <= 3) max = 4;
-    int min = 3;
+    size_t min = 3;
     nDistractors = rand()%(max-min+1) + min;
     distractors.insert(distractors.begin(), nDistractors, 1);
     distractors.insert(distractors.begin(), n-nDistractors, 0);

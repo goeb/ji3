@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <set>
+#include <time.h>
 using namespace std;
 
 typedef struct timeval Timestamp;
