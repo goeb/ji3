@@ -1,7 +1,7 @@
 
 #include "Graph.hpp"
 
-Graph::Graph(GraphType t)
+Graph::Graph(GraphType t, int colorIndexStart)
 {
     //setFixedSize(QSize(800, 400));
     graphType = t;
@@ -15,8 +15,8 @@ Graph::Graph(GraphType t)
     // prepare available colors
     colors.push_back(Qt::blue);
     colors.push_back(Qt::red);
-    colors.push_back(Qt::green);
-    colorIndex = 0;
+    colors.push_back(QColor(50, 150, 50));
+    colorIndex = colorIndexStart;
 
     xMarginLeft = 90;
     xMarginRight = 80;
@@ -79,9 +79,6 @@ void Graph::paintHistogram(QPaintEvent *e)
 {
     QPainter painter(this);
 
-    // draw a line at the zero
-// TODO
-    QBrush brush(Qt::black);
 
 
     // draw the curves
@@ -89,14 +86,26 @@ void Graph::paintHistogram(QPaintEvent *e)
     for (c = curves.begin(); c!= curves.end(); c++) {
         if (!c->points.size()) continue; // empty curve
 
-        QColor C = colors[colorIndex];
-        QBrush brush(C);
 
         // scaling
         int w = width();
         int h = height();
         float xScale = (float)(w - (xMarginLeft+xMarginRight)) / c->points.size();
         float yScale = (float)(h - (yMarginTop + yMarginBottom)) / (c->max - c->min);
+
+
+        // draw a line at the zero
+        QBrush blackBrush(Qt::black);
+        QPoint x0 = getPixel(0, xScale, 0, yScale, c->min, c->max);
+        QPoint x1 = getPixel(c->points.size(), xScale, 0, yScale, c->min, c->max);
+        painter.setPen(QPen(Qt::black, 1));
+        QLine lineZero(x0, x1);
+        painter.drawLine(lineZero);
+
+
+        QColor C = colors[colorIndex];
+        QBrush brush(C);
+
 
         std::vector<int>::iterator value;
         int i = 0;

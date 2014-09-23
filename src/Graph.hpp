@@ -26,7 +26,7 @@ class Graph : public QFrame
     Q_OBJECT
 
 public:
-    Graph(GraphType type = GR_CURVE);
+    Graph(GraphType type = GR_CURVE, int colorIndexStart = 0);
     ~Graph();
 
     void addCurve(const std::vector<int> & points, int min, int max, const QString & label, bool reverse, Axis axis);
