@@ -43,7 +43,7 @@ private:
     std::vector<Curve> curves;
     std::vector<QColor> colors;
     GraphType graphType;
-    int colorIndex;
+    int colorIndexStart;
     int xMarginLeft;
     int xMarginRight;
     int yMarginTop;

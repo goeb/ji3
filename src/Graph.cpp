@@ -1,7 +1,7 @@
 
 #include "Graph.hpp"
 
-Graph::Graph(GraphType t, int colorIndexStart)
+Graph::Graph(GraphType t, int colorIndex)
 {
     //setFixedSize(QSize(800, 400));
     graphType = t;
@@ -16,7 +16,7 @@ Graph::Graph(GraphType t, int colorIndexStart)
     colors.push_back(Qt::blue);
     colors.push_back(Qt::red);
     colors.push_back(QColor(50, 150, 50));
-    colorIndex = colorIndexStart;
+    colorIndexStart = colorIndex;
 
     xMarginLeft = 90;
     xMarginRight = 80;
@@ -80,6 +80,7 @@ void Graph::paintHistogram(QPaintEvent *e)
     QPainter painter(this);
 
 
+    int colorIndex = colorIndexStart;
 
     // draw the curves
     std::vector<Curve>::iterator c;

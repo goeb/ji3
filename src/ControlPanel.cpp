@@ -84,7 +84,7 @@ ControlPanel::ControlPanel()
 
     setLayout(grid);
     setWindowTitle(QString("ji") + VERSION);
-    //resize(700, 300);
+    resize(1000, 600);
 }
 
 void ControlPanel::updateTable()

@@ -14,7 +14,7 @@ using namespace std;
 GraphPanel::GraphPanel(const QString & username, const Scenario & refScenario)
 {
     graph = new Graph();
-    graph->setFixedSize(QSize(800, 400));
+    graph->setFixedSize(QSize(800, 200));
 
     resize(800, 600);
     User u;
