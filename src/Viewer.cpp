@@ -87,6 +87,7 @@ Viewer::Viewer(Scenario & s) : scenario(s), clickDisabled(false)
 
     descriptionLabel = 0;
     setWindowTitle(QString("ji") + VERSION);
+    showFullScreen();
     start();
 }
 
@@ -110,7 +111,7 @@ void Viewer::keyPressEvent(QKeyEvent *e)
     cout << "keyPressEvent: " << e->key() <<  "\n";
     if (clickDisabled) return;
 
-    const char c = e->key();
+    int c = e->key();
     if ( c == 'q' || c == 'Q') QCoreApplication::exit(0);
     else if (c == ' ') {
         processUserClick();
@@ -118,6 +119,9 @@ void Viewer::keyPressEvent(QKeyEvent *e)
         // toggle full screen
         if (isFullScreen()) showNormal();
         else showFullScreen();
+    } else if (c == Qt::Key_Escape) {
+        // leave fullscreen mode
+        if (isFullScreen()) showNormal();
     }
 
 }

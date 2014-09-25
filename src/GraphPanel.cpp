@@ -66,6 +66,7 @@ GraphPanel::GraphPanel(const QString & username, const Scenario & refScenario)
 
     setLayout(grid);
     setWindowTitle(QString("ji") + VERSION);
+    showFullScreen();
 
 }
 
@@ -103,16 +104,19 @@ QPushButton *GraphPanel::createButton(const QString &text, const char *member)
 }
 
 void GraphPanel::keyReleaseEvent(QKeyEvent *e) {
-    const char c = e->key();
+    int c = e->key();
 
     if ( c == 'q' || c == 'Q') close();
     else if (c == 'f' || c == 'F') {
         // toggle full screen
         if (isFullScreen()) showNormal();
         else showFullScreen();
+    } else if (c == Qt::Key_Escape) {
+        // leave fullscreen mode
+        if (isFullScreen()) showNormal();
     }
-
 }
+
 
 
 std::vector<int> GraphPanel::getClickSpeedCurve(const std::vector<Scenario> & sList)
