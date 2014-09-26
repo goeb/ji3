@@ -1,5 +1,7 @@
 description-attention: Cliquer sur la couleur rouge.
 description-inhibition: Cliquer sur toutes les couleurs, sauf le rouge.
+description-att-div-son: Cliquer sur la couleur rouge, et compter les sons du coucou.
+description-att-div-visuel: Cliquer sur la couleur rouge, et compter les lutins.
 items: *.png
 exceptions: rouge.png
 
