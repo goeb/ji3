@@ -21,6 +21,7 @@ Sur les autres (le déroulement et le graphe) :
 
     * q : abandonner et revenir à l'écran de contrôle
     * f : plein écran / réduire
+    * ESC : réduire
 
 Personnalisation / Création d'un thème
 --------------------------------------
@@ -38,11 +39,13 @@ Fichier .ji3c:
 
     description-inhibition: Cliquer sur tous, sauf les animaux qui volent.
     description-attention: Cliquer sur les animaux qui volent.
+    description-att-div-son: Cliquer sur les animaux qui volent et compter les coucous.
+    description-att-div-visuel: Cliquer sur les animaux qui volent et compter les lutins.
     items: *.png feuilledechene2.jpg
     exceptions: Escargot.png feuilledechene2.jpg
     encoding: latin1 # or utf-8
     force-sound: on # 'on' or 'off'
-    force-type: inhibition # inhibition or attention
+    force-type: inhibition # valeurs possibles: inhibition, attention, att-div-son, att-div-visuel
     force-exception: 10 # %
     force-speed: 1000 # milliseconds
     force-number: 75
@@ -94,7 +97,9 @@ Chaque ligne correspond à un résultat de jeu. Les champs sont séparés par de
 * mode inhibition/attention/attention divisée
 * nombre d'exceptions
 * nombre d'items total
-* periode
+* periode de défilment en millisecondes
+* répartition des erreurs sur les 4 quarts
+* (optionnel) écart de comptage des distracteurs (mode attention divisée uniquement)
 
 Organisation des fichiers
 ------------------------
