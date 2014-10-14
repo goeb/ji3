@@ -1,3 +1,4 @@
+#include "config.h"
 #include <iostream>
 #include <unistd.h>
 
@@ -14,18 +15,21 @@ using namespace std;
 
 void usage()
 {
-    std::cout << "Usage:\n"
-                 "ji3 [OPTIONS] SCENARIO\n"
+    std::cout << PACKAGE_STRING "\n"
+                 "Usage:\n"
+                 "  ji3 [OPTIONS] SCENARIO\n"
+                 "\n"
                  "OPTIONS:\n"
-                 "-p PERIOD       Period in second between 2 items.\n"
-                 "-n N            Number of items showed (including exceptions).\n"
-                 "-x X            Ratio of exceptions showed (percent of N).\n"
-                 "-i              Mode Inhibition (player MUST NOT click on exceptions).\n"
-                 "-a              Mode Attention (player MUST click on exceptions).\n"
-                 "-ads            Mode Divided Attention with sound.\n"
-                 "-adv            Mode Divided Attention with visual.\n"
+                 "  -p PERIOD       Period in second between 2 items.\n"
+                 "  -n N            Number of items showed (including exceptions).\n"
+                 "  -x X            Ratio of exceptions showed (percent of N).\n"
+                 "  -i              Mode Inhibition (player MUST NOT click on exceptions).\n"
+                 "  -a              Mode Attention (player MUST click on exceptions).\n"
+                 "  -ads            Mode Divided Attention with sound.\n"
+                 "  -adv            Mode Divided Attention with visual.\n"
                  "                -i and -a are exclusive.\n"
-                 "--codec codec   Specify codec (UTF-8, latin1, etc.)\n"
+                 "  --codec codec   Specify codec (UTF-8, latin1, etc.)\n"
+                 "  -h              This help.\n"
                  "\n";
     exit(1);
 
@@ -79,6 +83,8 @@ int main(int argc, char **argv)
             modeInhibition = MODE_DIVIDED_ATTENTION_SOUND;
         } else if (arg == "-adv") {
             modeInhibition = MODE_DIVIDED_ATTENTION_VISUAL;
+        } else if (arg == "-h") {
+            usage();
         } else {
             // scenario
             scenario = args.at(i);

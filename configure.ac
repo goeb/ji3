@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.68])
-AC_INIT([Ji3], [3.0.1], [], [ji3], [http://fhoerni.free.fr/ji3/])
+AC_INIT([Ji3], [3.0.2], [], [ji3], [http://fhoerni.free.fr/ji3/])
 AC_CONFIG_HEADERS([config.h])
 AC_CANONICAL_TARGET
 AM_INIT_AUTOMAKE([-Wall -Werror subdir-objects])
