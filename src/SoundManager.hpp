@@ -16,7 +16,8 @@ class SoundManager
         static int dingChannel; // used by SDL mixer
     public :
         static void init();
-        static void playSound(const string & filename, ChannelId channelId);
+        static void playSound(const string & filename);
+        static void stopSound();
         static void close();
 };
 

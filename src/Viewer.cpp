@@ -99,8 +99,8 @@ void Viewer::timerEvent(QTimerEvent *event)
     killTimer(pendingTimer);
     bool ok = scenario.evaluateUserClick(currentFile, false);
     if (!ok) {
-        SoundManager::playSound(dingFile, DING_CHANNEL);
-        usleep(300000); // TODO get actual length of the sound
+        SoundManager::playSound(dingFile);
+        usleep(300000); // TODO get actual duration of the sound
     }
     pendingTimer = startTimer(periodMs);
     next(); // goto next image
@@ -163,8 +163,8 @@ void Viewer::processUserClick() {
         killTimer(pendingTimer);
         bool ok = scenario.evaluateUserClick(currentFile, true);
         if (!ok) {
-            SoundManager::playSound(dingFile, DING_CHANNEL);
-            usleep(300000);
+            SoundManager::playSound(dingFile);
+            usleep(300000); // TODO get actual duration of the sound
         }
         pendingTimer = startTimer(periodMs);
         next(); // goto next image
@@ -213,10 +213,12 @@ void Viewer::next()
     }
     LOG_INFO("next image: " << currentFile);
 
+    SoundManager::stopSound();
+
     // get sound from image file // TODO improve search of sound
     std::string soundFile = currentFile.substr(0, currentFile.size()-4); // remove ".png"
     soundFile += ".wav";
-    if (scenario.getWithSound()) SoundManager::playSound(soundFile, ITEM_CHANNEL);
+    if (scenario.getWithSound()) SoundManager::playSound(soundFile);
 
     imageLabel->setImage(currentFile.c_str());
 
@@ -227,7 +229,7 @@ void Viewer::next()
             // the distractor must be showed or played
 
             if (scenario.getMode() == MODE_DIVIDED_ATTENTION_SOUND) {
-                SoundManager::playSound("Data/coucou.wav", ITEM_CHANNEL);
+                SoundManager::playSound("Data/coucou.wav");
 
             } else if (scenario.getMode() == MODE_DIVIDED_ATTENTION_VISUAL) {
                 // display the distractor

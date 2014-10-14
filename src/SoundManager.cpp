@@ -23,9 +23,13 @@ void SoundManager::init()
 
 }
 
+void SoundManager::stopSound()
+{
+    Mix_HaltChannel(-1); // halt previous sounds
+}
 
 
-void SoundManager::playSound(const string & filename, ChannelId channelId)
+void SoundManager::playSound(const string & filename)
 {
     LOG_DEBUG("SoundManager::playSound()...filename=" << filename);
 
