@@ -1,0 +1,7 @@
+description-attention: Cliquer sur les animaux qui volent.
+description-inhibition: Cliquer sur tous les animaux, sauf ceux qui volent.
+items: *.png
+exceptions: Libellule.png Chauve-souris.png Aigle.png Hirondelle.png Hibou.png Moineau.png Mouche.png Papillon.png Perroquet2.png Perroquet.png Perruche.png Pie.png 
+
+
+

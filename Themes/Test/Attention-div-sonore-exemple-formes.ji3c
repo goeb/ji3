@@ -1,0 +1,12 @@
+description-att-div-son: Cliquer sur les ronds et compter les "coucou".
+items: *.png
+exceptions: rondbleu.png rondjaune.png rondorange.png rondrouge.png rondvert.png rondviolet.png
+force-sound: off
+force-type: att-div-son
+force-exception: 20 # %
+force-speed: 2000 # milliseconds
+force-number: 10
+
+
+
+

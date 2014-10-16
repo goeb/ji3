@@ -1,0 +1,9 @@
+description-attention: Images d'animaux. Cliquer sur ceux qui rampent.
+description-inhibition: Images d'animaux. Cliquer tous sauf ceux qui rampent.
+items: *.png
+exceptions: Escargot.png Escargot2.png Serpent.png
+#text-items: 
+#text-exceptions: 
+encoding: latin1 # or utf-8
+
+
