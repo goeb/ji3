@@ -1,9 +1,7 @@
-description-attention: Images d'animaux. Cliquer sur ceux qui rampent.
-description-inhibition: Images d'animaux. Cliquer tous sauf ceux qui rampent.
+description-attention: Cliquer sur les animaux qui rampent.
+description-inhibition: Cliquer sur tous les animaux sauf sur ceux qui rampent.
+description-att-div-son: Cliquer sur les animaux qui rampent et compter les "coucou".
+description-att-div-visuel: Cliquer sur les animaux qui rampent et compter les lutins.
 items: *.png
-exceptions: Escargot.png Escargot2.png Serpent.png
-#text-items: 
-#text-exceptions: 
-encoding: latin1 # or utf-8
-
-
+exceptions: Escargot.png Escargot2.png Serpent.png Phoque.png
+encoding: ISO 8859-1

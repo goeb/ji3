@@ -1,7 +1,7 @@
 description-attention: Cliquer sur les animaux qui volent.
+description-att-div-son: Cliquer sur les animaux qui volent et compter les "coucou".
+description-att-div-visuel: Cliquer sur les animaux qui volent et compter les lutins.
 description-inhibition: Cliquer sur tous les animaux, sauf ceux qui volent.
 items: *.png
-exceptions: Libellule.png Chauve-souris.png Aigle.png Hirondelle.png Hibou.png Moineau.png Mouche.png Papillon.png Perroquet2.png Perroquet.png Perruche.png Pie.png 
-
-
-
+exceptions: Libellule.png Chauve-souris.png Aigle.png Coq.png Cygne.png Guepe.png Mouette.png Poule.png Hirondelle.png Hibou.png Moineau.png Mouche.png Papillon.png Perroquet2.png Perroquet.png Perruche.png Pie.png
+encoding: ISO 8859-1
